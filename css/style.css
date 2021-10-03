@@ -1,0 +1,128 @@
+:root {
+    /*! do not edit header-height, it might break more things than you would ever think*/
+    --header-height: 3rem;
+    --main-color: #F44336;
+    --background-color: #ffffff;
+    --header-background-color: #f3a683;
+    --header-font-color: #fff;
+    --heart-color: #e66767;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0 0 0 0;
+    background: var(--background-color);
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+}
+
+/*#region header*/
+header {
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    box-sizing: border-box;
+    height: var(--header-height);
+    background: var(--header-background-color);
+    padding: 0 5px;
+    display: flex;
+    z-index: 1000;
+}
+
+header>div,
+header>div:last-of-type>div {
+    display: flex;
+}
+
+header>div:first-of-type {
+    flex-grow: 1;
+}
+
+header>div:last-of-type>form {
+    display: flex;
+    align-items: center;
+}
+
+header a,
+header label {
+    position: relative;
+    line-height: calc(var(--header-height) - 2 * .7rem);
+    color: var(--header-font-color);
+    padding: .7rem 1rem;
+}
+
+header a {
+    cursor: pointer;
+    text-decoration: none;
+    transition: .5s;
+    font-size: 1.2rem;
+}
+
+header a:hover {
+    color: #596275;
+}
+
+/*#endregion header*/
+
+/*#region main*/
+main {
+    position: relative;
+    top: var(--header-height);
+    display: flex;
+    align-items: flex-start
+}
+
+main>* {
+    border: 1px solid red;
+}
+
+@media screen and (max-width: 600px) {
+    main {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
+
+/*#endregion main*/
+
+/*#region aside*/
+aside {
+    min-width: 300px;
+    width: 30vw;
+    word-break: break-word;
+    padding: .5rem;
+}
+
+@media screen and (max-width: 600px) {
+    aside {
+        width: auto;
+    }
+}
+
+/*#endregion aside*/
+
+/*#region section*/
+section {
+    flex-grow: 1;
+    padding: .5rem;
+}
+
+.cocktails-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.cocktails-list article {
+    border: 1px solid #ff00ff;
+    padding: .2rem;
+    margin: .2rem;
+}
+
+/*#endregion aside*/
+
+
+i.fas.fa-heart {
+    color: var(--heart-color);
+}
