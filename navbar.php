@@ -2,6 +2,8 @@
 include_once("res/Donnees.inc.php");
 session_start();
 
+// This is a comment for patriot57
+
 $isDefAliment = (isset($_GET["aliment"]) && !empty($_GET["aliment"]));
 $actualAliment = $isDefAliment ? $_GET["aliment"] : "Aliment";
 
