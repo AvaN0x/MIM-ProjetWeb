@@ -13,7 +13,8 @@ if (!$isDefAliment || !isset($_SESSION['ariane'])) {
     $_SESSION['ariane'] = ["Aliment"];
 } else {
     // get last aliment of the array
-    $lastAliment = end((array_values($_SESSION['ariane'])));
+    $lastAliment = end($_SESSION['ariane']);
+    reset($_SESSION['ariane']);
 
     // if the actual aliment is in the ariane, then we go the position of this aliment, and we remove all aliments after it
     if (in_array($actualAliment, $_SESSION['ariane'])) {
