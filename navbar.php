@@ -55,7 +55,7 @@ if (!$isDefAliment || !isset($_SESSION['ariane'])) {
         <?php
         if (array_key_exists($actualAliment, $Hierarchie) && array_key_exists("sous-categorie", $Hierarchie[$actualAliment])) {
             foreach ($Hierarchie[$actualAliment]["sous-categorie"] as $aliment) {
-                echo "<a href=\"index.php?aliment=$aliment\"><li>$aliment</li></a>";
+                echo "<li><a href=\"index.php?aliment=$aliment\">$aliment</a></li>";
             }
         }
         ?>
