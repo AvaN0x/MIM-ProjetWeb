@@ -6,6 +6,7 @@
     --header-background-color: #f3a683;
     --header-font-color: #fff;
     --heart-color: #e66767;
+    --error-color: #F44336;
 }
 
 html {
@@ -18,7 +19,9 @@ body {
     font-family: Roboto, Arial, Helvetica, sans-serif;
 }
 
+
 /*#region header*/
+
 header {
     width: 100vw;
     position: fixed;
@@ -64,9 +67,12 @@ header a:hover {
     color: #596275;
 }
 
+
 /*#endregion header*/
 
+
 /*#region main*/
+
 main {
     position: relative;
     top: var(--header-height);
@@ -85,9 +91,12 @@ main>* {
     }
 }
 
+
 /*#endregion main*/
 
+
 /*#region aside*/
+
 aside {
     min-width: 300px;
     width: 30vw;
@@ -101,9 +110,12 @@ aside {
     }
 }
 
+
 /*#endregion aside*/
 
+
 /*#region section*/
+
 section {
     flex-grow: 1;
     padding: .5rem;
@@ -120,9 +132,21 @@ section {
     margin: .2rem;
 }
 
-/*#endregion aside*/
 
+/*#endregion aside*/
 
 i.fas.fa-heart {
     color: var(--heart-color);
+}
+
+.error {
+    color: var(--error-color);
+}
+
+p.error {
+    margin: 0;
+}
+
+.fas.fa-exclamation-triangle {
+    margin-right: .2rem;
 }

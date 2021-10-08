@@ -2,54 +2,70 @@
 include_once("res/Donnees.inc.php");
 session_start();
 
-// This is a comment for patriot57
+$get_ariane = (isset($_GET["path"]) && !empty($_GET["path"]))
+    ? explode("/", $_GET["path"])
+    : ["Aliment"];
+$ariane_has_error = false;
 
-$isDefAliment = (isset($_GET["aliment"]) && !empty($_GET["aliment"]));
-$actualAliment = $isDefAliment ? $_GET["aliment"] : "Aliment";
+$ariane = [];
+$actualAliment = "";
+$actualPath = "";
 
-// check if we don't have an actual aliment as GET, or if $_SESSION['ariane'] is not set
-if (!$isDefAliment || !isset($_SESSION['ariane'])) {
-    // TODO if not set, get one of the super-categorie of them to get an ariane
-    $_SESSION['ariane'] = ["Aliment"];
-} else {
-    // get last aliment of the array
-    $lastAliment = end($_SESSION['ariane']);
-    reset($_SESSION['ariane']);
-
-    // if the actual aliment is in the ariane, then we go the position of this aliment, and we remove all aliments after it
-    if (in_array($actualAliment, $_SESSION['ariane'])) {
-        // get index of actual aliment (which is already in the array)
-        $index = array_search($actualAliment, $_SESSION['ariane']);
-        // we extract a slice of the array from the start to the position of this aliment
-        $_SESSION['ariane'] = array_slice($_SESSION['ariane'], 0, $index + 1, true);
-    } else if (
+$isFirst = true;
+foreach ($get_ariane as $key => $aliment) {
+    if (
         // if the actual aliment exist in $Hierarchie
-        array_key_exists($actualAliment, $Hierarchie)
-        // and if the last aliment has "sous-categorie"
-        && array_key_exists("sous-categorie", $Hierarchie[$lastAliment])
-        // and if the last aliment has the actual aliment in "sous-categories
-        && in_array($actualAliment, $Hierarchie[$lastAliment]["sous-categorie"])
+        array_key_exists($aliment, $Hierarchie)
+        // and the element is the first element
+        && ($isFirst ||
+            (
+                // or if the last aliment has "sous-categorie"
+                array_key_exists("sous-categorie", $Hierarchie[$actualAliment])
+                // and if the last aliment has the actual aliment in "sous-categories
+                && in_array($aliment, $Hierarchie[$actualAliment]["sous-categorie"])))
     ) {
-        // then we can add the actual aliment to the ariane
-        array_push($_SESSION['ariane'], $actualAliment);
+        // only add a / if it is not the first element
+        if ($isFirst) {
+            $isFirst = false;
+            $path = "$aliment";
+        } else {
+            $path = "$actualPath/$aliment";
+        }
+
+        // add new aliment to ariane
+        $ariane[] = [
+            "label" => $aliment,
+            "path" => $path
+        ];
+
+        $actualPath = $path;
+        $actualAliment = $aliment;
+    } else {
+        $ariane_has_error = true;
+        break;
     }
 }
+unset($isFirst);
+unset($get_ariane);
 
 
 ?>
 
 <aside>
     <h1>Aliment courant</h1>
+    <?php if ($ariane_has_error) : ?>
+        <p class="error"><i class="fas fa-exclamation-triangle"></i>Une erreur est survenue lors de la lecture du fil d'ariane demandé.</p>
+    <?php endif; ?>
 
     <?php
-    $isFirstAriane = false;
-    foreach ($_SESSION['ariane'] as $key => $value) {
-        if (!$isFirstAriane)
-            $isFirstAriane = true;
+    $isFirstAriane = true;
+    foreach ($ariane as $key => $value) {
+        if ($isFirstAriane)
+            $isFirstAriane = false;
         else
             echo "/";
 
-        echo "<a href=\"index.php?aliment=$value\">$value</a>";
+        echo '<a href="index.php?path=' . $value["path"] . '">' . $value["label"] . '</a>';
     }
     ?>
 
@@ -58,7 +74,7 @@ if (!$isDefAliment || !isset($_SESSION['ariane'])) {
         <?php
         if (array_key_exists($actualAliment, $Hierarchie) && array_key_exists("sous-categorie", $Hierarchie[$actualAliment])) {
             foreach ($Hierarchie[$actualAliment]["sous-categorie"] as $aliment) {
-                echo "<li><a href=\"index.php?aliment=$aliment\">$aliment</a></li>";
+                echo "<li><a href=\"index.php?path=$actualPath/$aliment\">$aliment</a></li>";
             }
         }
         ?>

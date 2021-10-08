@@ -1,5 +1,6 @@
 <section>
-    <h1>Liste des cocktails</h1>
+    <h1>Liste des cocktails après navigation</h1>
+    <!-- <h1>Liste des cocktails par recherche</h1> -->
     <div class="cocktails-list">
         <article>
             <div>
