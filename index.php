@@ -21,6 +21,7 @@
         <?php
         include("navbar.php");
         include("cocktailsList.php");
+        include("formulaire.php");
         ?>
     </main>
 </body>

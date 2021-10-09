@@ -12,9 +12,14 @@
             </button>
         </form>
         <div>
-            <a>Se connecter</a>
-            <!-- <a>NOM PRENOM</a>
-            <a>Se déconnecter</a> -->
+            <!-- Connexion renvoie une variable "connexion", pb: input hidden (moche) 
+                Try modif avec css? trouver autre soluce? -->
+            <form id="myForm" action="index.php" method="post">
+                <input id="hidden" type="hidden" name="connexion"/>
+                <a id="Connexion" href="#" onclick="document.getElementById('myForm').submit();">Se Connecter</a>
+                <!-- <a>NOM PRENOM</a>
+                <a>Se déconnecter</a> -->
+            </form>
         </div>
     </div>
 </header>
