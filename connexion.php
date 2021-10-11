@@ -14,14 +14,21 @@
 </head>
 
 <body>
-    <?php
-    include("header.php");
-    ?>
     <main>
-        <?php
-        include("navbar.php");
-        include("cocktailsList.php");
-        ?>
+        <h1>Bienvenue sur l'espace de connexion</h1>
+        <form method="post" action="verifForm.php">
+        <fieldset>
+            <legend>Informations personnelles</legend>
+            Nom d'utilisateur :    
+            <input type="text" name="login" required="required"/>*<br />   
+            Mot de passe : 
+            <input type="text" name="pwd" required="required"/>*<br /> 
+            <input type="hidden" name="type" value="connexion"/>
+        </fieldset>
+        <input type="submit" value="Se connecter" />
+        </form>
+        (*) champs obligatoires
+        <a id="inscription" href="inscription.php">S'inscrire</a>
     </main>
 </body>
 
