@@ -2,13 +2,9 @@
     session_start();
     $_SESSION['errors'] = [];
     $fields= ["login", "pwd", "name", "fname", "gender", "mail", "date", "address", "postcode", "city"];
-    $optionlFields= ["name", "fname", "gender", "mail", "date", "address", "postcode", "city"];
     $toJson = [];
 
-    if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        
-        // print_r($_POST);
-        
+    if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST)) {
         // Verification for `login`
         if (!isset($_POST['login']) || 
             empty($_POST['login']) || 
@@ -68,7 +64,7 @@
             // Verification for `date`
             if (isset($_POST['date']) && 
                 !empty($_POST['date']) &&
-                checkdate($date[1], $date[2], $date[0])
+                !checkdate($date[1], $date[2], $date[0])
             ) 
             {
                 $_SESSION['errors']['date'] = 'date';
@@ -77,7 +73,7 @@
             // Verification for `address`
             if (isset($_POST['address']) && 
                 !empty($_POST['address']) &&
-                !preg_match('/^[0-9]{1,2}[a-z\s]+$/i', $_POST['address'])
+                !preg_match('/^[0-9]{1,2}[a-záàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ\s]+$/i', $_POST['address'])
             ) 
             {
                 $_SESSION['errors']['address'] = 'address';
@@ -102,23 +98,22 @@
             }
         }
 
-        
+        if (empty($_SESSION['errors'])) {
+            if ($_POST['type'] == 'inscription') {
+                // If no errors + onInscription mode, save new infos in JSON file
+                // First get the content of the JSON File
+                $jsonData = json_decode(file_get_contents("data.json"), true);
 
-        // if (!empty($_SESSION['errors'])) {print_r($_SESSION['errors']);}
+                foreach ($fields as $key => $value) {
+                    $toJson[$value] = (isset($_POST[$value]) ? $_POST[$value] : "");
+                }
 
-        // If no errors, save new infos in JSON file
-        if ($_POST['type'] == 'inscription' && empty($_SESSION['errors'])) {
-            foreach ($fields as $key => $value) {
-                $toJson[$value] = (isset($_POST[$value]) ? $_POST[$value] : "");
+                array_push($jsonData, $toJson);
+                file_put_contents("data.json", json_encode($jsonData));
             }
-        }
-        else {
-            //TODO
-        }
 
-        // print_r($toJson);
-        //TODO
-        file_put_contents("data.json", json_encode($toJson), FILE_APPEND);
+            // TODO declarer les variables de connexion
+        }
 
         $link = (empty($_SESSION['errors'])) ? 'index.php' : $_POST['type'] . '.php';
         

@@ -1,3 +1,5 @@
+<?php session_start(); ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -20,15 +22,19 @@
         <fieldset>
             <legend>Informations personnelles</legend>
             Nom d'utilisateur :    
-            <input type="text" name="login" required="required"/>*<br />   
+            <input type="text" name="login" required="required" <?php if (isset($_SESSION['errors']['login'])) echo 'class = "errorField"' ?>/>*<br />
+
             Mot de passe : 
-            <input type="text" name="pwd" required="required"/>*<br /> 
+            <input type="password" name="pwd" required="required" <?php if (isset($_SESSION['errors']['pwd'])) echo 'class = "errorField"' ?>/>*<br />
+
+            <!-- Hidden field to show if we are in connection or inscription -->
             <input type="hidden" name="type" value="connexion"/>
         </fieldset>
         <input type="submit" value="Se connecter" />
         </form>
         (*) champs obligatoires
         <a id="inscription" href="inscription.php">S'inscrire</a>
+        <a id="return" href="index.php">Retour</a>
     </main>
 </body>
 

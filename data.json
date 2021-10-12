@@ -1,0 +1,30 @@
+[
+    {
+        "test": "test",
+        "retest": "retest"
+    },
+    {
+        "login": "nomdutilisateur",
+        "pwd": "motdepasselong",
+        "name": "",
+        "fname": "",
+        "gender": "",
+        "mail": "",
+        "date": "",
+        "address": "17 rue des \u00e9tangs",
+        "postcode": "",
+        "city": ""
+    },
+    {
+        "login": "nomdutilisateur",
+        "pwd": "motdepasselong",
+        "name": "",
+        "fname": "",
+        "gender": "",
+        "mail": "",
+        "date": "",
+        "address": "17 rue des \u00e9tangs",
+        "postcode": "",
+        "city": ""
+    }
+]
