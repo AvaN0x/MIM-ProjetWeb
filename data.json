@@ -1,9 +1,5 @@
 [
     {
-        "test": "test",
-        "retest": "retest"
-    },
-    {
         "login": "nomdutilisateur",
         "pwd": "motdepasselong",
         "name": "",
@@ -26,5 +22,17 @@
         "address": "17 rue des \u00e9tangs",
         "postcode": "",
         "city": ""
+    },
+    {
+        "login": "Fentomee",
+        "pwd": "mymdpsuperlong",
+        "name": "BRUNGARD",
+        "fname": "Luc",
+        "gender": "",
+        "mail": "fentomeee1@gmail.com",
+        "date": "2001-12-28",
+        "address": "17 rue des \u00e9tangs",
+        "postcode": "57420",
+        "city": "solgne"
     }
 ]

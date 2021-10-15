@@ -1,6 +1,5 @@
 <?php
 include_once("res/Donnees.inc.php");
-session_start();
 
 $get_ariane = (isset($_GET["path"]) && !empty($_GET["path"]))
     ? explode("/", $_GET["path"])
