@@ -1,10 +1,10 @@
 <?php
     session_start();
     $errors = [];
-    $postedValues = [];
     $fields= ["login", "pwd", "name", "fname", "gender", "mail", "date", "address", "postcode", "city"];
     $toJson = [];
 
+    $postedValues = [];
     foreach ($fields as $key => $value) {
         $postedValues[$value] = "";
     }
@@ -13,7 +13,19 @@
         $_SERVER["REQUEST_METHOD"] === "POST" && 
         isset($_POST) && 
         isset($_POST["submit"])
-    ) {
+    ) 
+    {
+        // First get the content of the JSON File
+        $jsonData = json_decode(file_get_contents("data.json"), true);
+        if (empty($jsonData)) { $jsonData = []; }
+
+
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+        //                  VERIFICATION OF EACH FIELD                       //
+        ///////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////////////////////////////////////
+
         // Verification for `login`
         if (!isset($_POST['login']) || 
             empty($_POST['login']) || 
@@ -105,26 +117,63 @@
             }
         }
 
+        // If each field is correctly filled
         if (empty($errors)) {
+            // Verification if we are trying to get a new profil
             if ($_POST['type'] === 'inscription') {
-                // If no errors + onInscription mode, save new infos in JSON file
-                // First get the content of the JSON File
-                $jsonData = json_decode(file_get_contents("data.json"), true);
 
-                foreach ($fields as $key => $value) {
-                    $toJson[$value] = (isset($_POST[$value]) ? $_POST[$value] : "");
+                // Verification if the login doesn't already exists
+                foreach ($jsonData as $key => $profil) {
+                    if (isset($profil['login']) && $_POST['login'] === $profil['login'] ) {
+                        $errors['login'] = 'login';
+                        break;
+                    }
                 }
 
-                array_push($jsonData, $toJson);
-                file_put_contents("data.json", json_encode($jsonData));
-            }
+                // If it doesn't already exists, save the new profil in JSON file
+                // And connect him / her with his / her new account
+                if (!isset($errors['login'])) {
+                    foreach ($fields as $key => $value) {
+                        $toJson[$value] = (isset($_POST[$value]) ? $_POST[$value] : "");
+                    }
 
-            $_SESSION['connected']['login'] = $_POST['login'];
-            $_SESSION['connected']['pwd'] = $_POST['pwd'];
+                    array_push($jsonData, $toJson);
+                    file_put_contents("data.json", json_encode($jsonData));
+
+                    $_SESSION['connected']['login'] = $_POST['login'];
+                    $_SESSION['connected']['pwd'] = $_POST['pwd'];
+                }
+            }
+            // Or if we are trying to connect
+            else {
+                // If 1 profil in JSON file match with the login and pwd given
+                // no errors thrown and connect him / her
+                $errors['login'] = 'login';
+                $errors['pwd'] = 'pwd';
+                foreach ($jsonData as $key => $profil) {
+                    if (isset($profil['login']) &&
+                        isset($profil['pwd']) &&
+                        $_POST['login'] === $profil['login'] &&
+                        $_POST['pwd'] === $profil['pwd']
+                    ) {
+
+                        unset($errors['login']);
+                        unset($errors['pwd']);
+
+                        $_SESSION['connected']['login'] = $_POST['login'];
+                        $_SESSION['connected']['pwd'] = $_POST['pwd'];
+                        break;
+                    }
+                }
+            }
         }
-        else {
+        
+        // If errors have been thrown, save the posted values
+        if (!empty($errors)) {
             foreach ($fields as $key => $value) {
-                $postedValues[$value] = isset($_POST[$value]) ? $_POST[$value] : "";
+                if (isset($_POST[$value])) {
+                    $postedValues[$value] = $_POST[$value];
+                }
             }
         }
     }

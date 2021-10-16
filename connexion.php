@@ -1,5 +1,4 @@
 <?php 
-    // session_start(); 
     include_once('verifForm.php');
 
     if (isset($_POST) && isset($_POST['submit']) && (count($errors) === 0))
