@@ -18,7 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['typ
             </button>
         </form>
 
-        <?php if (isset($_SESSION['connected']['login']) && isset($_SESSION['connected']['password'])) : ?>
+        <!-- <?php //if (isset($_SESSION['connected']['login']) && isset($_SESSION['connected']['password'])) : //? why do we need to save the password?
+                ?> -->
+        <?php if (isset($_SESSION['connected']['login'])) : ?>
+            <!-- // TODO the subject need a link to the connection page from here, even if the user is connected (informations about user, link to disconnect, link to edit profile) -->
             <form method="post" action="#">
                 <input type="hidden" name="type" value="deconnexion" />
                 <input type="submit" value="Déconnexion" />

@@ -57,7 +57,7 @@ $isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
 
 
                     Adresse électronique :
-                    <input type="text" name="mail" <?php if (isset($errors['mail'])) echo 'class="errorField"' ?> value="<?php echo ($postedValues['mail']) ?>" /><br />
+                    <input type="email" name="email" <?php if (isset($errors['email'])) echo 'class="errorField"' ?> value="<?php echo ($postedValues['email']) ?>" /><br />
 
 
                     Date de naissance :
@@ -70,6 +70,7 @@ $isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
                     <input type="text" name="city" placeholder='ville' <?php if (isset($errors['city'])) echo 'class="errorField"' ?> value="<?php echo ($postedValues['city']) ?>" /><br />
                 <?php endif; ?>
 
+                <!-- //TODO phone number missing -->
                 <!-- Hidden field to show if we are in connection or inscription -->
                 <input type="hidden" name="type" value="<?php echo (($isInscription) ? "inscription" : "connexion") ?>" />
             </fieldset>
