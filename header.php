@@ -1,7 +1,7 @@
-<?php 
-    session_start();
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['type'] === 'deconnexion')
-        if (isset($_SESSION['connected'])) unset($_SESSION['connected']);
+<?php
+session_start();
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['type'] === 'deconnexion')
+    if (isset($_SESSION['connected'])) unset($_SESSION['connected']);
 ?>
 
 <header>
@@ -18,15 +18,15 @@
             </button>
         </form>
 
-        <?php if(isset($_SESSION['connected']['login']) && isset($_SESSION['connected']['pwd'])): ?>
+        <?php if (isset($_SESSION['connected']['login']) && isset($_SESSION['connected']['password'])) : ?>
             <form method="post" action="#">
-                <input type="hidden" name="type" value="deconnexion"/>
-                <input type="submit" value="Déconnexion"/>
+                <input type="hidden" name="type" value="deconnexion" />
+                <input type="submit" value="Déconnexion" />
             </form>
-        <?php else: ?>
+        <?php else : ?>
             <form method="post" action="connexion.php">
-                <input type="hidden" name="type" value="connexion"/>
-                <input type="submit" value="Se connecter"/>
+                <input type="hidden" name="type" value="connexion" />
+                <input type="submit" value="Se connecter" />
             </form>
         <?php endif; ?>
     </div>
