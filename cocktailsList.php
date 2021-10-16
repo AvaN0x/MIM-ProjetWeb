@@ -6,6 +6,7 @@
         <?php
         foreach ($Recettes as $key => $value) {
             $PhotoExist = false;
+            // TODO @AvaN0x optimisation
 
             //On vérifie si une photo du cocktail existe
             //On compare donc le titre du cocktail et le titre de la photo

@@ -1,7 +1,7 @@
 <?php
 session_start();
 $errors = [];
-$fields = ["login", "password", "name", "fname", "gender", "email", "date", "address", "postcode", "city"];
+$fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
 $toJson = [];
 
 $postedValues = [];
@@ -10,9 +10,9 @@ foreach ($fields as $key => $value) {
 }
 
 if (
-    $_SERVER["REQUEST_METHOD"] === "POST" &&
-    isset($_POST) &&
-    isset($_POST["submit"])
+    $_SERVER["REQUEST_METHOD"] === "POST"
+    && isset($_POST)
+    && isset($_POST["submit"])
 ) {
     // First get the content of the JSON File
     $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
@@ -29,18 +29,18 @@ if (
 
     // Verification for `login`
     if (
-        !isset($_POST['login']) ||
-        empty($_POST['login']) ||
-        !preg_match('/^(?=.{3,64}$)(?:[a-z0-9]+)$/i', $_POST['login'])
+        !isset($_POST['login'])
+        || empty($_POST['login'])
+        || !preg_match('/^(?=.{3,64}$)(?:[a-z0-9]+)$/i', $_POST['login'])
     ) {
         $errors['login'] = 'login';
     }
 
     // Verification for `password`
     if (
-        !isset($_POST['password']) ||
-        empty($_POST['password']) ||
-        !preg_match('/^.{8,}$/', $_POST['password'])
+        !isset($_POST['password'])
+        || empty($_POST['password'])
+        || !preg_match('/^.{8,}$/', $_POST['password'])
     ) {
         $errors['password'] = 'password';
     }
@@ -48,72 +48,74 @@ if (
     if ($_POST['type'] === 'inscription') {
         // Verification for `name`
         if (
-            isset($_POST['name']) &&
-            !empty($_POST['name']) &&
-            !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['name'])
+            isset($_POST['name'])
+            && !empty($_POST['name'])
+            && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['name'])
         ) {
             $errors['name'] = 'name';
         }
 
         // Verification for `fname`
         if (
-            isset($_POST['fname']) &&
-            !empty($_POST['fname']) &&
-            !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['fname'])
+            isset($_POST['fname'])
+            && !empty($_POST['fname'])
+            && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['fname'])
         ) {
             $errors['fname'] = 'fname';
         }
 
         // Verification for `gender`
         if (
-            isset($_POST['gender']) &&
-            !empty($_POST['gender']) &&
-            !preg_match('/^[hf]$/', $_POST['gender'])
+            isset($_POST['gender'])
+            && !empty($_POST['gender'])
+            && !preg_match('/^[hf]$/', $_POST['gender'])
         ) {
             $errors['gender'] = 'gender';
         }
 
         // Verification for `email`
         if (
-            isset($_POST['email']) &&
-            !empty($_POST['email']) &&
-            !preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD', $_POST['email'])
+            isset($_POST['email'])
+            && !empty($_POST['email'])
+            && !preg_match('/^(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){255,})(?!(?:(?:\x22?\x5C[\x00-\x7E]\x22?)|(?:\x22?[^\x5C\x22]\x22?)){65,}@)(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22))(?:\.(?:(?:[\x21\x23-\x27\x2A\x2B\x2D\x2F-\x39\x3D\x3F\x5E-\x7E]+)|(?:\x22(?:[\x01-\x08\x0B\x0C\x0E-\x1F\x21\x23-\x5B\x5D-\x7F]|(?:\x5C[\x00-\x7F]))*\x22)))*@(?:(?:(?!.*[^.]{64,})(?:(?:(?:xn--)?[a-z0-9]+(?:-[a-z0-9]+)*\.){1,126}){1,}(?:(?:[a-z][a-z0-9]*)|(?:(?:xn--)[a-z0-9]+))(?:-[a-z0-9]+)*)|(?:\[(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){7})|(?:(?!(?:.*[a-f0-9][:\]]){7,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,5})?)))|(?:(?:IPv6:(?:(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){5}:)|(?:(?!(?:.*[a-f0-9]:){5,})(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3})?::(?:[a-f0-9]{1,4}(?::[a-f0-9]{1,4}){0,3}:)?)))?(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))(?:\.(?:(?:25[0-5])|(?:2[0-4][0-9])|(?:1[0-9]{2})|(?:[1-9]?[0-9]))){3}))\]))$/iD', $_POST['email'])
         ) {
             $errors['email'] = 'email';
         }
 
 
-        // Verification for `date`
-        if (isset($_POST['date']) && !empty($_POST['date'])) {
-            // TODO @AvaN0x change the way this is checked
-            $date = explode('-', $_POST['date']);
-            if (!checkdate($date[1], $date[2], $date[0]))
-                $errors['date'] = 'date';
+        // Verification for `birthdate`
+        if (
+            isset($_POST['birthdate'])
+            && !empty($_POST['birthdate'])
+            && (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", trim($_POST['birthdate']), $matches)
+                || !checkdate($matches[2], $matches[3], $matches[1]))
+        ) {
+            $errors['birthdate'] = 'birthdate';
         }
 
         // Verification for `address`
         if (
-            isset($_POST['address']) &&
-            !empty($_POST['address']) &&
-            !preg_match('/^(?=.{0,64}$)(?:.{6,})$/i', $_POST['address'])
+            isset($_POST['address'])
+            && !empty($_POST['address'])
+            && !preg_match('/^(?=.{0,64}$)(?:.{6,})$/i', $_POST['address'])
         ) {
             $errors['address'] = 'address';
         }
 
         // Verification for `postcode`
         if (
-            isset($_POST['postcode']) &&
-            !empty($_POST['postcode']) &&
-            !preg_match('/^[0-9]{5}$/', $_POST['postcode'])
+            isset($_POST['postcode'])
+            && !empty($_POST['postcode'])
+            && !preg_match('/^[0-9]{5}$/', $_POST['postcode'])
         ) {
             $errors['postcode'] = 'postcode';
         }
 
         // Verification for `city`
         if (
-            isset($_POST['city']) &&
-            !empty($_POST['city']) &&
-            !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['city'])
+            isset($_POST['city'])
+            && !empty($_POST['city'])
+            && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['city'])
         ) {
             $errors['city'] = 'city';
         }
@@ -155,10 +157,10 @@ if (
             $errors['password'] = 'password';
             foreach ($jsonData as $profil) {
                 if (
-                    isset($profil['login']) &&
-                    isset($profil['password']) &&
-                    $_POST['login'] === $profil['login'] &&
-                    // $_POST['password'] === $profil['password']
+                    isset($profil['login'])
+                    && isset($profil['password'])
+                    && $_POST['login'] === $profil['login']
+                    && // $_POST['password'] === $profil['password']
                     password_verify($_POST['password'], $profil['password'])
                 ) {
                     unset($errors['login']);

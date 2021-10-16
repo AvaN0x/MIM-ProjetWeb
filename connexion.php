@@ -61,7 +61,7 @@ $isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
 
 
                     Date de naissance :
-                    <input type="date" name="date" placeholder='jj/MM/AAAA' <?php if (isset($errors['date'])) echo 'class="errorField"' ?> value="<?php echo ($postedValues['date']) ?>" /><br />
+                    <input type="birthdate" name="birthdate" placeholder='jj/MM/AAAA' <?php if (isset($errors['birthdate'])) echo 'class="errorField"' ?> value="<?php echo ($postedValues['birthdate']) ?>" /><br />
 
 
                     Adresse postale <br />
