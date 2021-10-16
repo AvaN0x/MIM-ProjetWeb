@@ -16,7 +16,7 @@
     ) 
     {
         // First get the content of the JSON File
-        $jsonData = json_decode(file_get_contents("data.json"), true);
+        $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
         if (empty($jsonData)) { $jsonData = []; }
 
 
@@ -171,7 +171,7 @@
         // If errors have been thrown, save the posted values
         if (!empty($errors)) {
             foreach ($fields as $key => $value) {
-                if (isset($_POST[$value])) {
+                if (isset($_POST[$value]) && ($value !== "pwd")) {
                     $postedValues[$value] = $_POST[$value];
                 }
             }
