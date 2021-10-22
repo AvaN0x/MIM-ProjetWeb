@@ -256,7 +256,7 @@ function removeAccents($str)
                     <i class="far fa-heart"></i>
                 </div>
                 <h2><?= $recette["titre"] ?></h2>
-                <img src="res/Photos/<?= $imgFileName ?>">
+                <img src="res/Photos/<?= $imgFileName ?>" alt="<?= $imgFileName ?>" title="<?= $recette["titre"] ?>">
                 <ul>
                     <?php foreach ($recette["index"] as $value) : ?>
                         <li><?= $value ?></li>
