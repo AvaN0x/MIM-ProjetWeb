@@ -69,15 +69,35 @@ if (isset($_GET["search"])) {
 
 
 //#region fill RecettesToDisplay
-// $RecettesToDisplay = [];
-$RecettesToDisplay = $Recettes; // FIXME TEMPORARY
+$RecettesToDisplay = [];
+
+function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $alimentName)
+{
+    // Get all recettes from this aliment
+    foreach ($recettes as $key => $recette) {
+        // Using $key to remove duplicates
+        if (isset($recette["index"]) && in_array($alimentName, $recette["index"]))
+            $recettesToDisplay[$key] = $recette;
+    }
+
+    // get all recettes from sub categories
+    if (isset($hierarchie[$alimentName]["sous-categorie"])) {
+        foreach ($hierarchie[$alimentName]["sous-categorie"] as $aliment)
+            getRecettesFromAliment($recettes, $hierarchie, $recettesToDisplay, $aliment);
+    }
+}
+
 if ($searchType == SearchType::ARIANE) {
+    getRecettesFromAliment($Recettes, $Hierarchie, $RecettesToDisplay, $actualAliment);
 } elseif ($searchType == SearchType::SEARCHBAR) {
+    // TODO add elements based on research
 }
 //#endregion fill RecettesToDisplay
 
 
 //#region cocktailslist
+// Reindex array
+$RecettesToDisplay = array_values($RecettesToDisplay);
 foreach ($RecettesToDisplay as $key => $recette) {
     // Remove all accents from the title (titre)
     // Then remove all spaces (` `) for underscores (`_`)
