@@ -2,6 +2,14 @@
 require_once("res/Donnees.inc.php");
 require_once("model/utils.inc.php");
 
+abstract class SearchType
+{
+    const ARIANE = 0;
+    const SEARCHBAR = 1;
+}
+
+$searchType = SearchType::ARIANE;
+
 //#region aside
 $ariane_has_error = false;
 $get_ariane = (isset($_GET["path"]) && !empty($_GET["path"]))
@@ -51,19 +59,38 @@ unset($isFirst);
 unset($get_ariane);
 //#endregion aside
 
+
+//#endregion search
+if (isset($_GET["search"])) {
+    $searchType = SearchType::SEARCHBAR;
+    // TODO
+}
+//#endregion search
+
+
+//#region fill RecettesToDisplay
+// $RecettesToDisplay = [];
+$RecettesToDisplay = $Recettes; // FIXME TEMPORARY
+if ($searchType == SearchType::ARIANE) {
+} elseif ($searchType == SearchType::SEARCHBAR) {
+}
+//#endregion fill RecettesToDisplay
+
+
 //#region cocktailslist
-$RecettesToDisplay = [];
-foreach ($Recettes as $recette) {
+foreach ($RecettesToDisplay as $key => $recette) {
     // Remove all accents from the title (titre)
     // Then remove all spaces (` `) for underscores (`_`)
-    $recette["img_path"] = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
+    $img_path = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
 
     // If the file do not exist, then we set the default image
-    if (!file_exists("res/Photos/" . $recette["img_path"]))
-        $recette["img_path"] = "cocktail.png";
+    if (!file_exists("res/Photos/$img_path"))
+        $img_path = "cocktail.png";
 
-    $RecettesToDisplay[] = $recette;
+    $RecettesToDisplay[$key]["img_path"] = $img_path;
 }
+unset($key);
+unset($recette);
 //#endregion cocktailslist
 
 

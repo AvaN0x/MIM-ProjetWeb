@@ -12,9 +12,32 @@ include("includes/head.inc.php");
     <div id="accueil">
         <?php
         include("includes/navbar.inc.php");
-
-        include("includes/cocktailsList.inc.php");
         ?>
+        <main>
+            <?php
+            if ($searchType == SearchType::ARIANE) {
+            ?>
+                <h1>Liste des cocktails après navigation</h1>
+            <?php
+            } else if ($searchType == SearchType::SEARCHBAR) {
+            ?>
+                <h1>Liste des cocktails par recherche</h1>
+            <?php
+            }
+            ?>
+            <div class="cocktails-list">
+                <?php
+                if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
+                    foreach ($RecettesToDisplay as $recette)
+                        include("includes/recetteCard.inc.php");
+                } else {
+                ?>
+                    <p>Aucun résultats n'ont été trouvés.</p>
+                <?php
+                }
+                ?>
+            </div>
+        </main>
     </div>
 </body>
 
