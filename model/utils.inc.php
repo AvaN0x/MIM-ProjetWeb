@@ -1,5 +1,4 @@
 <?php
-// TODO @AvaN0x move this somewhere else
 
 // Source : https://github.com/lingtalfi/Bat/blob/779d4295814e68787d43c2d47e5455e634dccacb/StringTool.php#L466
 function removeAccents($str)
@@ -234,37 +233,3 @@ function removeAccents($str)
     ];
     return strtr($str, $map);
 }
-
-?>
-<section>
-    <h1>Liste des cocktails après navigation</h1>
-    <!-- <h1>Liste des cocktails par recherche</h1> -->
-    <div class="cocktails-list">
-        <?php
-        foreach ($Recettes as $recette) {
-            // Remove all accents from the title (titre)
-            // Then remove all spaces (` `) for underscores (`_`)
-            $imgFileName = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
-
-            // If the file do not exist, then we set the default image
-            if (!file_exists("res/Photos/$imgFileName"))
-                $imgFileName = "cocktail.png";
-        ?>
-            <article>
-                <div>
-                    <i class="fas fa-heart"></i>
-                    <i class="far fa-heart"></i>
-                </div>
-                <h2><?= $recette["titre"] ?></h2>
-                <img src="res/Photos/<?= $imgFileName ?>" alt="<?= $imgFileName ?>" title="<?= $recette["titre"] ?>">
-                <ul>
-                    <?php foreach ($recette["index"] as $value) : ?>
-                        <li><?= $value ?></li>
-                    <?php endforeach; ?>
-                </ul>
-            </article>
-        <?php
-        }
-        ?>
-    </div>
-</section>

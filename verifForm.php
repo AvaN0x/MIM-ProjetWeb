@@ -14,6 +14,7 @@ if (
     && isset($_POST)
     && isset($_POST["submit"])
 ) {
+    // TODO create a model which will work with data.json
     // First get the content of the JSON File
     $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
     if (empty($jsonData)) {

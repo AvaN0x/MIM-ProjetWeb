@@ -1,16 +1,19 @@
 <?php
-include_once("res/Donnees.inc.php");
+require_once("res/Donnees.inc.php");
+require_once("model/utils.inc.php");
 
+//#region aside
+$ariane_has_error = false;
 $get_ariane = (isset($_GET["path"]) && !empty($_GET["path"]))
     ? explode("/", $_GET["path"])
-    : ["Aliment"];
-$ariane_has_error = false;
+    : ["Aliment"]; // temp variable
+
 
 $ariane = [];
 $actualAliment = "";
 $actualPath = "";
 
-$isFirst = true;
+$isFirst = true; // temp variable
 foreach ($get_ariane as $key => $aliment) {
     if (
         // if the actual aliment exist in $Hierarchie
@@ -46,36 +49,22 @@ foreach ($get_ariane as $key => $aliment) {
 }
 unset($isFirst);
 unset($get_ariane);
+//#endregion aside
+
+//#region cocktailslist
+$RecettesToDisplay = [];
+foreach ($Recettes as $recette) {
+    // Remove all accents from the title (titre)
+    // Then remove all spaces (` `) for underscores (`_`)
+    $recette["img_path"] = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
+
+    // If the file do not exist, then we set the default image
+    if (!file_exists("res/Photos/" . $recette["img_path"]))
+        $recette["img_path"] = "cocktail.png";
+
+    $RecettesToDisplay[] = $recette;
+}
+//#endregion cocktailslist
 
 
-?>
-
-<aside>
-    <h1>Aliment courant</h1>
-    <?php if ($ariane_has_error) : ?>
-        <p class="error"><i class="fas fa-exclamation-triangle"></i>Une erreur est survenue lors de la lecture du fil d'ariane demandé.</p>
-    <?php endif; ?>
-
-    <?php
-    $isFirstAriane = true;
-    foreach ($ariane as $key => $value) {
-        if ($isFirstAriane)
-            $isFirstAriane = false;
-        else
-            echo "/";
-
-        echo '<a href="index.php?path=' . $value["path"] . '">' . $value["label"] . '</a>';
-    }
-    ?>
-
-    <h2>Sous-catégorie</h2>
-    <ul>
-        <?php
-        if (array_key_exists($actualAliment, $Hierarchie) && array_key_exists("sous-categorie", $Hierarchie[$actualAliment])) {
-            foreach ($Hierarchie[$actualAliment]["sous-categorie"] as $aliment) {
-                echo "<li><a href=\"index.php?path=$actualPath/$aliment\">$aliment</a></li>";
-            }
-        }
-        ?>
-    </ul>
-</aside>
+include_once("view/accueil.php");

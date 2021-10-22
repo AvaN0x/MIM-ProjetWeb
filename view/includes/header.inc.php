@@ -1,9 +1,3 @@
-<?php
-session_start();
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['type'] === 'deconnexion')
-    if (isset($_SESSION['connected'])) unset($_SESSION['connected']);
-?>
-
 <header>
     <div>
         <a href="index.php">Navigation</a>

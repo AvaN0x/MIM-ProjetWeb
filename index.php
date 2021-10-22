@@ -1,28 +1,27 @@
-<!DOCTYPE html>
-<html lang="fr">
+<?php
+require_once("config.inc.php");
 
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="icon" href="favicon.ico" />
-    <link rel="stylesheet" href="css/style.css" />
-    <!-- <link rel="stylesheet" media="screen and (max-width:720px)" href="css/mobile.css" /> -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=max-device-width, initial-scale=1" />
-    <!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
-    <script src="https://kit.fontawesome.com/0383df481c.js" crossorigin="anonymous"></script>
-</head>
 
-<body>
-    <?php
-    include("header.php");
-    ?>
-    <main>
-        <?php
-        include("navbar.php");
-        include("cocktailsList.php");
-        ?>
-    </main>
-</body>
+session_start();
+// TODO @AvaN0x check this
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['type'] === 'deconnexion')
+    if (isset($_SESSION['connected'])) unset($_SESSION['connected']);
 
-</html>
+// echo $_SERVER["QUERY_STRING"];
+$route = isset($_GET["route"]) ? explode("/", $_GET["route"]) : [];
+// print_r($route);
+$action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
+
+switch ($action) {
+    case 'accueil':
+    case 'list':
+        $pageTitle = "Recktails"; // TODO find a name
+        include_once("controller/accueil.php");
+        break;
+
+    case '404':
+    default:
+        $pageTitle = "Erreur 404";
+        include_once("view/404.php");
+        break;
+}

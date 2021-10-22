@@ -10,25 +10,16 @@ $isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
 <!DOCTYPE html>
 <html lang="fr">
 
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-    <link rel="icon" href="favicon.ico" />
-    <!-- <link rel="stylesheet" href="css/style.css" /> -->
-    <!-- <link rel="stylesheet" media="screen and (max-width:720px)" href="css/mobile.css" /> -->
-    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <meta name="viewport" content="width=max-device-width, initial-scale=1" />
-    <!-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
-    <script src="https://kit.fontawesome.com/0383df481c.js" crossorigin="anonymous"></script>
+<?php
+include("includes/head.inc.php");
+?>
 
+<body>
     <style>
         .errorField {
             background-color: #F44336;
         }
     </style>
-</head>
-
-<body>
     <main>
         <h1>Bienvenue sur l'espace <?= ($isInscription ? "d'inscription" : "de connexion") ?></h1>
         <form method="post" action='#'>
