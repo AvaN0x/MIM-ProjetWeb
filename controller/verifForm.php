@@ -1,5 +1,4 @@
 <?php
-session_start();
 $errors = [];
 $fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
 $toJson = [];
@@ -11,9 +10,10 @@ foreach ($fields as $key => $value) {
 
 if (
     $_SERVER["REQUEST_METHOD"] === "POST"
-    && isset($_POST)
     && isset($_POST["submit"])
 ) {
+    
+
     // TODO create a model which will work with data.json
     // First get the content of the JSON File
     $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
@@ -129,7 +129,7 @@ if (
 
             // Verification if the login doesn't already exists
             foreach ($jsonData as $profil) {
-                if (isset($profil['login']) && $_POST['login'] === $profil['login']) {
+                if (isset($profil['login']) && strtolower($_POST['login']) === $profil['login']) {
                     $errors['login'] = 'login';
                     break;
                 }
@@ -139,36 +139,46 @@ if (
             // And connect him / her with his / her new account
             if (!isset($errors['login'])) {
                 foreach ($fields as $value) {
-                    $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
-                    $toJson[$value] = ($value == "password" ? password_hash($content, PASSWORD_DEFAULT) : $content);
+                    if ($value === "password" && isset($_POST["password"])) {
+                        $toJson["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
+                    }
+                    else {
+                        $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
+                        $toJson[$value] = $content;
+                    }
                 }
 
                 array_push($jsonData, $toJson);
                 file_put_contents("data.json", json_encode($jsonData));
 
-                $_SESSION['connected']['login'] = $_POST['login'];
-                // $_SESSION['connected']['password'] = $_POST['password']; //? why do we need to save the password?
+                $_SESSION['connected']['login'] = $toJson['login'];
+                $_SESSION['connected']['name'] = $toJson['name'];
+                $_SESSION['connected']['fname'] = $toJson['fname'];
             }
         }
-        // Or if we are trying to connect
+        // If we are trying to connect
         else {
             // If 1 profil in JSON file match with the login and password given
             // no errors thrown and connect him / her
             $errors['login'] = 'login';
             $errors['password'] = 'password';
+
+            $login = (isset($_POST['login']) ? strtolower(trim(htmlspecialchars($_POST['login']))) : "");
+
             foreach ($jsonData as $profil) {
                 if (
                     isset($profil['login'])
+                    && $login === $profil['login']
                     && isset($profil['password'])
-                    && $_POST['login'] === $profil['login']
-                    && // $_POST['password'] === $profil['password']
-                    password_verify($_POST['password'], $profil['password'])
+                    && isset($_POST['password'])
+                    && password_verify($_POST["password"], $profil['password'])
                 ) {
                     unset($errors['login']);
                     unset($errors['password']);
 
-                    $_SESSION['connected']['login'] = $_POST['login'];
-                    // $_SESSION['connected']['password'] = $_POST['password']; //? why do we need to save the password?
+                    $_SESSION['connected']['login'] = $profil['login'];
+                    $_SESSION['connected']['name'] = $profil['name'];
+                    $_SESSION['connected']['fname'] = $profil['fname'];
                     break;
                 }
             }
@@ -183,4 +193,12 @@ if (
             }
         }
     }
+}
+
+if (
+    $_SERVER["REQUEST_METHOD"] === "POST"
+    && isset($_POST["type"])
+    && $_POST['type'] === 'deconnexion'
+) {
+    unset($_SESSION['connected']);
 }
