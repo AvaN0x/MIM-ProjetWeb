@@ -5,7 +5,7 @@
 
 <?php
 include("includes/head.inc.php");
-include_once('../controller/verifForm.php');
+include_once('../controller/connexion.php');
 ?>
 
 <body>
