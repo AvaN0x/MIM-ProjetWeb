@@ -4,8 +4,8 @@
 <html lang="fr">
 
 <?php
-include("view/includes/head.inc.php");
-include_once('controller/verifForm.php');
+include("includes/head.inc.php");
+include_once('../controller/verifForm.php');
 ?>
 
 <body>
@@ -17,17 +17,17 @@ include_once('controller/verifForm.php');
     <main>
         <?php
         if(!isset($_SESSION['connected'])) {
-            include_once('view/includes/form.inc.php');
+            include_once('includes/form.inc.php');
         }
         else {
             print_r($_SESSION);
-            include_once('view/includes/profil.inc.php');
+            include_once('includes/profil.inc.php');
         }
         ?>
         
 
         </br>
-        <button><a href="index.php">Retour à la page d'accueil</a></button>
+        <button><a href="../index.php">Retour à la page d'accueil</a></button>
     </main>
 </body>
 

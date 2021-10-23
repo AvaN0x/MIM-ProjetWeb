@@ -12,7 +12,7 @@
             </button>
         </form>
 
-        <form method="post" action="connexion.php">
+        <form method="post" action="view/connexion.php">
             <input type="hidden" name="type" value="connexion" />
             <input type="submit" value="Zone de connexion" />
         </form>

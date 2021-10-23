@@ -16,7 +16,7 @@ if (
 
     // TODO create a model which will work with data.json
     // First get the content of the JSON File
-    $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
+    $jsonData = file_exists("../data.json") ? json_decode(file_get_contents("../data.json"), true) : [];
     if (empty($jsonData)) {
         $jsonData = [];
     }
@@ -149,7 +149,7 @@ if (
                 }
 
                 array_push($jsonData, $toJson);
-                file_put_contents("data.json", json_encode($jsonData));
+                file_put_contents("../data.json", json_encode($jsonData));
 
                 $_SESSION['connected']['login'] = $toJson['login'];
                 $_SESSION['connected']['name'] = $toJson['name'];
