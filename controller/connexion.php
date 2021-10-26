@@ -28,12 +28,6 @@ if (
         $errors['login'] = 'login';
     }
 
-    // var_dump(!isset($_POST['password']) , empty($_POST['password']) , !preg_match('/^.{8,}$/', $_POST['password']));
-    // var_dump($action === 'editProfil' , !isset($_POST['newPassword']) , empty($_POST['newPassword']) , !preg_match('/^.{8,}$/', $_POST['newPassword']));
-    // var_dump($action === 'inscription' , !isset($_POST['confirmPassword']) , empty($_POST['confirmPassword']) , $_POST['password'] !== $_POST['confirmPassword']);
-    // var_dump($action === 'editProfil' , !isset($_POST['confirmPassword']) , empty($_POST['confirmPassword']) , $_POST['newPassword'] !== $_POST['confirmPassword']);
-
-
     // Verification for `password`
     if (
         // if first field respect all exepctations
@@ -197,6 +191,7 @@ if (
                         }
                         $jsonData[$key] = $toJson;
                         file_put_contents("data.json", json_encode($jsonData));
+
                         $action = "profil";
                     }
                 }
@@ -247,11 +242,7 @@ if (
         $jsonData = [];
     }
 
-    // echo '<pre>';
-    // print_r($_SESSION);
     foreach ($jsonData as $profil) {
-        // print_r($profil);
-        
         if ($profil['login'] === $_SESSION['connected']['login']) {
             foreach ($fields as $value) {
                 if ($value !== 'password') {
@@ -261,7 +252,6 @@ if (
             }
         }
     }
-    // echo '</pre><br />';
 }
 
 include_once("view/connexion.php");
