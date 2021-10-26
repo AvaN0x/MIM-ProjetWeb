@@ -12,11 +12,14 @@ $route = isset($_GET["route"]) ? explode("/", $_GET["route"]) : [];
 // print_r($route);
 $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 
+$pageTitle = "Recktails"; // TODO find a name
 switch ($action) {
     case 'accueil':
     case 'list':
-        $pageTitle = "Recktails"; // TODO find a name
         include_once("controller/accueil.php");
+        break;
+    case 'connexion':
+        include_once("controller/connexion.php");
         break;
 
     case '404':

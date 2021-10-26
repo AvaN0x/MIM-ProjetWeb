@@ -12,9 +12,6 @@
             </button>
         </form>
 
-        <form method="post" action="view/connexion.php">
-            <input type="hidden" name="type" value="connexion" />
-            <input type="submit" value="Zone de connexion" />
-        </form>
+        <a href="index.php?route=connexion">Zone de connexion</a>
     </div>
 </header>

@@ -12,11 +12,11 @@ if (
     $_SERVER["REQUEST_METHOD"] === "POST"
     && isset($_POST["submit"])
 ) {
-    
+
 
     // TODO create a model which will work with data.json
     // First get the content of the JSON File
-    $jsonData = file_exists("../model/data.json") ? json_decode(file_get_contents("../model/data.json"), true) : [];
+    $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
     if (empty($jsonData)) {
         $jsonData = [];
     }
@@ -141,15 +141,14 @@ if (
                 foreach ($fields as $value) {
                     if ($value === "password" && isset($_POST["password"])) {
                         $toJson["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
-                    }
-                    else {
+                    } else {
                         $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
                         $toJson[$value] = $content;
                     }
                 }
 
                 array_push($jsonData, $toJson);
-                file_put_contents("../model/data.json", json_encode($jsonData));
+                file_put_contents("data.json", json_encode($jsonData));
 
                 $_SESSION['connected']['login'] = $toJson['login'];
                 $_SESSION['connected']['name'] = $toJson['name'];
@@ -202,3 +201,5 @@ if (
 ) {
     unset($_SESSION['connected']);
 }
+
+include_once("view/connexion.php");

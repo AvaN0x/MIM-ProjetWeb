@@ -1,11 +1,8 @@
-<?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="fr">
 
 <?php
 include("includes/head.inc.php");
-include_once('../controller/connexion.php');
 ?>
 
 <body>
@@ -16,18 +13,17 @@ include_once('../controller/connexion.php');
     </style>
     <main>
         <?php
-        if(!isset($_SESSION['connected'])) {
+        if (!isset($_SESSION['connected'])) {
             include_once('includes/form.inc.php');
-        }
-        else {
+        } else {
             print_r($_SESSION);
             include_once('includes/profil.inc.php');
         }
         ?>
-        
 
-        </br>
-        <button><a href="../index.php">Retour à la page d'accueil</a></button>
+
+        <br />
+        <a href="index.php">Retour à la page d'accueil</a>
     </main>
 </body>
 
