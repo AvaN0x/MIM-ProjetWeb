@@ -91,6 +91,7 @@ if (
             && (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", trim($_POST['birthdate']), $matches)
                 || !checkdate($matches[2], $matches[3], $matches[1]))
         ) {
+            // TODO @AvaN0x support of dd/mm/yyyy
             $errors['birthdate'] = 'birthdate';
         }
 
@@ -192,14 +193,6 @@ if (
             }
         }
     }
-}
-
-if (
-    $_SERVER["REQUEST_METHOD"] === "POST"
-    && isset($_POST["type"])
-    && $_POST['type'] === 'deconnexion'
-) {
-    unset($_SESSION['connected']);
 }
 
 include_once("view/connexion.php");

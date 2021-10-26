@@ -3,14 +3,21 @@ require_once("config.inc.php");
 
 
 session_start();
-// TODO @AvaN0x check this
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['type']) && $_POST['type'] === 'deconnexion')
-    if (isset($_SESSION['connected'])) unset($_SESSION['connected']);
 
 // echo $_SERVER["QUERY_STRING"];
 $route = isset($_GET["route"]) ? explode("/", $_GET["route"]) : [];
 // print_r($route);
 $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
+
+
+//#region deconnexion
+if ($action == "deconnexion") {
+    if (isset($_SESSION['connected'])) {
+        unset($_SESSION['connected']);
+    }
+}
+//#endregion deconnexion
+
 
 $pageTitle = "Recktails"; // TODO find a name
 switch ($action) {
@@ -19,6 +26,7 @@ switch ($action) {
         include_once("controller/accueil.php");
         break;
     case 'connexion':
+    case 'deconnexion':
         include_once("controller/connexion.php");
         break;
 
