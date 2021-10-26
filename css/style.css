@@ -139,7 +139,7 @@ i.fas.fa-heart {
     color: var(--error-color);
 }
 
-.errorField {
+.error-field {
     background-color: var(--error-color);
 }
 

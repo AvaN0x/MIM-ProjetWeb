@@ -6,11 +6,6 @@ include("includes/head.inc.php");
 ?>
 
 <body>
-    <style>
-        .errorField {
-            background-color: #F44336;
-        }
-    </style>
     <main>
         <?php
         if (!isset($_SESSION['connected'])) {
