@@ -25,10 +25,15 @@ switch ($action) {
     case 'list':
         include_once("controller/accueil.php");
         break;
+
     case 'connexion':
     case 'inscription':
     case 'deconnexion':
         include_once("controller/connexion.php");
+        break;
+
+    case 'detail':
+        include_once("controller/detail.php");
         break;
 
     case '404':

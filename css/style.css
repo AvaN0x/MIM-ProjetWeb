@@ -69,6 +69,7 @@ header a:hover {
 /* Everything that is at the same level as a header */
 header+* {
     top: var(--header-height);
+    position: relative;
 }
 
 /*#endregion header*/

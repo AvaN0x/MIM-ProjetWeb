@@ -25,7 +25,7 @@ $isFirst = true; // temp variable
 foreach ($get_ariane as $key => $aliment) {
     if (
         // if the actual aliment exist in $Hierarchie
-        array_key_exists($aliment, $Hierarchie)
+        array_key_exists(urldecode($aliment), $Hierarchie)
         // and the element is the first element
         && ($isFirst ||
             (
@@ -37,19 +37,19 @@ foreach ($get_ariane as $key => $aliment) {
         // only add a / if it is not the first element
         if ($isFirst) {
             $isFirst = false;
-            $path = "$aliment";
+            $path = urlencode($aliment);
         } else {
-            $path = "$actualPath/$aliment";
+            $path = $actualPath . '/' . urlencode($aliment);
         }
 
         // add new aliment to ariane
         $ariane[] = [
-            "label" => $aliment,
+            "label" => urldecode($aliment),
             "path" => $path
         ];
 
         $actualPath = $path;
-        $actualAliment = $aliment;
+        $actualAliment = urldecode($aliment);
     } else {
         $ariane_has_error = true;
         break;

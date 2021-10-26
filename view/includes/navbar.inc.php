@@ -22,7 +22,7 @@
         <?php
         if (array_key_exists($actualAliment, $Hierarchie) && array_key_exists("sous-categorie", $Hierarchie[$actualAliment])) {
             foreach ($Hierarchie[$actualAliment]["sous-categorie"] as $aliment) {
-                echo "<li><a href=\"index.php?route=" . LANDING_PAGE_NAME . "&path=$actualPath/$aliment\">$aliment</a></li>";
+                echo '<li><a href="index.php?route=' . LANDING_PAGE_NAME . '&path=' . $actualPath . '/' . urlencode($aliment) . '">' . $aliment . '</a></li>';
             }
         }
         ?>
