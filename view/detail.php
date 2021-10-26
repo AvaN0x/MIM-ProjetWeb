@@ -22,7 +22,7 @@ include("includes/head.inc.php");
         <?php
         else :
         ?>
-            <h1>La recette spécifiée n'existe pas.</h1>
+            <p class="error"><i class="fas fa-exclamation-triangle"></i>La recette spécifiée n'existe pas.</p>
         <?php
         endif;
         ?>

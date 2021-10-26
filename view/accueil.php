@@ -32,7 +32,7 @@ include("includes/head.inc.php");
                         include("includes/recetteCard.inc.php");
                 } else {
                 ?>
-                    <p>Aucun résultats n'ont été trouvés.</p>
+                    <p class="error"><i class="fas fa-exclamation-triangle"></i>Aucun résultats n'ont été trouvés.</p>
                 <?php
                 }
                 ?>

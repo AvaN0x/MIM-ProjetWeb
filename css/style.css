@@ -11,6 +11,7 @@
 
 html {
     scroll-behavior: smooth;
+    min-height: 100vh;
 }
 
 body {
@@ -22,7 +23,7 @@ body {
 
 /*#region header*/
 header {
-    width: 100vw;
+    width: 100%;
     position: fixed;
     top: 0;
     box-sizing: border-box;
@@ -79,14 +80,19 @@ header+* {
 #accueil {
     position: relative;
     display: flex;
-    align-items: flex-start
+    align-items: stretch;
 }
 
 #accueil>* {
     border: 1px solid red;
 }
 
-@media screen and (max-width: 600px) {
+#accueil>main {
+    flex: 1;
+    padding-left: 1rem;
+}
+
+@media screen and (max-width: 800px) {
     #accueil {
         flex-direction: column;
         align-items: stretch;
@@ -99,12 +105,12 @@ header+* {
 /*#region aside*/
 aside {
     min-width: 300px;
-    width: 30vw;
+    width: 20vw;
     word-break: break-word;
     padding: .5rem;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
     aside {
         width: auto;
     }
@@ -124,13 +130,47 @@ section {
     flex-wrap: wrap;
 }
 
-.cocktails-list article {
+/*#endregion section*/
+
+/*#region recette-card*/
+.recette-card {
     border: 1px solid #ff00ff;
-    padding: .2rem;
+    position: relative;
+    flex: 1;
+    min-width: 180px;
+    max-width: 300px;
+    padding: .5rem;
     margin: .2rem;
+    box-sizing: border-box;
 }
 
-/*#endregion aside*/
+.recette-card h2 {
+    margin: 0;
+}
+
+.recette-card .recette-card-fav {
+    float: right;
+    margin: .3rem;
+}
+
+.recette-card .recette-card-fav i {
+    font-size: 1.4rem;
+}
+
+.recette-card img {
+    max-width: 160px;
+    height: 160px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: .6rem;
+}
+
+.recette-card ul {
+    padding: .1rem 1rem;
+}
+
+/*#endregion recette-card*/
 
 i.fas.fa-heart {
     color: var(--heart-color);
