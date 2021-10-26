@@ -29,6 +29,8 @@ switch ($action) {
     case 'connexion':
     case 'inscription':
     case 'deconnexion':
+    case 'editProfil':
+    case 'profil':
         include_once("controller/connexion.php");
         break;
 

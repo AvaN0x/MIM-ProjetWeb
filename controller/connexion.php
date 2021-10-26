@@ -13,15 +13,6 @@ if (
     && isset($_POST["submit"])
 ) {
 
-
-    // TODO create a model which will work with data.json
-    // First get the content of the JSON File
-    $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
-    if (empty($jsonData)) {
-        $jsonData = [];
-    }
-
-
     ///////////////////////////////////////////////////////////////////////
     ///////////////////////////////////////////////////////////////////////
     //                  VERIFICATION OF EACH FIELD                       //
@@ -37,16 +28,40 @@ if (
         $errors['login'] = 'login';
     }
 
+    // var_dump(!isset($_POST['password']) , empty($_POST['password']) , !preg_match('/^.{8,}$/', $_POST['password']));
+    // var_dump($action === 'editProfil' , !isset($_POST['newPassword']) , empty($_POST['newPassword']) , !preg_match('/^.{8,}$/', $_POST['newPassword']));
+    // var_dump($action === 'inscription' , !isset($_POST['confirmPassword']) , empty($_POST['confirmPassword']) , $_POST['password'] !== $_POST['confirmPassword']);
+    // var_dump($action === 'editProfil' , !isset($_POST['confirmPassword']) , empty($_POST['confirmPassword']) , $_POST['newPassword'] !== $_POST['confirmPassword']);
+
+
     // Verification for `password`
     if (
+        // if first field respect all exepctations
         !isset($_POST['password'])
         || empty($_POST['password'])
         || !preg_match('/^.{8,}$/', $_POST['password'])
+
+        // If we want to edit a profil and the field `newPassword` doesn't respect all expectations
+        || ($action === 'editProfil' 
+            && (!isset($_POST['newPassword'])
+                || empty($_POST['newPassword'])
+                || !preg_match('/^.{8,}$/', $_POST['newPassword'])))
+
+        // If we want an inscription and the field `confirmPassword` doesn't respect all expectations
+        || ($action === 'inscription'
+            && (!isset($_POST['confirmPassword'])
+                || empty($_POST['confirmPassword'])
+                || $_POST['password'] !== $_POST['confirmPassword']))
+
+        || ($action === 'editProfil'
+            && (!isset($_POST['confirmPassword'])
+                || empty($_POST['confirmPassword'])
+                || $_POST['newPassword'] !== $_POST['confirmPassword']))
     ) {
         $errors['password'] = 'password';
     }
 
-    if ($action === 'inscription') {
+    if ($action === 'inscription' || $action === 'editProfil') {
         // Verification for `name`
         if (
             isset($_POST['name'])
@@ -125,6 +140,14 @@ if (
 
     // If each field is correctly filled
     if (empty($errors)) {
+
+        // TODO create a model which will work with data.json
+        // First get the content of the JSON File
+        $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
+        if (empty($jsonData)) {
+            $jsonData = [];
+        }
+
         // Verification if we are trying to get a new profil
         if ($action === 'inscription') {
 
@@ -139,6 +162,7 @@ if (
             // If it doesn't already exists, save the new profil in JSON file
             // And connect him / her with his / her new account
             if (!isset($errors['login'])) {
+
                 foreach ($fields as $value) {
                     if ($value === "password" && isset($_POST["password"])) {
                         $toJson["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
@@ -154,6 +178,28 @@ if (
                 $_SESSION['connected']['login'] = $toJson['login'];
                 $_SESSION['connected']['name'] = $toJson['name'];
                 $_SESSION['connected']['fname'] = $toJson['fname'];
+            }
+        }
+        elseif ($action === 'editProfil') {
+            foreach ($jsonData as $key => $profil) {
+                if ($profil['login'] === $_SESSION['connected']['login']) {
+                    if (!password_verify($_POST['password'], $profil['password'])) {
+                        $errors['password'] = 'password';
+                    }
+                    else {
+                        foreach ($fields as $value) {
+                            if ($value === "password") {
+                                $toJson["password"] = password_hash($_POST["newPassword"], PASSWORD_DEFAULT);
+                            } else {
+                                $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
+                                $toJson[$value] = $content;
+                            }
+                        }
+                        $jsonData[$key] = $toJson;
+                        file_put_contents("data.json", json_encode($jsonData));
+                        $action = "profil";
+                    }
+                }
             }
         }
         // If we are trying to connect
@@ -193,6 +239,29 @@ if (
             }
         }
     }
+} elseif ($action === 'editProfil') {
+    // TODO create a model which will work with data.json
+    // First get the content of the JSON File
+    $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
+    if (empty($jsonData)) {
+        $jsonData = [];
+    }
+
+    // echo '<pre>';
+    // print_r($_SESSION);
+    foreach ($jsonData as $profil) {
+        // print_r($profil);
+        
+        if ($profil['login'] === $_SESSION['connected']['login']) {
+            foreach ($fields as $value) {
+                if ($value !== 'password') {
+                    // var_dump($value);
+                    $postedValues[$value] = $profil[$value];
+                }
+            }
+        }
+    }
+    // echo '</pre><br />';
 }
 
 include_once("view/connexion.php");

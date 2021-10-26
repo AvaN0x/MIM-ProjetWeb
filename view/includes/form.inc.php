@@ -1,8 +1,10 @@
-<?php
-$isInscription = $action === 'inscription';
-?>
-
-<h1>Bienvenue sur l'espace <?= ($isInscription ? "d'inscription" : "de connexion") ?></h1>
+<?php if ($action === 'inscription') : ?>
+    <h1>Bienvenue sur l'espace d'inscription</h1>
+<?php elseif ($action === 'editProfil'): ?>
+    <h1>Bienvenue sur l'espace de modification du profil</h1>
+<?php else : ?>
+    <h1>Bienvenue sur l'espace de connexion</h1>
+<?php endif; ?>
 
 <form method="post" action='#'>
     <fieldset>
@@ -10,12 +12,26 @@ $isInscription = $action === 'inscription';
 
         Nom d'utilisateur :
         <input type="text" name="login" required="required" <?php if (isset($errors['login'])) echo 'class="error-field"' ?> value="<?= $postedValues['login'] ?>" />*<br />
+        
 
-        Mot de passe :
-        <input type="password" name="password" required="required" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*<br />
+        <?= ($action === 'editProfil' ? 'Ancien mot de passe : ' : 'Mot de passe : ') ?>
+        <input type="password" name="password" required="required" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*
+        
+        <?php if ($action === 'editProfil'): ?>
+            <span style="margin-left: 40px"></span>
+            Nouveau mot de passe :
+            <input type="password" name="newPassword" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*
+        <?php endif; ?>
+        
+        <?php if ($action === 'inscription' || $action === 'editProfil'): ?>
+            <span style="margin-left: 40px"></span>
+            Confirmer le mot de passe :
+            <input type="password" name="confirmPassword" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*
+        <?php endif; ?>
 
+        <br />
         <!-- If we want to get an inscription -->
-        <?php if ($isInscription) : ?>
+        <?php if ($action === 'inscription' || $action === 'editProfil') : ?>
             Sexe :
             <input type="radio" name="gender" value="f" <?php if ($postedValues["gender"] == "f") echo "checked" ?> /> Femme
             <input type="radio" name="gender" value="h" <?php if ($postedValues["gender"] == "h") echo "checked" ?> /> Homme
@@ -42,11 +58,19 @@ $isInscription = $action === 'inscription';
         <?php endif; ?>
     </fieldset>
 
-    <input type="submit" name="submit" value="<?= ($isInscription ? "S'inscrire" : "Connexion") ?>" />
+    <?php if ($action === 'inscription') : ?>
+        <input type="submit" name="submit" value="S'inscrire" />
+    <?php elseif ($action === 'editProfil'): ?>
+        <input type="submit" name="submit" value="Modifier" />
+    <?php else : ?>
+        <input type="submit" name="submit" value="Connexion" />
+    <?php endif; ?>
 </form>
 
-<?php if ($isInscription) : ?>
+<?php if ($action === 'inscription') : ?>
     <a href="index.php?route=connexion">Retour à la page de connexion</a>
+<?php elseif ($action === 'editProfil'): ?>
+    <a href="index.php?route=profil">Retour à mon profil</a>
 <?php else : ?>
     <a href="index.php?route=inscription">S'inscrire</a>
 <?php endif; ?>
