@@ -1,5 +1,5 @@
 <?php
-$isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
+$isInscription = $action === 'inscription';
 ?>
 
 <h1>Bienvenue sur l'espace <?= ($isInscription ? "d'inscription" : "de connexion") ?></h1>
@@ -37,17 +37,16 @@ $isInscription = isset($_POST['type']) && ($_POST['type'] === 'inscription');
             <input type="text" name="address" placeholder='adresse' <?php if (isset($errors['address'])) echo 'class="error-field"' ?> value="<?= $postedValues['address'] ?>" /><br />
             <input type="text" name="postcode" placeholder='code postal' <?php if (isset($errors['postcode'])) echo 'class="error-field"' ?> value="<?= $postedValues['postcode'] ?>" /><br />
             <input type="text" name="city" placeholder='ville' <?php if (isset($errors['city'])) echo 'class="error-field"' ?> value="<?= $postedValues['city'] ?>" /><br />
-        <?php endif; ?>
 
-        <!-- //TODO phone number missing -->
-        <!-- Hidden field to show if we are in connection or inscription -->
-        <input type="hidden" name="type" value="<?= ($isInscription ? "inscription" : "connexion") ?>" />
+            <!-- //TODO phone number missing -->
+        <?php endif; ?>
     </fieldset>
 
     <input type="submit" name="submit" value="<?= ($isInscription ? "S'inscrire" : "Connexion") ?>" />
 </form>
 
-<form method="post" action="#">
-    <input type="hidden" name="type" value="<?= (($isInscription) ? "connexion" : "inscription") ?>" />
-    <input type="submit" value="<?= (($isInscription) ? "Retour à la page de connexion" : "S'inscrire") ?>" />
-</form>
+<?php if ($isInscription) : ?>
+    <a href="index.php?route=connexion">Retour à la page de connexion</a>
+<?php else : ?>
+    <a href="index.php?route=inscription">S'inscrire</a>
+<?php endif; ?>

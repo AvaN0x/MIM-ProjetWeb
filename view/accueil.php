@@ -19,7 +19,7 @@ include("includes/head.inc.php");
             ?>
                 <h1>Liste des cocktails après navigation</h1>
             <?php
-            } else if ($searchType == SearchType::SEARCHBAR) {
+            } else if ($searchType == SearchType::RESEARCHBAR) {
             ?>
                 <h1>Liste des cocktails par recherche</h1>
             <?php

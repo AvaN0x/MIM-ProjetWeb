@@ -6,7 +6,7 @@
     <div>
         <form method="get" action="index.php">
             <label for="research">Recherche :</label>
-            <input type="text" name="research" placeholder='"jus de fruit" +sel -whisky' />
+            <input type="text" name="research" placeholder='"jus de fruit" +sel -whisky' value="<?php if (isset($_GET["research"])) echo $_GET["research"]; ?>" />
             <button type="submit">
                 <i class="fas fa-search"></i>
             </button>

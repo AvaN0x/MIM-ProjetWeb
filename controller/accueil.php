@@ -5,7 +5,7 @@ require_once("model/utils.inc.php");
 abstract class SearchType
 {
     const ARIANE = 0;
-    const SEARCHBAR = 1;
+    const RESEARCHBAR = 1;
 }
 
 $searchType = SearchType::ARIANE;
@@ -60,12 +60,12 @@ unset($get_ariane);
 //#endregion aside
 
 
-//#endregion search
-if (isset($_GET["search"])) {
-    $searchType = SearchType::SEARCHBAR;
+//#endregion research
+if (isset($_GET["research"])) {
+    $searchType = SearchType::RESEARCHBAR;
     // TODO
 }
-//#endregion search
+//#endregion research
 
 
 //#region fill RecettesToDisplay
@@ -89,7 +89,7 @@ function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $
 
 if ($searchType == SearchType::ARIANE) {
     getRecettesFromAliment($Recettes, $Hierarchie, $RecettesToDisplay, $actualAliment);
-} elseif ($searchType == SearchType::SEARCHBAR) {
+} elseif ($searchType == SearchType::RESEARCHBAR) {
     // TODO add elements based on research
 }
 //#endregion fill RecettesToDisplay

@@ -26,6 +26,7 @@ switch ($action) {
         include_once("controller/accueil.php");
         break;
     case 'connexion':
+    case 'inscription':
     case 'deconnexion':
         include_once("controller/connexion.php");
         break;

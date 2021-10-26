@@ -46,7 +46,7 @@ if (
         $errors['password'] = 'password';
     }
 
-    if ($_POST['type'] === 'inscription') {
+    if ($action === 'inscription') {
         // Verification for `name`
         if (
             isset($_POST['name'])
@@ -126,7 +126,7 @@ if (
     // If each field is correctly filled
     if (empty($errors)) {
         // Verification if we are trying to get a new profil
-        if ($_POST['type'] === 'inscription') {
+        if ($action === 'inscription') {
 
             // Verification if the login doesn't already exists
             foreach ($jsonData as $profil) {
