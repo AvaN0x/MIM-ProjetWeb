@@ -12,8 +12,8 @@ include("includes/head.inc.php");
     <main>
         <?php
         if (isset($recette)) :
+            // TODO better display
         ?>
-            <h1>Recette trouvée</h1> <!-- TODO remove this line -->
             <pre>
                 <?php
                 print_r($recette);
