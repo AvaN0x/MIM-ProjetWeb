@@ -192,6 +192,10 @@ if (
                         $jsonData[$key] = $toJson;
                         file_put_contents("data.json", json_encode($jsonData));
 
+                        $_SESSION['connected']['login'] = $profil['login'];
+                        $_SESSION['connected']['name'] = $profil['name'];
+                        $_SESSION['connected']['fname'] = $profil['fname'];
+
                         $action = "profil";
                     }
                 }
