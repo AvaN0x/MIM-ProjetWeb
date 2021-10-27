@@ -35,22 +35,11 @@ if (
         || empty($_POST['password'])
         || !preg_match('/^.{8,}$/', $_POST['password'])
 
-        // If we want to edit a profil and the field `newPassword` doesn't respect all expectations
-        || ($action === 'editProfil' 
-            && (!isset($_POST['newPassword'])
-                || empty($_POST['newPassword'])
-                || !preg_match('/^.{8,}$/', $_POST['newPassword'])))
-
         // If we want an inscription and the field `confirmPassword` doesn't respect all expectations
         || ($action === 'inscription'
             && (!isset($_POST['confirmPassword'])
                 || empty($_POST['confirmPassword'])
                 || $_POST['password'] !== $_POST['confirmPassword']))
-
-        || ($action === 'editProfil'
-            && (!isset($_POST['confirmPassword'])
-                || empty($_POST['confirmPassword'])
-                || $_POST['newPassword'] !== $_POST['confirmPassword']))
     ) {
         $errors['password'] = 'password';
     }
@@ -174,33 +163,6 @@ if (
                 $_SESSION['connected']['fname'] = $toJson['fname'];
             }
         }
-        elseif ($action === 'editProfil') {
-            foreach ($jsonData as $key => $profil) {
-                if ($profil['login'] === $_SESSION['connected']['login']) {
-                    if (!password_verify($_POST['password'], $profil['password'])) {
-                        $errors['password'] = 'password';
-                    }
-                    else {
-                        foreach ($fields as $value) {
-                            if ($value === "password") {
-                                $toJson["password"] = password_hash($_POST["newPassword"], PASSWORD_DEFAULT);
-                            } else {
-                                $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
-                                $toJson[$value] = $content;
-                            }
-                        }
-                        $jsonData[$key] = $toJson;
-                        file_put_contents("data.json", json_encode($jsonData));
-
-                        $_SESSION['connected']['login'] = $profil['login'];
-                        $_SESSION['connected']['name'] = $profil['name'];
-                        $_SESSION['connected']['fname'] = $profil['fname'];
-
-                        $action = "profil";
-                    }
-                }
-            }
-        }
         // If we are trying to connect
         else {
             // If 1 profil in JSON file match with the login and password given
@@ -235,24 +197,6 @@ if (
         foreach ($fields as $value) {
             if (isset($_POST[$value]) && ($value !== "password")) {
                 $postedValues[$value] = $_POST[$value];
-            }
-        }
-    }
-} elseif ($action === 'editProfil') {
-    // TODO create a model which will work with data.json
-    // First get the content of the JSON File
-    $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
-    if (empty($jsonData)) {
-        $jsonData = [];
-    }
-
-    foreach ($jsonData as $profil) {
-        if ($profil['login'] === $_SESSION['connected']['login']) {
-            foreach ($fields as $value) {
-                if ($value !== 'password') {
-                    // var_dump($value);
-                    $postedValues[$value] = $profil[$value];
-                }
             }
         }
     }

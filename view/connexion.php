@@ -8,7 +8,7 @@ include("includes/head.inc.php");
 <body>
     <main>
         <?php
-        if (!isset($_SESSION['connected']) || $action === 'editProfil') {
+        if (!isset($_SESSION['connected'])) {
             include_once('includes/form.inc.php');
         } else {
             print_r($_SESSION);
