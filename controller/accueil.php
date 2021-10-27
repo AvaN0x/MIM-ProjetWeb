@@ -7,8 +7,9 @@ abstract class SearchType
     const ARIANE = 0;
     const RESEARCHBAR = 1;
 }
-
 $searchType = SearchType::ARIANE;
+
+$researchBarResult = [];
 
 //#region aside
 $ariane_has_error = false;
@@ -63,7 +64,36 @@ unset($get_ariane);
 //#endregion research
 if (isset($_GET["research"])) {
     $searchType = SearchType::RESEARCHBAR;
-    // TODO
+    if (substr_count($_GET["research"], '"') % 2 == 1) {
+        $researchBarResult["error"] = "count_of_guillemet";
+    } else {
+        // init array
+        $researchBarResult["wanted"] = [];
+        $researchBarResult["unwanted"] = [];
+        $researchBarResult["unknown"] = [];
+        // get elements from research
+        $matches;
+        preg_match_all('/(?<type>[+-]?)(?<aliment>"[^"]+"|[^\s]+)/', $_GET["research"], $matches);
+        $existingAliments = [];
+        // All aliments in lower case
+        foreach ($Hierarchie as $key => $value)
+            $existingAliments[mb_strtolower($key)] = true;
+
+        // sort elements from research to an array
+        foreach ($matches["aliment"] as $index => $value) {
+            $value = str_replace('"', '', $value);
+            // if aliment exist
+            if (isset($existingAliments[$value])) {
+                // if aliment is negated
+                if ($matches["type"][$index] == "-")
+                    $researchBarResult["unwanted"][$value] = $value;
+                else
+                    $researchBarResult["wanted"][$value] = $value;
+            } else {
+                $researchBarResult["unknown"][$value] = $value;
+            }
+        }
+    }
 }
 //#endregion research
 

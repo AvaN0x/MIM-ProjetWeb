@@ -132,6 +132,17 @@ section {
 
 /*#endregion section*/
 
+/*#region researchbar-details*/
+.researchbar-details {
+    margin-bottom: 1rem;
+}
+
+.researchbar-details p {
+    margin: 0;
+}
+
+/*#endregion researchbar-details*/
+
 /*#region recette-card*/
 .recette-card {
     border: 1px solid #ff00ff;
