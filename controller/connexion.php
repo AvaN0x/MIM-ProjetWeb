@@ -1,4 +1,5 @@
 <?php
+require_once(__DIR__ . "/../model/user.php");
 $errors = [];
 $fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
 $toJson = [];
@@ -44,7 +45,7 @@ if (
         $errors['password'] = 'password';
     }
 
-    if ($action === 'inscription' || $action === 'editProfil') {
+    if ($action === 'inscription') {
         // Verification for `name`
         if (
             isset($_POST['name'])
@@ -124,30 +125,19 @@ if (
     // If each field is correctly filled
     if (empty($errors)) {
 
-        // TODO create a model which will work with data.json
-        // First get the content of the JSON File
-        $jsonData = file_exists("data.json") ? json_decode(file_get_contents("data.json"), true) : [];
-        if (empty($jsonData)) {
-            $jsonData = [];
-        }
+        $login = (isset($_POST['login']) ? strtolower(trim(htmlspecialchars($_POST['login']))) : "");
+        $result = userExists($login);
 
-        // Verification if we are trying to get a new profil
-        if ($action === 'inscription') {
-
-            // Verification if the login doesn't already exists
-            foreach ($jsonData as $profil) {
-                if (isset($profil['login']) && strtolower($_POST['login']) === $profil['login']) {
-                    $errors['login'] = 'login';
-                    break;
-                }
-            }
-
-            // If it doesn't already exists, save the new profil in JSON file
-            // And connect him / her with his / her new account
-            if (!isset($errors['login'])) {
-
+        // If user's login doesn't already exist
+        if ($result === false) {
+            // If we are trying to connect, generate an error
+            if ($action === 'connexion') {
+                $errors['login'] = 'login';
+                $errors['password'] = 'password';
+            } else {
+                // If we are trying to save a new user, save the new values
                 foreach ($fields as $value) {
-                    if ($value === "password" && isset($_POST["password"])) {
+                    if ($value === "password") {
                         $toJson["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
                     } else {
                         $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
@@ -155,38 +145,26 @@ if (
                     }
                 }
 
-                array_push($jsonData, $toJson);
-                file_put_contents("data.json", json_encode($jsonData));
+                addUser($toJson);
 
                 $_SESSION['connected']['login'] = $toJson['login'];
                 $_SESSION['connected']['name'] = $toJson['name'];
                 $_SESSION['connected']['fname'] = $toJson['fname'];
             }
         }
-        // If we are trying to connect
+        // If user's login already exist
         else {
-            // If 1 profil in JSON file match with the login and password given
-            // no errors thrown and connect him / her
-            $errors['login'] = 'login';
-            $errors['password'] = 'password';
-
-            $login = (isset($_POST['login']) ? strtolower(trim(htmlspecialchars($_POST['login']))) : "");
-
-            foreach ($jsonData as $profil) {
-                if (
-                    isset($profil['login'])
-                    && $login === $profil['login']
-                    && isset($profil['password'])
-                    && isset($_POST['password'])
-                    && password_verify($_POST["password"], $profil['password'])
-                ) {
-                    unset($errors['login']);
-                    unset($errors['password']);
-
-                    $_SESSION['connected']['login'] = $profil['login'];
-                    $_SESSION['connected']['name'] = $profil['name'];
-                    $_SESSION['connected']['fname'] = $profil['fname'];
-                    break;
+            // If we are trying to save a new user, generate an error
+            if ($action === 'inscription') {
+                $errors['login'] = 'login';
+            } else {
+                if (password_verify($_POST["password"], $result['profil']['password'])) {
+                    $_SESSION['connected']['login'] = $result['profil']['login'];
+                    $_SESSION['connected']['name'] = $result['profil']['name'];
+                    $_SESSION['connected']['fname'] = $result['profil']['fname'];
+                } else {
+                    $errors['login'] = 'login';
+                    $errors['password'] = 'password';
                 }
             }
         }
