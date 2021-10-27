@@ -62,12 +62,12 @@ unset($get_ariane);
 
 
 //#endregion research
-if (isset($_GET["research"])) {
+if (isset($_GET["research"]) && !empty($_GET["research"])) {
     $searchType = SearchType::RESEARCHBAR;
     if (substr_count($_GET["research"], '"') % 2 == 1) {
         $researchBarResult["error"] = "count_of_guillemet";
     } else {
-        // init array
+        // init arrays, each array contain the lowered string as key, and original as value
         $researchBarResult["wanted"] = [];
         $researchBarResult["unwanted"] = [];
         $researchBarResult["unknown"] = [];
@@ -75,20 +75,20 @@ if (isset($_GET["research"])) {
         $matches;
         preg_match_all('/(?<type>[+-]?)(?<aliment>"[^"]+"|[^\s]+)/', $_GET["research"], $matches);
         $existingAliments = [];
-        // All aliments in lower case
+        // All aliments in lower case, array contain lowered string as key, and original as value
         foreach ($Hierarchie as $key => $value)
-            $existingAliments[mb_strtolower($key)] = true;
+            $existingAliments[mb_strtolower($key)] = $key;
 
         // sort elements from research to an array
         foreach ($matches["aliment"] as $index => $value) {
-            $value = str_replace('"', '', $value);
+            $value = mb_strtolower(str_replace('"', '', $value));
             // if aliment exist
             if (isset($existingAliments[$value])) {
                 // if aliment is negated
                 if ($matches["type"][$index] == "-")
-                    $researchBarResult["unwanted"][$value] = $value;
+                    $researchBarResult["unwanted"][$value] = $existingAliments[$value];
                 else
-                    $researchBarResult["wanted"][$value] = $value;
+                    $researchBarResult["wanted"][$value] = $existingAliments[$value];
             } else {
                 $researchBarResult["unknown"][$value] = $value;
             }
@@ -101,13 +101,22 @@ if (isset($_GET["research"])) {
 //#region fill RecettesToDisplay
 $RecettesToDisplay = [];
 
+/**
+ * Get all recettes which contains an aliment or a sub category of the aliment
+ * @param recettes array of all recipes
+ * @param hierarchie array of all aliments
+ * @param recettesToDisplay array to fill
+ * @param alimentName name of the argument
+ */
 function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $alimentName)
 {
     // Get all recettes from this aliment
     foreach ($recettes as $key => $recette) {
         // Using $key to remove duplicates
-        if (isset($recette["index"]) && in_array($alimentName, $recette["index"]))
+        if (isset($recette["index"]) && in_array($alimentName, $recette["index"])) {
+            // We add the element to recettesToDisplay if it is not already in
             $recettesToDisplay[$key] = $recette;
+        }
     }
 
     // get all recettes from sub categories
@@ -120,7 +129,32 @@ function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $
 if ($searchType == SearchType::ARIANE) {
     getRecettesFromAliment($Recettes, $Hierarchie, $RecettesToDisplay, $actualAliment);
 } elseif ($searchType == SearchType::RESEARCHBAR) {
-    // TODO add elements based on research
+    if (!isset($researchBarResult["error"])) {
+        $RecettesToDisplay = $Recettes;
+        // We calculate the score of each recipes
+        foreach ($RecettesToDisplay as $key => $recette) {
+            // Get score value
+            $score = 0;
+            if (isset($recette["index"])) {
+                foreach ($recette["index"] as $alimentName) {
+                    if (in_array($alimentName, $researchBarResult["wanted"]))
+                        $score++;
+                    if (in_array($alimentName, $researchBarResult["unwanted"]))
+                        $score--;
+                }
+            }
+
+            $RecettesToDisplay[$key]["score"] = $score;
+            // If score is negative or zero, then we will not display this recipe
+            if ($score <= 0)
+                unset($RecettesToDisplay[$key]);
+        }
+
+        // Sort based on score
+        usort($RecettesToDisplay, function ($a, $b) {
+            return $a["score"] < $b["score"];
+        });
+    }
 }
 //#endregion fill RecettesToDisplay
 
@@ -128,6 +162,7 @@ if ($searchType == SearchType::ARIANE) {
 //#region cocktailslist
 // Reindex array
 $RecettesToDisplay = array_values($RecettesToDisplay);
+
 foreach ($RecettesToDisplay as $key => $recette) {
     // Remove all accents from the title (titre)
     // Then remove all spaces (` `) for underscores (`_`)

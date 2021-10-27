@@ -18,6 +18,18 @@ include("includes/head.inc.php");
             if ($searchType == SearchType::ARIANE) {
             ?>
                 <h1>Liste des cocktails après navigation</h1>
+                <div class="cocktails-list">
+                    <?php
+                    if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
+                        foreach ($RecettesToDisplay as $recette)
+                            include("includes/recetteCard.inc.php");
+                    } else {
+                    ?>
+                        <p class="error"><i class="fas fa-exclamation-triangle"></i>Aucun résultat n'a été trouvé.</p>
+                    <?php
+                    }
+                    ?>
+                </div>
             <?php
             } else if ($searchType == SearchType::RESEARCHBAR) {
             ?>
@@ -50,21 +62,21 @@ include("includes/head.inc.php");
                     }
                     ?>
                 </div>
+                <div class="cocktails-list">
+                    <?php
+                    if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
+                        foreach ($RecettesToDisplay as $recette)
+                            include("includes/recetteCard.inc.php");
+                    } else {
+                    ?>
+                        <p class="error"><i class="fas fa-exclamation-triangle"></i>Problème dans votre requête : recherche impossible.</p>
+                    <?php
+                    }
+                    ?>
+                </div>
             <?php
             }
             ?>
-            <div class="cocktails-list">
-                <?php
-                if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
-                    foreach ($RecettesToDisplay as $recette)
-                        include("includes/recetteCard.inc.php");
-                } else {
-                ?>
-                    <p class="error"><i class="fas fa-exclamation-triangle"></i>Aucun résultat n'a été trouvé.</p>
-                <?php
-                }
-                ?>
-            </div>
         </main>
     </div>
 </body>

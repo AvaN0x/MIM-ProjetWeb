@@ -8,6 +8,11 @@ if (
 ) :
 ?>
     <article class="recette-card">
+        <!--
+        <?php
+        if (isset($recette["score"])) echo $recette["score"]; // TODO remove this (debug)
+        ?>
+        -->
         <div class="recette-card-fav">
             <!-- TODO fav recette -->
             <a href="index.php">
