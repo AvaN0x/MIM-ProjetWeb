@@ -2,7 +2,6 @@
 <html lang="fr">
 
 <?php
-require_once("model/utils.inc.php");
 include("includes/head.inc.php");
 ?>
 
@@ -12,56 +11,49 @@ include("includes/head.inc.php");
     ?>
     <main>
         <?php
-        if (isset($recette)) :
-            // TODO better display
-            $titre = $recette['titre'];
-            $ingredients = $recette['ingredients'];
-            $ingredients = explode('|', $ingredients);
-            $preparation = $recette['preparation'];
-
-            $img_path = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
-            if (!file_exists("res/Photos/$img_path")){
-                $img_path = "cocktail.png";
-            }
+        if (isset($recette)) {
         ?>
-            <article  class="detail">
+            <article class="detail">
 
                 <div class="fav">
-                <!-- TODO fav recette -->
+                    <!-- TODO fav recette -->
                     <a href="#">
-                    <!-- <i class="far fa-heart"></i> -->
-                    <i class="fas fa-heart"></i>
+                        <!-- <i class="far fa-heart"></i> -->
+                        <i class="fas fa-heart"></i>
                     </a>
                 </div>
-                
-                <h1><?= $titre ?></h1>
-                
-                <img class="img" src="res/Photos/<?= $img_path ?>" alt="<?= $img_path ?>" title="<?= $titre ?>"> 
-                
+
+                <h1>
+                    <?= $recette['titre'] ?>
+                </h1>
+                <img class="img" src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette['titre'] ?>">
+
                 <div class="characteristics">
-                    <h3>Ingrédients</h3>
-                    <ul>
-                    <?php
-                    foreach ($ingredients as $value) {
-                        echo "<li>$value</li>\n";
-                    }
-                    ?>
-                    </ul>
+                    <?php if (isset($recette['ingredients'])) { ?>
+                        <h3>Ingrédients</h3>
+                        <ul>
+                            <?php
+                            foreach (explode('|', $recette['ingredients']) as $ingredient) {
+                            ?>
+                                <li><?= $ingredient ?></li>
+                            <?php
+                            }
+                            ?>
+                        </ul>
+                    <?php } ?>
 
-                    <h3>Préparation</h3>
-                    <p><?= $preparation ?></p>
-                 
+                    <?php if (isset($recette['preparation'])) { ?>
+                        <h3>Préparation</h3>
+                        <p><?= $recette['preparation'] ?></p>
+                    <?php } ?>
                 </div>
-                
-                
             </article>
-
         <?php
-        else :
+        } else {
         ?>
             <p class="error"><i class="fas fa-exclamation-triangle"></i>La recette spécifiée n'existe pas.</p>
         <?php
-        endif;
+        }
         ?>
     </main>
 </body>

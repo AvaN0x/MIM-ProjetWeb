@@ -3,7 +3,7 @@
 if (
     isset($recette)
     && isset($recette["titre"])
-    && isset($recette["img_path"])
+    && isset($recette["img_file_name"])
     && isset($recette["index"])
 ) :
 ?>
@@ -26,7 +26,7 @@ if (
             </a>
         </h2>
         <a href="index.php?route=detail&detail=<?= urlencode($recette["titre"]) ?>">
-            <img src="res/Photos/<?= $recette["img_path"] ?>" alt="<?= $recette["img_path"] ?>" title="<?= $recette["titre"] ?>">
+            <img src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette["titre"] ?>">
         </a>
         <ul>
             <?php foreach ($recette["index"] as $value) : ?>

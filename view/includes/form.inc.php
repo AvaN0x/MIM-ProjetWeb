@@ -10,12 +10,12 @@
 
         Nom d'utilisateur :
         <input type="text" name="login" required="required" <?php if (isset($errors['login'])) echo 'class="error-field"' ?> value="<?= $postedValues['login'] ?>" />*<br />
-        
+
 
         Mot de passe :
         <input type="password" name="password" required="required" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*
-        
-        <?php if ($action === 'inscription'): ?>
+
+        <?php if ($action === 'inscription') : ?>
             <span style="margin-left: 40px"></span>
             Confirmer le mot de passe :
             <input type="password" name="confirmPassword" required="required" <?php if (isset($errors['password'])) echo 'class="error-field"' ?> value="<?= $postedValues['password'] ?>" />*

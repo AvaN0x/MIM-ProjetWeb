@@ -1,6 +1,6 @@
 <?php
 require_once("res/Donnees.inc.php");
-require_once("model/utils.inc.php");
+require_once("model/recette.inc.php");
 
 abstract class SearchType
 {
@@ -164,15 +164,7 @@ if ($searchType == SearchType::ARIANE) {
 $RecettesToDisplay = array_values($RecettesToDisplay);
 
 foreach ($RecettesToDisplay as $key => $recette) {
-    // Remove all accents from the title (titre)
-    // Then remove all spaces (` `) for underscores (`_`)
-    $img_path = str_replace(" ", "_", removeAccents($recette["titre"])) . '.jpg';
-
-    // If the file do not exist, then we set the default image
-    if (!file_exists("res/Photos/$img_path"))
-        $img_path = "cocktail.png";
-
-    $RecettesToDisplay[$key]["img_path"] = $img_path;
+    $RecettesToDisplay[$key]["img_file_name"] = getImageFileName($recette["titre"]);
 }
 unset($key);
 unset($recette);
