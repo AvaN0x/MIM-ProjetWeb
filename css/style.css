@@ -250,41 +250,54 @@ section {
 /*#endregion recette-card*/
 
 /*#region detail*/
-.detail h1 {
+
+.recette-detail {
+    display: flex;
+    flex-direction: column;
+    margin: 2rem min(6rem, 10%);
+}
+
+.recette-detail .recette-detail-header {
+    margin: 2rem 0;
+}
+
+.recette-detail .recette-detail-header h1 {
+    flex: 1;
     color: var(--main-color);
     text-align: center;
+    margin: 0;
 }
 
-.detail h3 {
-    color: var(--secondary-color);
-    letter-spacing: 3px;
+.recette-detail a.fav {
+    margin: .5rem;
+    text-decoration: none;
 }
 
-.detail .img {
+.recette-detail a.fav i {
+    font-size: 1.5rem;
+}
+
+.recette-detail .recette-detail-container {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.recette-detail .recette-detail-container .recette-detail-content {
+    max-width: 700px;
+}
+
+.recette-detail .recette-detail-image img {
     max-width: 250px;
     min-width: 160px;
-    position: absolute;
-    left: 70%;
-    top: 300%;
+    border-radius: 10px;
 }
 
-.detail .characteristics {
-    position: absolute;
-    width: 35%;
-    vertical-align: middle;
-    left: 10%;
-}
-
-.detail .fav {
-    float: left;
-    margin: .3rem;
-
-}
-
-.detail .fav i {
-    font-size: 1.5rem;
-    left: 10%;
-    position: absolute;
+.recette-detail h2 {
+    color: var(--secondary-color);
+    letter-spacing: 3px;
 }
 
 /*#endregion detail*/

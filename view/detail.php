@@ -13,49 +13,57 @@ include("includes/head.inc.php");
         <?php
         if (isset($recette)) {
         ?>
-            <div class="detail">
-                <div class="fav">
-                    <!-- TODO fav recette -->
-                    <a href="#">
-                        <?php
-                        if (isRecipeFavorite($recetteIndex)) {
-                            echo '<i class="fas fa-heart"></i>';
-                        } else {
-                            echo '<i class="far fa-heart"></i>';
-                        }
-                        ?>
-                    </a>
-                </div>
-
-                <h1>
-                    <?= $recette['titre'] ?>
-                </h1>
-                <img class="img" src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette['titre'] ?>">
-
-                <div class="characteristics">
-                    <?php
-                    if (isset($recette['ingredients'])) {
-                    ?>
-                        <h3>Ingrédients</h3>
-                        <ul>
+            <div class="recette-detail">
+                <div class="recette-detail-header">
+                    <h1>
+                        <!-- TODO fav recette -->
+                        <a href="#" class="fav">
                             <?php
-                            foreach (explode('|', $recette['ingredients']) as $ingredient) {
+                            if (isRecipeFavorite($recetteIndex)) {
                             ?>
-                                <li><?= $ingredient ?></li>
+                                <i class="fas fa-heart" title="Ajouter aux recettes favorites"></i>
+                            <?php
+                            } else {
+                            ?>
+                                <i class="far fa-heart" title="Enlever des recettes favorites"></i>
                             <?php
                             }
                             ?>
-                        </ul>
-                    <?php
-                    }
-                    ?>
+                        </a><?= $recette['titre'] ?>
+                    </h1>
+                </div>
+                <div class="recette-detail-container">
+                    <div class="recette-detail-image">
+                        <img src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette['titre'] ?>">
+                    </div>
 
-                    <?php if (isset($recette['preparation'])) { ?>
-                        <h3>Préparation</h3>
-                        <p><?= $recette['preparation'] ?></p>
-                    <?php
-                    }
-                    ?>
+                    <div class="recette-detail-content">
+                        <div class="recette-detail-ingredients">
+                            <?php
+                            if (isset($recette['ingredients'])) {
+                            ?>
+                                <h2>Ingrédients</h2>
+                                <ul>
+                                    <?php
+                                    foreach (explode('|', $recette['ingredients']) as $ingredient) {
+                                    ?>
+                                        <li><?= $ingredient ?></li>
+                                    <?php
+                                    }
+                                    ?>
+                                </ul>
+                            <?php
+                            }
+                            ?>
+
+                            <?php if (isset($recette['preparation'])) { ?>
+                                <h2>Préparation</h2>
+                                <p><?= $recette['preparation'] ?></p>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         <?php
@@ -68,7 +76,6 @@ include("includes/head.inc.php");
     </main>
 
     <?php
-    // TODO remake this page style because the footer is not at the bottom
     include("includes/footer.inc.php");
     ?>
 </body>
