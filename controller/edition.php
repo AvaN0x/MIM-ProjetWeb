@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../model/user.php");
 
 $errors = [];
 
-if (($result = userExists($_SESSION['connected']['login'])) === false) {
+if (($result = userExists($_SESSION['user']['login'])) === false) {
     $errors['deletedProfil'] = 'deletedProfil';
 } else {
     $fields = ["name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
@@ -107,8 +107,8 @@ if (($result = userExists($_SESSION['connected']['login'])) === false) {
             }
             setJsonData($jsonData);
 
-            $_SESSION['connected']['name'] = $jsonData[$key]['name'];
-            $_SESSION['connected']['fname'] = $jsonData[$key]['fname'];
+            $_SESSION['user']['name'] = $jsonData[$key]['name'];
+            $_SESSION['user']['fname'] = $jsonData[$key]['fname'];
         } else {
             foreach ($fields as $value)
                 $postedValues[$value] = $result['profil'][$value];

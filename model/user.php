@@ -2,7 +2,7 @@
 
 /**
  * userExists
- * 
+ *
  * Check if a user with the login given exist
  *
  * @param  mixed $login The login of the user we want to retrieve
@@ -22,7 +22,7 @@ function userExists($login)
 
 /**
  * addUser
- * 
+ *
  * Add a user to the json file
  *
  * @param  mixed $user The user to add
@@ -34,13 +34,16 @@ function addUser($user)
 
     array_push($jsonData, $user);
     file_put_contents(__DIR__ . "/../data.json", json_encode($jsonData));
+
+    logUser($user);
 }
+
 
 /**
  * getJsonData
  *
  * Get the JSON File
- * 
+ *
  * @return Array The JSON file
  */
 function getJsonData()
@@ -72,3 +75,26 @@ function setJsonData($data)
 //     array_push($jsonData, $user);
 //     file_put_contents(__DIR__ . "/../data.json", json_encode($jsonData));
 // }
+
+
+/**
+ * logUser
+ *
+ * Set session variables for the user
+ * Only use when the user is confirmed to be logged in and check datas before using this function
+ *
+ * @param  mixed $user Data of the user to log
+ * @return void
+ */
+function logUser($user)
+{
+    // Login is the minimum required data
+    if (!isset($user['login']))
+        return;
+    $_SESSION['connected'] = true;
+    $_SESSION['user']['login'] = $user['login'];
+    $_SESSION['user']['name'] = $user['name'];
+    $_SESSION['user']['fname'] = $user['fname'];
+
+    $_SESSION['favorite_recipes'] = $user['favorite_recipes'] ?? [];
+}

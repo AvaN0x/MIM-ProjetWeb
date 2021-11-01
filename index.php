@@ -14,12 +14,13 @@ $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 if ($action == "deconnexion") {
     if (isset($_SESSION['connected'])) {
         unset($_SESSION['connected']);
+        unset($_SESSION['user']);
     }
 }
 //#endregion deconnexion
 
 
-$pageTitle = "Recktails"; // TODO find a name
+$pageTitle = "Recktails";
 switch ($action) {
     case 'accueil':
     case 'list':

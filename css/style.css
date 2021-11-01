@@ -67,14 +67,40 @@ header a:hover {
     color: #596275;
 }
 
-/* Everything that is at the same level as a header */
-header+* {
+/* Everything that is after the header and at the same level */
+header~* {
     top: var(--header-height);
     position: relative;
 }
 
 /*#endregion header*/
 
+/*#region footer*/
+footer {
+    position: relative;
+}
+
+footer p {
+    color: #646464;
+    font-size: 0.9rem;
+    line-height: 2rem;
+    text-align: center;
+    margin: 1px auto 1px auto;
+}
+
+footer p>a:not(:last-of-type):after {
+    content: '-';
+    position: relative;
+    right: -10px;
+}
+
+footer a {
+    margin: 0 10px;
+    color: inherit;
+    text-decoration: inherit;
+}
+
+/*#endregion footer*/
 
 /*#region #accueil*/
 #accueil {

@@ -1,13 +1,12 @@
 <?php
 // This file can be included when we need a small card for a cocktail
 if (
-    isset($recette)
-    && isset($recette["titre"])
-    && isset($recette["img_file_name"])
-    && isset($recette["index"])
-) :
+    isset($recetteIndex)
+    && isset($Recettes[$recetteIndex])
+) {
+    $recette = $Recettes[$recetteIndex];
 ?>
-    <article class="recette-card">
+    <article class="recette-card" id="recette-card-<?= $recetteIndex ?>">
         <!--
         <?php
         if (isset($recette["score"])) echo $recette["score"]; // TODO remove this (debug)
@@ -25,13 +24,20 @@ if (
                 <?= $recette["titre"] ?>
             </a>
         </h2>
-        <a href="index.php?route=detail&detail=<?= urlencode($recette["titre"]) ?>">
+        <?php
+        // Display the image if the file name exists
+        if (isset($recette["img_file_name"])) {
+        ?>
             <img src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette["titre"] ?>">
-        </a>
+        <?php
+        }
+        ?>
         <ul>
             <?php foreach ($recette["index"] as $value) : ?>
                 <li><?= $value ?></li>
             <?php endforeach; ?>
         </ul>
     </article>
-<?php endif; ?>
+<?php
+}
+?>
