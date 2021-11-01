@@ -1,5 +1,6 @@
 <?php
 require_once("res/Donnees.inc.php");
+header('Content-Type: application/json; charset=utf-8');
 
 $jsonResult = [
     'success' => false,
