@@ -5,6 +5,7 @@
     --secondary-color: #e66767;
     --hovered-color: #778beb;
     --background-color: #ffffff;
+    --header-hovered-color: #c44569;
     --header-background-color: #f3a683;
     --header-font-color: #fff;
     --heart-color: #e66767;
@@ -67,7 +68,7 @@ header a {
 }
 
 header a:hover {
-    color: var(--hovered-color);
+    color: var(--header-hovered-color);
 }
 
 /* Everything that is after the header and at the same level */
@@ -206,6 +207,8 @@ section {
     padding: .5rem;
     margin: .4rem;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .recette-card h2 {
@@ -237,9 +240,8 @@ section {
     max-width: 160px;
     height: 160px;
     position: relative;
-    left: 50%;
-    transform: translateX(-50%);
-    margin: .6rem;
+    margin: .6rem auto;
+    border-radius: 5px;
 }
 
 .recette-card ul {
