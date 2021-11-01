@@ -25,7 +25,7 @@ if (
             </a>
         </div>
         <h2>
-            <a href="index.php?route=detail&detail=<?= urlencode($recette["titre"]) ?>">
+            <a href="index.php?route=detail&detail=<?= urlencode($recette["titre"]) ?>" target="_blank">
                 <?= $recette["titre"] ?>
             </a>
         </h2>
