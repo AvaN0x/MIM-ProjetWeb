@@ -17,8 +17,13 @@ include("includes/head.inc.php");
                 <div class="fav">
                     <!-- TODO fav recette -->
                     <a href="#">
-                        <!-- <i class="far fa-heart"></i> -->
-                        <i class="fas fa-heart"></i>
+                        <?php
+                        if (isRecipeFavorite($recetteIndex)) {
+                            echo '<i class="fas fa-heart"></i>';
+                        } else {
+                            echo '<i class="far fa-heart"></i>';
+                        }
+                        ?>
                     </a>
                 </div>
 

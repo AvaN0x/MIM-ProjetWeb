@@ -96,5 +96,21 @@ function logUser($user)
     $_SESSION['user']['name'] = $user['name'];
     $_SESSION['user']['fname'] = $user['fname'];
 
-    $_SESSION['favorite_recipes'] = $user['favorite_recipes'] ?? [];
+    // TODO manage when user is not logged
+    $_SESSION['user']['favorite_recipes'] = $user['favorite_recipes'] ?? [];
+}
+
+/**
+ * isRecipeFavorite
+ *
+ * Set session variables for the user
+ * Only use when the user is confirmed to be logged in and check datas before using this function
+ *
+ * @param  mixed $user Data of the user to log
+ * @return void
+ */
+function isRecipeFavorite($id)
+{
+    // TODO manage when user is not logged
+    return isset($_SESSION['user']['favorite_recipes']) && in_array($id, $_SESSION['user']['favorite_recipes']);
 }

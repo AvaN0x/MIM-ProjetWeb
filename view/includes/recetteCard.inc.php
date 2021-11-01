@@ -15,8 +15,13 @@ if (
         <div class="recette-card-fav">
             <!-- TODO fav recette -->
             <a href="index.php">
-                <!-- <i class="far fa-heart"></i> -->
-                <i class="fas fa-heart"></i>
+                <?php
+                if (isRecipeFavorite($recetteIndex)) {
+                    echo '<i class="fas fa-heart"></i>';
+                } else {
+                    echo '<i class="far fa-heart"></i>';
+                }
+                ?>
             </a>
         </div>
         <h2>

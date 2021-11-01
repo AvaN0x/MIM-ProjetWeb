@@ -1,11 +1,14 @@
 :root {
     /*! do not edit header-height, it might break more things than you would ever think*/
     --header-height: 3rem;
-    --main-color: #F44336;
+    --main-color: #3dc1d3;
+    --secondary-color: #e66767;
+    --hovered-color: #778beb;
     --background-color: #ffffff;
     --header-background-color: #f3a683;
     --header-font-color: #fff;
     --heart-color: #e66767;
+    --heart-hovered-color: #c44569;
     --error-color: #F44336;
 }
 
@@ -64,7 +67,7 @@ header a {
 }
 
 header a:hover {
-    color: #596275;
+    color: var(--hovered-color);
 }
 
 /* Everything that is after the header and at the same level */
@@ -78,26 +81,37 @@ header~* {
 /*#region footer*/
 footer {
     position: relative;
+    display: flex;
+    margin-top: 1rem;
 }
 
 footer p {
+    border-top: 1px solid var(--header-background-color);
     color: #646464;
     font-size: 0.9rem;
-    line-height: 2rem;
+    line-height: 3rem;
     text-align: center;
     margin: 1px auto 1px auto;
 }
 
-footer p>a:not(:last-of-type):after {
-    content: '-';
-    position: relative;
-    right: -10px;
-}
-
 footer a {
-    margin: 0 10px;
+    margin: 0;
     color: inherit;
     text-decoration: inherit;
+    white-space: nowrap;
+    transition: color .5s;
+}
+
+footer a:hover {
+    color: var(--hovered-color);
+}
+
+footer a:not(:first-of-type) {
+    margin-left: 1rem;
+}
+
+footer a:not(:last-of-type) {
+    margin-right: 1rem;
 }
 
 /*#endregion footer*/
@@ -109,9 +123,6 @@ footer a {
     align-items: stretch;
 }
 
-#accueil>* {
-    border: 1px solid red;
-}
 
 #accueil>main {
     flex: 1;
@@ -134,6 +145,21 @@ aside {
     width: 20vw;
     word-break: break-word;
     padding: .5rem;
+    border-right: 1px solid var(--header-background-color);
+}
+
+aside h2 {
+    color: var(--secondary-color)
+}
+
+aside a {
+    color: inherit;
+    text-decoration: underline;
+    transition: .5s;
+}
+
+aside a:hover {
+    color: var(--hovered-color);
 }
 
 @media screen and (max-width: 800px) {
@@ -171,18 +197,31 @@ section {
 
 /*#region recette-card*/
 .recette-card {
-    border: 1px solid #ff00ff;
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
     position: relative;
     flex: 1;
     min-width: 220px;
     max-width: 300px;
     padding: .5rem;
-    margin: .2rem;
+    margin: .4rem;
     box-sizing: border-box;
 }
 
 .recette-card h2 {
     margin: 0;
+    color: var(--main-color);
+    min-height: 4rem;
+}
+
+.recette-card a {
+    color: inherit;
+    text-decoration: none;
+    transition: color .5s;
+}
+
+.recette-card a:hover {
+    color: var(--hovered-color);
 }
 
 .recette-card .recette-card-fav {
@@ -205,18 +244,19 @@ section {
 
 .recette-card ul {
     padding: .1rem 1rem;
+    margin: 0;
 }
 
 /*#endregion recette-card*/
 
 /*#region detail*/
 .detail h1 {
-    color: #31968e;
+    color: var(--main-color);
     text-align: center;
 }
 
 .detail h3 {
-    color: #c44569;
+    color: var(--secondary-color);
     letter-spacing: 3px;
 }
 
@@ -253,6 +293,11 @@ section {
 i.fas.fa-heart,
 i.far.fa-heart {
     color: var(--heart-color);
+    transition: color .5s;
+}
+
+a:hover>i.fa-heart {
+    color: var(--heart-hovered-color);
 }
 
 .error {

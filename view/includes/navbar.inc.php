@@ -1,6 +1,6 @@
 <!-- FIXME this file may not be needed ? need more informations from the teacher -->
 <aside>
-    <h1>Aliment courant</h1>
+    <h2>Aliment courant</h2>
     <?php if ($ariane_has_error) : ?>
         <p class="error"><i class="fas fa-exclamation-triangle"></i>Une erreur est survenue lors de la lecture du fil d'ariane demandé.</p>
     <?php endif; ?>

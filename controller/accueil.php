@@ -1,6 +1,7 @@
 <?php
 require_once("res/Donnees.inc.php");
 require_once("model/recette.inc.php");
+require_once("model/user.inc.php");
 
 abstract class SearchType
 {
