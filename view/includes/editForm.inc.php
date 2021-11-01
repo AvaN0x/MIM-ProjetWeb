@@ -1,3 +1,5 @@
+<?php require_once(__DIR__ . '/../../model/utils.inc.php') ?>
+
 <h1>Bienvenue sur l'espace de modification du profil</h1>
 
 <form method="post" action='#'>
@@ -8,21 +10,21 @@
         <br />
 
         Nom :
-        <input type="text" name="name" <?php if (isset($errors['name'])) echo 'class="error-field"' ?> value="<?= $postedValues['name'] ?>" /><br />
+        <input type="text" name="name" <?php isErrorField($errors, 'name') ?> value="<?= $postedValues['name'] ?>" /><br />
 
         Prénom :
-        <input type="text" name="fname" <?php if (isset($errors['fname'])) echo 'class="error-field"' ?> value="<?= $postedValues['fname'] ?>" /><br />
+        <input type="text" name="fname" <?php isErrorField($errors, 'fname') ?> value="<?= $postedValues['fname'] ?>" /><br />
 
         Adresse électronique :
-        <input type="email" name="email" <?php if (isset($errors['email'])) echo 'class="error-field"' ?> value="<?= $postedValues['email'] ?>" /><br />
+        <input type="email" name="email" <?php isErrorField($errors, 'email') ?> value="<?= $postedValues['email'] ?>" /><br />
 
         Date de naissance :
-        <input type="date" name="birthdate" placeholder='jj/MM/AAAA' <?php if (isset($errors['birthdate'])) echo 'class="error-field"' ?> value="<?= $postedValues['birthdate'] ?>" /><br />
+        <input type="date" name="birthdate" placeholder='jj/MM/AAAA' <?php isErrorField($errors, 'birthdate') ?> value="<?= $postedValues['birthdate'] ?>" /><br />
 
         Adresse postale <br />
-        <input type="text" name="address" placeholder='adresse' <?php if (isset($errors['address'])) echo 'class="error-field"' ?> value="<?= $postedValues['address'] ?>" /><br />
-        <input type="text" name="postcode" placeholder='code postal' <?php if (isset($errors['postcode'])) echo 'class="error-field"' ?> value="<?= $postedValues['postcode'] ?>" /><br />
-        <input type="text" name="city" placeholder='ville' <?php if (isset($errors['city'])) echo 'class="error-field"' ?> value="<?= $postedValues['city'] ?>" /><br />
+        <input type="text" name="address" placeholder='adresse' <?php isErrorField($errors, 'address') ?> value="<?= $postedValues['address'] ?>" /><br />
+        <input type="text" name="postcode" placeholder='code postal' <?php isErrorField($errors, 'postcode') ?> value="<?= $postedValues['postcode'] ?>" /><br />
+        <input type="text" name="city" placeholder='ville' <?php isErrorField($errors, 'city') ?> value="<?= $postedValues['city'] ?>" /><br />
 
         <!-- //TODO phone number missing -->
     </fieldset>
