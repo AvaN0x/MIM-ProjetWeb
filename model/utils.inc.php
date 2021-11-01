@@ -240,3 +240,9 @@ function isErrorField($errors, $str)
     if (isset($errors[$str])) echo 'class="error-field"';
     return;
 }
+
+function addErrorMessage($errors, $str)
+{
+    echo '<label for="' . $str . '" style="color: red" >' . ($errors[$str] ?? '') . '</label>';
+    return;
+}

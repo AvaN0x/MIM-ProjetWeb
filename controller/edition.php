@@ -11,9 +11,10 @@ if (($result = userExists($_SESSION['user']['login'])) === false) {
     $toJson = [];
 
     $postedValues = [];
-    foreach ($fields as $key => $value) {
-        $postedValues[$value] = "";
-    }
+    // TODO verif if ?? is available
+    // foreach ($fields as $key => $value) {
+    //     $postedValues[$value] = "";
+    // }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         //-------------------------------------------------------------------//

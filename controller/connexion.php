@@ -5,9 +5,10 @@ $fields = ["login", "password", "name", "fname", "gender", "email", "birthdate",
 $toJson = [];
 
 $postedValues = [];
-foreach ($fields as $key => $value) {
-    $postedValues[$value] = "";
-}
+// TODO verif if ?? is available
+// foreach ($fields as $key => $value) {
+// $postedValues[$value] = "";
+// }
 
 if (
     $_SERVER["REQUEST_METHOD"] === "POST"
