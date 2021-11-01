@@ -96,8 +96,17 @@ function logUser($user)
     $_SESSION['user']['name'] = $user['name'];
     $_SESSION['user']['fname'] = $user['fname'];
 
-    // TODO manage when user is not logged
     $_SESSION['user']['favorite_recipes'] = $user['favorite_recipes'] ?? [];
+
+    // Add favorites to user favorites
+    if (isset($_SESSION['favorite_recipes']) && count($_SESSION['favorite_recipes']) > 0) {
+        foreach ($_SESSION['favorite_recipes'] as $value) {
+            if (!in_array($value, $_SESSION['user']['favorite_recipes'])) {
+                $_SESSION['user']['favorite_recipes'][] = $value;
+            }
+        }
+        unset($_SESSION['favorite_recipes']);
+    }
 }
 
 /**
@@ -111,6 +120,11 @@ function logUser($user)
  */
 function isRecipeFavorite($id)
 {
-    // TODO manage when user is not logged
-    return isset($_SESSION['user']['favorite_recipes']) && in_array($id, $_SESSION['user']['favorite_recipes']);
+    // If connected and user has id in favorites recipes return true, else if favorites_recipes are set and id is in return true, else return false
+    return (isset($_SESSION['connected'])
+        && $_SESSION['connected'] === true
+        && isset($_SESSION['user']['favorite_recipes'])
+        && in_array($id, $_SESSION['user']['favorite_recipes']))
+        || (isset($_SESSION['favorite_recipes'])
+            && in_array($id, $_SESSION['favorite_recipes']));
 }

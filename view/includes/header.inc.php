@@ -1,7 +1,7 @@
 <header>
     <div>
         <a href="index.php">Navigation</a>
-        <a>Recettes <i class="fas fa-heart"></i></a>
+        <a href="index.php?route=favorite">Recettes <i class="fas fa-heart"></i></a>
     </div>
     <div>
         <form method="get" action="index.php">

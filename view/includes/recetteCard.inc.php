@@ -10,7 +10,7 @@ if (
         <div>
             <div class="recette-card-fav">
                 <!-- TODO fav recette -->
-                <a href="index.php">
+                <a href="#">
                     <?php
                     if (isRecipeFavorite($recetteIndex)) {
                         echo '<i class="fas fa-heart"></i>';

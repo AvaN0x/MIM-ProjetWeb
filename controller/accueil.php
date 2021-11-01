@@ -171,14 +171,14 @@ if ($searchType == SearchType::ARIANE) {
 //#endregion fill RecettesToDisplay
 
 
-//#region cocktailslist
+//#region set img_file_name
 foreach ($RecettesToDisplay as $key => $recette) {
     // Init all img files names from needed recipes to be able to use them later
     $Recettes[$recette["key"]]["img_file_name"] = getImageFileName($Recettes[$recette["key"]]["titre"]);
 }
 unset($key);
 unset($recette);
-//#endregion cocktailslist
+//#endregion set img_file_name
 
 
 include_once("view/accueil.php");

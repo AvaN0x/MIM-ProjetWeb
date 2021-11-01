@@ -139,6 +139,13 @@ footer a:not(:last-of-type) {
 
 /*#endregion #accueil*/
 
+/*#region #favorite*/
+main#favorite {
+    margin: 2rem min(6rem, 10%);
+}
+
+/*#endregion #favorite*/
+
 
 /*#region aside*/
 aside {
