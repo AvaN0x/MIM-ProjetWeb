@@ -10,6 +10,7 @@ include("includes/head.inc.php");
         <?php
         if (isset($errors['deletedProfil'])) {
             unset($_SESSION['connected']);
+            unset($_SESSION['user']);
             echo "<p class='error-field'>Une erreur est survenu : votre profil a été supprimé</p>";
         } else {
             if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"]) && count($errors) === 0) {

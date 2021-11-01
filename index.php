@@ -14,6 +14,7 @@ $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 if ($action == "deconnexion") {
     if (isset($_SESSION['connected'])) {
         unset($_SESSION['connected']);
+        unset($_SESSION['user']);
     }
 }
 //#endregion deconnexion

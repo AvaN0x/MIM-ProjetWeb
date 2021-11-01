@@ -145,11 +145,8 @@ if (
                     }
                 }
 
+                // addUser will log the user at the same time
                 addUser($toJson);
-
-                $_SESSION['connected']['login'] = $toJson['login'];
-                $_SESSION['connected']['name'] = $toJson['name'];
-                $_SESSION['connected']['fname'] = $toJson['fname'];
             }
         }
         // If user's login already exist
@@ -159,9 +156,7 @@ if (
                 $errors['login'] = 'login';
             } else {
                 if (password_verify($_POST["password"], $result['profil']['password'])) {
-                    $_SESSION['connected']['login'] = $result['profil']['login'];
-                    $_SESSION['connected']['name'] = $result['profil']['name'];
-                    $_SESSION['connected']['fname'] = $result['profil']['fname'];
+                    logUser($result['profil']);
                 } else {
                     $errors['login'] = 'login';
                     $errors['password'] = 'password';
