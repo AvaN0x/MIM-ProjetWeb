@@ -9,8 +9,7 @@ if (
     <article class="recette-card" id="recette-card-<?= $recetteIndex ?>">
         <div>
             <div class="recette-card-fav">
-                <!-- TODO fav recette -->
-                <a href="#">
+                <a href="#" onclick="toggleFavRecette(<?= $recetteIndex ?>);">
                     <?php
                     if (isRecipeFavorite($recetteIndex)) {
                         echo '<i class="fas fa-heart"></i>';

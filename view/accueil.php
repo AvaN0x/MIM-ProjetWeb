@@ -6,6 +6,8 @@ include("includes/head.inc.php");
 ?>
 
 <body>
+    <script language="javascript" type="text/javascript" src="js/accueil.js"></script>
+
     <?php
     include("includes/header.inc.php");
     ?>

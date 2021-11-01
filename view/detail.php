@@ -6,6 +6,8 @@ include("includes/head.inc.php");
 ?>
 
 <body>
+    <script language="javascript" type="text/javascript" src="js/detail.js"></script>
+
     <?php
     include("includes/header.inc.php");
     ?>
@@ -16,8 +18,7 @@ include("includes/head.inc.php");
             <div class="recette-detail">
                 <div class="recette-detail-header">
                     <h1>
-                        <!-- TODO fav recette -->
-                        <a href="#" class="fav">
+                        <a href="#" onclick="toggleFavRecette(<?= $recetteIndex ?>);" class="fav">
                             <?php
                             if (isRecipeFavorite($recetteIndex)) {
                             ?>

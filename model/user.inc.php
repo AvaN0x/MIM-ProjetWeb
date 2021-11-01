@@ -1,6 +1,35 @@
 <?php
 
 /**
+ * getJsonData
+ *
+ * Get the JSON File
+ *
+ * @return Array The JSON file
+ */
+function getJsonData()
+{
+    $jsonData = file_exists(__DIR__ . "/../data.json") ? json_decode(file_get_contents(__DIR__ . "/../data.json"), true) : [];
+    if (empty($jsonData)) {
+        $jsonData = [];
+    }
+
+    return $jsonData;
+}
+
+/**
+ * setJsonData
+ *
+ * Replace the JSON file by the given data
+ * @param mixed $data The data to convert to JSON
+ * @return Array The JSON file
+ */
+function setJsonData($data)
+{
+    file_put_contents(__DIR__ . "/../data.json", json_encode($data));
+}
+
+/**
  * userExists
  *
  * Check if a user with the login given exist
@@ -33,40 +62,11 @@ function addUser($user)
     $jsonData = getJsonData();
 
     array_push($jsonData, $user);
-    file_put_contents(__DIR__ . "/../data.json", json_encode($jsonData));
+    setJsonData($jsonData);
 
     logUser($user);
 }
 
-
-/**
- * getJsonData
- *
- * Get the JSON File
- *
- * @return Array The JSON file
- */
-function getJsonData()
-{
-    $jsonData = file_exists(__DIR__ . "/../data.json") ? json_decode(file_get_contents(__DIR__ . "/../data.json"), true) : [];
-    if (empty($jsonData)) {
-        $jsonData = [];
-    }
-
-    return $jsonData;
-}
-
-/**
- * setJsonData
- *
- * Replace the JSON file by the given data
- * @param mixed $data The data to convert to JSON
- * @return Array The JSON file
- */
-function setJsonData($data)
-{
-    file_put_contents(__DIR__ . "/../data.json", json_encode($data));
-}
 
 // function editUser($user)
 // {

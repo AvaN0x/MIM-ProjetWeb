@@ -22,6 +22,10 @@ if ($action == "deconnexion") {
 
 $pageTitle = "Recktails";
 switch ($action) {
+    case 'ajax':
+        include_once("controller/ajax.php");
+        break;
+
     case 'accueil':
     case 'list':
         include_once("controller/accueil.php");
