@@ -22,11 +22,11 @@ include("includes/head.inc.php");
                             <?php
                             if (isRecipeFavorite($recetteIndex)) {
                             ?>
-                                <i class="fas fa-heart" title="Ajouter aux recettes favorites"></i>
+                                <i class="fas fa-heart" title="Ajouter aux recettes préférées"></i>
                             <?php
                             } else {
                             ?>
-                                <i class="far fa-heart" title="Enlever des recettes favorites"></i>
+                                <i class="far fa-heart" title="Enlever des recettes préférées"></i>
                             <?php
                             }
                             ?>

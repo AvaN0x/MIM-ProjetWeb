@@ -13,7 +13,7 @@ include("includes/head.inc.php");
     ?>
 
     <main id="favorite">
-        <h1>Liste de vos recettes favorites</h1>
+        <h1>Liste de vos recettes préférées</h1>
         <div class="cocktails-list">
             <?php
             if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
@@ -23,11 +23,11 @@ include("includes/head.inc.php");
                 }
             } else if (isset($_SESSION['connected'])) {
             ?>
-                <p>Vous n'avez aucune recettes favorites.</p>
+                <p>Vous n'avez aucune recettes préférées.</p>
             <?php
             } else {
             ?>
-                <p>Vous devez être connecté pour voir vos recettes favorites.<br />Vous pouvez commencer à mettre certaines recettes en favoris, elles seront associées à votre compte lors de votre connexion.</p>
+                <p>Vous devez être connecté pour voir vos recettes préférées.<br />Vous pouvez commencer à mettre certaines recettes en préférées, elles seront associées à votre compte lors de votre connexion.</p>
             <?php
             }
             ?>
