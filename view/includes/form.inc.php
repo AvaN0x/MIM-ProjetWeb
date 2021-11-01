@@ -30,8 +30,8 @@
         <!-- If we want to get an inscription -->
         <?php if ($action === 'inscription') : ?>
             Sexe :
-            <input type="radio" name="gender" value="f" <?php if ($postedValues["gender"] == "f") echo "checked" ?> /> Femme
-            <input type="radio" name="gender" value="h" <?php if ($postedValues["gender"] == "h") echo "checked" ?> /> Homme
+            <input type="radio" name="gender" value="f" <?php if (!empty($postedValues["gender"]) && $postedValues["gender"] == "f") echo "checked" ?> /> Femme
+            <input type="radio" name="gender" value="h" <?php if (!empty($postedValues["gender"]) && $postedValues["gender"] == "h") echo "checked" ?> /> Homme
             <?php addErrorMessage($errors, 'gender'); ?>
             <br />
 
@@ -59,7 +59,9 @@
             <input type="text" name="city" placeholder='ville' <?php isErrorField($errors, 'city') ?> value="<?= $postedValues['city'] ?? '' ?>" />
             <?php addErrorMessage($errors, 'city'); ?><br />
 
-            <!-- //TODO phone number missing -->
+            Numéro de téléphone :
+            <input type="tel" name="phone" placeholder='+33 X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= $postedValues['phone'] ?? '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
+            <?php addErrorMessage($errors, 'phone'); ?><br />
         <?php endif; ?>
     </fieldset>
 

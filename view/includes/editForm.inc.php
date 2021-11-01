@@ -34,7 +34,9 @@
         <input type="text" name="city" placeholder='ville' <?php isErrorField($errors, 'city') ?> value="<?= $postedValues['city'] ?? '' ?>" />
         <?php addErrorMessage($errors, 'city'); ?><br /><br />
 
-        <!-- //TODO phone number missing -->
+        Numéro de téléphone :
+        <input type="tel" name="phone" placeholder='+33|0 X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= $postedValues['phone'] ?? '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
+        <?php addErrorMessage($errors, 'phone'); ?><br />
     </fieldset>
 
     <input type="submit" name="submit" value="Modifier" />
