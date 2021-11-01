@@ -19,7 +19,7 @@ if ($action == "deconnexion") {
 //#endregion deconnexion
 
 
-$pageTitle = "Recktails"; // TODO find a name
+$pageTitle = "Recktails";
 switch ($action) {
     case 'accueil':
     case 'list':

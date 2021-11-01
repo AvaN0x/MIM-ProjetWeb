@@ -21,8 +21,10 @@ include("includes/head.inc.php");
                 <div class="cocktails-list">
                     <?php
                     if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
-                        foreach ($RecettesToDisplay as $recette)
+                        foreach ($RecettesToDisplay as $key => $value) {
+                            $recetteIndex = $value["key"];
                             include("includes/recetteCard.inc.php");
+                        }
                     } else {
                     ?>
                         <p class="error"><i class="fas fa-exclamation-triangle"></i>Aucun résultat n'a été trouvé.</p>
@@ -65,8 +67,10 @@ include("includes/head.inc.php");
                 <div class="cocktails-list">
                     <?php
                     if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
-                        foreach ($RecettesToDisplay as $recette)
+                        foreach ($RecettesToDisplay as $key => $value) {
+                            $recetteIndex = $value["key"];
                             include("includes/recetteCard.inc.php");
+                        }
                     } else {
                     ?>
                         <p class="error"><i class="fas fa-exclamation-triangle"></i>Problème dans votre requête : recherche impossible.</p>

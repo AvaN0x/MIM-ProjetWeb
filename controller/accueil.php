@@ -99,6 +99,7 @@ if (isset($_GET["research"]) && !empty($_GET["research"])) {
 
 
 //#region fill RecettesToDisplay
+// $RecettesToDisplay contains keys of each recipes (and score if research)
 $RecettesToDisplay = [];
 
 /**
@@ -113,9 +114,9 @@ function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $
     // Get all recettes from this aliment
     foreach ($recettes as $key => $recette) {
         // Using $key to remove duplicates
-        if (isset($recette["index"]) && in_array($alimentName, $recette["index"])) {
+        if (isset($recette["index"]) && in_array($alimentName, $recette["index"]) && !isset($recettesToDisplay[$key])) {
             // We add the element to recettesToDisplay if it is not already in
-            $recettesToDisplay[$key] = $recette;
+            $recettesToDisplay[$key] = ["key" => $key];
         }
     }
 
@@ -128,11 +129,15 @@ function getRecettesFromAliment(&$recettes, &$hierarchie, &$recettesToDisplay, $
 
 if ($searchType == SearchType::ARIANE) {
     getRecettesFromAliment($Recettes, $Hierarchie, $RecettesToDisplay, $actualAliment);
+
+    // Sort based on title
+    usort($RecettesToDisplay, function ($a, $b) use ($Recettes) {
+        return $Recettes[$a["key"]]["titre"] > $Recettes[$b["key"]]["titre"];
+    });
 } elseif ($searchType == SearchType::RESEARCHBAR) {
     if (!isset($researchBarResult["error"])) {
-        $RecettesToDisplay = $Recettes;
         // We calculate the score of each recipes
-        foreach ($RecettesToDisplay as $key => $recette) {
+        foreach ($Recettes as $key => $recette) {
             // Get score value
             $score = 0;
             if (isset($recette["index"])) {
@@ -144,10 +149,16 @@ if ($searchType == SearchType::ARIANE) {
                 }
             }
 
-            $RecettesToDisplay[$key]["score"] = $score;
             // If score is negative or zero, then we will not display this recipe
-            if ($score <= 0)
-                unset($RecettesToDisplay[$key]);
+            if ($score <= 0) {
+                continue;
+            }
+
+            // Add recipe to be displayed
+            $RecettesToDisplay[] = [
+                "key" => $key,
+                "score" => $score
+            ];
         }
 
         // Sort based on score
@@ -160,11 +171,9 @@ if ($searchType == SearchType::ARIANE) {
 
 
 //#region cocktailslist
-// Reindex array
-$RecettesToDisplay = array_values($RecettesToDisplay);
-
 foreach ($RecettesToDisplay as $key => $recette) {
-    $RecettesToDisplay[$key]["img_file_name"] = getImageFileName($recette["titre"]);
+    // Init all img files names from needed recipes to be able to use them later
+    $Recettes[$recette["key"]]["img_file_name"] = getImageFileName($Recettes[$recette["key"]]["titre"]);
 }
 unset($key);
 unset($recette);
