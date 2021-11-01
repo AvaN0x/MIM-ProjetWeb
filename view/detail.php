@@ -13,8 +13,7 @@ include("includes/head.inc.php");
         <?php
         if (isset($recette)) {
         ?>
-            <article class="detail">
-
+            <div class="detail">
                 <div class="fav">
                     <!-- TODO fav recette -->
                     <a href="#">
@@ -29,7 +28,9 @@ include("includes/head.inc.php");
                 <img class="img" src="res/Photos/<?= $recette["img_file_name"] ?>" alt="<?= $recette["img_file_name"] ?>" title="<?= $recette['titre'] ?>">
 
                 <div class="characteristics">
-                    <?php if (isset($recette['ingredients'])) { ?>
+                    <?php
+                    if (isset($recette['ingredients'])) {
+                    ?>
                         <h3>Ingrédients</h3>
                         <ul>
                             <?php
@@ -40,14 +41,18 @@ include("includes/head.inc.php");
                             }
                             ?>
                         </ul>
-                    <?php } ?>
+                    <?php
+                    }
+                    ?>
 
                     <?php if (isset($recette['preparation'])) { ?>
                         <h3>Préparation</h3>
                         <p><?= $recette['preparation'] ?></p>
-                    <?php } ?>
+                    <?php
+                    }
+                    ?>
                 </div>
-            </article>
+            </div>
         <?php
         } else {
         ?>
@@ -56,6 +61,11 @@ include("includes/head.inc.php");
         }
         ?>
     </main>
+
+    <?php
+    // TODO remake this page style because the footer is not at the bottom
+    include("includes/footer.inc.php");
+    ?>
 </body>
 
 </html>

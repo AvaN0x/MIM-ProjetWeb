@@ -9,6 +9,7 @@ include("includes/head.inc.php");
     <?php
     include("includes/header.inc.php");
     ?>
+
     <div id="accueil">
         <?php
         include("includes/navbar.inc.php");
@@ -83,6 +84,10 @@ include("includes/head.inc.php");
             ?>
         </main>
     </div>
+
+    <?php
+    include("includes/footer.inc.php");
+    ?>
 </body>
 
 </html>
