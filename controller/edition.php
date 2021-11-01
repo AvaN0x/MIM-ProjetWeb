@@ -110,8 +110,12 @@ if (($result = userExists($_SESSION['user']['login'])) === false) {
             $_SESSION['user']['name'] = $jsonData[$key]['name'];
             $_SESSION['user']['fname'] = $jsonData[$key]['fname'];
         } else {
-            foreach ($fields as $value)
-                $postedValues[$value] = $result['profil'][$value];
+            foreach ($fields as $value) {
+                if (isset($errors[$value]))
+                    $postedValues[$value] = $result['profil'][$value];
+                else
+                    $postedValues[$value] = $_POST[$value];
+            }
         }
     }
     // Initialize the fields with the profil's values
