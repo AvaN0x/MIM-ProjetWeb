@@ -1,5 +1,16 @@
 <?php
 require_once(__DIR__ . "/../model/user.inc.php");
+
+//#region deconnexion
+// Disconnect the user if the page is deconnexion
+if ($action == "deconnexion") {
+    if (isset($_SESSION['connected'])) {
+        unset($_SESSION['connected']);
+        unset($_SESSION['user']);
+    }
+}
+//#endregion deconnexion
+
 $errors = [];
 $fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
 $toJson = [];

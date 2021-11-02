@@ -1,17 +1,22 @@
 <?php
 require_once("res/Donnees.inc.php");
+
+// Set header content-type as json
 header('Content-Type: application/json; charset=utf-8');
 
+// Prepare json result variable
 $jsonResult = [
     'success' => false,
     'message' => '',
     'data' => []
 ];
 
+// Get ajax route from url (ajax/ajaxRoute)
 $ajaxRoute = isset($route[1]) ? $route[1] : "";
 
 switch ($ajaxRoute) {
     case 'toggle_favorite':
+        // Check id from args
         if (!isset($route[2])) {
             $jsonResult['message'] = "Id not specified";
             break;
@@ -66,4 +71,5 @@ switch ($ajaxRoute) {
         break;
 }
 
+// Echo json content to the page
 echo json_encode($jsonResult);

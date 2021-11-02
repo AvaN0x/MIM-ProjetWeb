@@ -6,6 +6,8 @@ $errors = [];
 
 if (($result = userExists($_SESSION['user']['login'])) === false) {
     $errors['deletedProfil'] = 'deletedProfil';
+    unset($_SESSION['connected']);
+    unset($_SESSION['user']);
 } else {
     $fields = ["name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
     $toJson = [];
@@ -135,4 +137,5 @@ if (($result = userExists($_SESSION['user']['login'])) === false) {
     }
 }
 
+// Include the view
 include_once("view/edition.php");

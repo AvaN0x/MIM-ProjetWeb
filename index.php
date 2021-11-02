@@ -1,26 +1,21 @@
 <?php
 require_once("config.inc.php");
 
-
+// Start session for each and every pages
 session_start();
 
-// echo $_SERVER["QUERY_STRING"];
+// Get route from get and explode it
 $route = isset($_GET["route"]) ? explode("/", $_GET["route"]) : [];
-// print_r($route);
+
+// The first action from the route
 $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 
 
-//#region deconnexion
-if ($action == "deconnexion") {
-    if (isset($_SESSION['connected'])) {
-        unset($_SESSION['connected']);
-        unset($_SESSION['user']);
-    }
-}
-//#endregion deconnexion
-
-
+// Set page title to default value
 $pageTitle = "Recktails";
+
+// Switch case to include the right controller
+// Each controller will take care of the view
 switch ($action) {
     case 'ajax':
         include_once("controller/ajax.php");

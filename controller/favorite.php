@@ -43,4 +43,5 @@ unset($key);
 unset($recette);
 //#endregion set img_file_name
 
+// Include the view
 include_once("view/favorite.php");
