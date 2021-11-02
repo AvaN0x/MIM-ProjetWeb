@@ -156,18 +156,10 @@ if (
                 $errors['login'] = '';
                 $errors['password'] = 'La combinaison login + mot de passe fournie n\'existe pas';
             } else {
-                // If we are trying to save a new user, save the new values
-                foreach ($fields as $value) {
-                    if ($value === "password") {
-                        $toJson["password"] = password_hash($_POST["password"], PASSWORD_DEFAULT);
-                    } else {
-                        $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
-                        $toJson[$value] = $content;
-                    }
-                }
+                $user = User::fromArray($_POST);
 
                 // addUser will log the user at the same time
-                addUser($toJson);
+                addUser($user);
             }
         }
         // If user's login already exist
@@ -177,7 +169,8 @@ if (
                 $errors['login'] = 'Le login fourni existe déjà';
             } else {
                 if (password_verify($_POST["password"], $result['profil']['password'])) {
-                    logUser($result['profil']);
+                    $user = User::fromArray($result['profil']);
+                    logUser($user);
                 } else {
                     $errors['login'] = '';
                     $errors['password'] = 'La combinaison login + mot de passe fournie n\'existe pas';

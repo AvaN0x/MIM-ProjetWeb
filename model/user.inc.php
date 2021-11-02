@@ -1,5 +1,223 @@
 <?php
 
+class User
+{
+    private $login;
+    private $password;
+    private $name;
+    private $fname;
+    private $gender;
+    private $email;
+    private $birthdate;
+    private $address;
+    private $postcode;
+    private $city;
+    private $phone;
+    private $favorite_recipes;
+
+    private function __construct(
+        $login,
+        $password,
+        $name,
+        $fname,
+        $gender,
+        $email,
+        $birthdate,
+        $address,
+        $postcode,
+        $city,
+        $phone,
+        $favorite_recipes = []
+    ) {
+        $this->login = strtolower(trim(htmlspecialchars($login)));
+        $this->password = $password;
+        $this->setName($name);
+        $this->setFirstName($fname);
+        $this->setGender($gender);
+        $this->setEmail($email);
+        $this->setBirthdate($birthdate);
+        $this->setAddress($address);
+        $this->setPostcode($postcode);
+        $this->setCity($city);
+        $this->setPhone($phone);
+        $this->setFavoriteRecipes($favorite_recipes);
+    }
+
+    public static function fromArray($array)
+    {
+        return new static(
+            $array['login'],
+            $array['password'],
+            $array['name'] ?? '',
+            $array['fname'] ?? '',
+            $array['gender'] ?? '',
+            $array['email'] ?? '',
+            $array['birthdate'] ?? '',
+            $array['address'] ?? '',
+            $array['postcode'] ?? '',
+            $array['city'] ?? '',
+            $array['phone'] ?? '',
+            $array['favorite_recipes'] ?? []
+        );
+    }
+
+    public function jsonSerialize(): array
+    {
+        return [
+            'login' => $this->login,
+            'password' => password_hash($this->password, PASSWORD_DEFAULT),
+            'name' => $this->name,
+            'fname' => $this->fname,
+            'gender' => $this->gender,
+            'email' => $this->email,
+            'birthdate' => $this->birthdate,
+            'address' => $this->address,
+            'postcode' => $this->postcode,
+            'city' => $this->city,
+            'phone' => $this->phone,
+            'favorite_recipes' => $this->favorite_recipes
+        ];
+    }
+
+    public function editProfile(User $user)
+    {
+        if ($this->name !== $user->getName())
+            $this->setName($user->getName());
+
+        if ($this->fname !== $user->getFirstName())
+            $this->setFirstName($user->getFirstName());
+
+        if ($this->gender !== $user->getGender())
+            $this->setGender($user->getGender());
+
+        if ($this->email !== $user->getEmail())
+            $this->setEmail($user->getEmail());
+
+        if ($this->birthdate !== $user->getBirthdate())
+            $this->setBirthdate($user->getBirthdate());
+
+        if ($this->address !== $user->getAddress())
+            $this->setAddress($user->getAddress());
+
+        if ($this->postcode !== $user->getPostcode())
+            $this->setPostcode($user->getPostcode());
+
+        if ($this->city !== $user->getCity())
+            $this->setCity($user->getCity());
+
+        if ($this->phone !== $user->getPhone())
+            $this->setPhone($user->getPhone());
+
+        if ($this->favorite_recipes !== $user->getFavoriteRecipes())
+            $this->setFavoriteRecipes($user->getFavoriteRecipes());
+    }
+
+    public function setName($name)
+    {
+        $this->name = strtolower(trim(htmlspecialchars($name)));
+    }
+
+    public function setFirstName($fname)
+    {
+        $this->fname = strtolower(trim(htmlspecialchars($fname)));
+    }
+
+    public function setGender($gender)
+    {
+        $this->gender = strtolower(trim(htmlspecialchars($gender)));
+    }
+
+    public function setEmail($email)
+    {
+        $this->email = strtolower(trim(htmlspecialchars($email)));
+    }
+
+    public function setBirthdate($birthdate)
+    {
+        $this->birthdate = strtolower(trim(htmlspecialchars($birthdate)));
+    }
+
+    public function setAddress($address)
+    {
+        $this->address = strtolower(trim(htmlspecialchars($address)));
+    }
+
+    public function setPostcode($postcode)
+    {
+        $this->postcode = strtolower(trim(htmlspecialchars($postcode)));
+    }
+
+    public function setCity($city)
+    {
+        $this->city = strtolower(trim(htmlspecialchars($city)));
+    }
+
+    public function setPhone($phone)
+    {
+        $this->phone = strtolower(trim(htmlspecialchars($phone)));
+    }
+
+    public function setFavoriteRecipes($favorite_recipes)
+    {
+        $this->favorite_recipes = $favorite_recipes;
+    }
+
+    public function getLogin()
+    {
+        return $this->login;
+    }
+
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    public function getFirstName()
+    {
+        return $this->fname;
+    }
+
+    public function getGender()
+    {
+        return $this->gender;
+    }
+
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    public function getBirthdate()
+    {
+        return $this->birthdate;
+    }
+
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    public function getPostcode()
+    {
+        return $this->postcode;
+    }
+
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    public function getFavoriteRecipes()
+    {
+        return $this->favorite_recipes;
+    }
+}
+
 /**
  * getJsonData
  *
@@ -43,7 +261,8 @@ function userExists($login)
 
     foreach ($jsonData as $key => $profil) {
         if ($profil['login'] === $login)
-            return array('jsonData' => $jsonData, 'key' => $key, 'profil' => $profil);
+            return array('key' => $key, 'profil' => $profil);
+        // return array('jsonData' => $jsonData, 'key' => $key, 'profil' => $profil);
     }
     return false;
 }
@@ -57,24 +276,31 @@ function userExists($login)
  * @param  mixed $user The user to add
  * @return void
  */
-function addUser($user)
+function addUser(User $user)
 {
     $jsonData = getJsonData();
 
-    array_push($jsonData, $user);
+    array_push($jsonData, $user->jsonSerialize());
     setJsonData($jsonData);
 
     logUser($user);
 }
 
 
-// function editUser($user)
-// {
-//     $jsonData = getJsonData();
+function editUser(int $id, User $modifiedProfile)
+{
+    $jsonData = getJsonData();
 
-//     array_push($jsonData, $user);
-//     file_put_contents(__DIR__ . "/../data.json", json_encode($jsonData));
-// }
+    $user = User::fromArray($jsonData[$id]);
+    $user->editProfile($modifiedProfile);
+
+    $jsonData[$id] = $user->jsonSerialize();
+
+    file_put_contents(__DIR__ . "/../data.json", json_encode($jsonData));
+
+    $_SESSION['user']['name'] = $jsonData[$id]['name'];
+    $_SESSION['user']['fname'] = $jsonData[$id]['fname'];
+}
 
 
 /**
@@ -86,17 +312,16 @@ function addUser($user)
  * @param  mixed $user Data of the user to log
  * @return void
  */
-function logUser($user)
+function logUser(User $user)
 {
     // Login is the minimum required data
-    if (!isset($user['login']))
+    if ($user->getLogin() === '')
         return;
     $_SESSION['connected'] = true;
-    $_SESSION['user']['login'] = $user['login'];
-    $_SESSION['user']['name'] = $user['name'];
-    $_SESSION['user']['fname'] = $user['fname'];
-
-    $_SESSION['user']['favorite_recipes'] = $user['favorite_recipes'] ?? [];
+    $_SESSION['user']['login'] = $user->getLogin();
+    $_SESSION['user']['name'] = $user->getName();
+    $_SESSION['user']['fname'] = $user->getFirstName();
+    $_SESSION['user']['favorite_recipes'] = $user->getFavoriteRecipes();
 
     // Add favorites to user favorites
     if (isset($_SESSION['favorite_recipes']) && count($_SESSION['favorite_recipes']) > 0) {

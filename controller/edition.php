@@ -111,16 +111,18 @@ if (($result = userExists($_SESSION['user']['login'])) === false) {
 
         // If each field is correctly filled
         if (empty($errors)) {
-            $jsonData = $result['jsonData'];
-            $key = $result['key'];
-            foreach ($fields as $value) {
-                $content = (isset($_POST[$value]) ? strtolower(trim(htmlspecialchars($_POST[$value]))) : "");
-                $jsonData[$key][$value] = $content;
-            }
-            setJsonData($jsonData);
-
-            $_SESSION['user']['name'] = $jsonData[$key]['name'];
-            $_SESSION['user']['fname'] = $jsonData[$key]['fname'];
+            editUser(
+                $result['key'],
+                User::fromArray(
+                    array_merge(
+                        [
+                            'login' => $result['profil']['login'],
+                            'password' => $result['profil']['password']
+                        ],
+                        $_POST
+                    )
+                )
+            );
         } else {
             foreach ($fields as $value) {
                 if (isset($errors[$value]))
