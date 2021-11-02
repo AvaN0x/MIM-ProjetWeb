@@ -4,12 +4,13 @@ require_once(__DIR__ . "/../model/user.inc.php");
 
 $errors = [];
 
-if (($result = userExists($_SESSION['user']['login'])) === false) {
+$result = userExists($_SESSION['user']['login']);
+if ($result === false) {
     $errors['deletedProfil'] = 'deletedProfil';
     unset($_SESSION['connected']);
     unset($_SESSION['user']);
 } else {
-    $fields = ["name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
+    $fields = ["name", "fname", "gender", "email", "birthdate", "address", "postcode", "city", "phone"];
     $toJson = [];
 
     $postedValues = [];
@@ -117,7 +118,8 @@ if (($result = userExists($_SESSION['user']['login'])) === false) {
                     array_merge(
                         [
                             'login' => $result['profil']['login'],
-                            'password' => $result['profil']['password']
+                            'password' => $result['profil']['password'],
+                            'favorite_recipes' => $result['profil']['favorite_recipes']
                         ],
                         $_POST
                     )

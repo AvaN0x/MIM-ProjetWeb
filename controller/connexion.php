@@ -12,7 +12,7 @@ if ($action == "deconnexion") {
 //#endregion deconnexion
 
 $errors = [];
-$fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city"];
+$fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city", "phone"];
 $toJson = [];
 
 $postedValues = [];
@@ -156,6 +156,7 @@ if (
                 $errors['login'] = '';
                 $errors['password'] = 'La combinaison login + mot de passe fournie n\'existe pas';
             } else {
+                $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
                 $user = User::fromArray($_POST);
 
                 // addUser will log the user at the same time

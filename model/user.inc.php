@@ -65,7 +65,7 @@ class User
     {
         return [
             'login' => $this->login,
-            'password' => password_hash($this->password, PASSWORD_DEFAULT),
+            'password' => $this->password,
             'name' => $this->name,
             'fname' => $this->fname,
             'gender' => $this->gender,
@@ -255,14 +255,17 @@ function setJsonData($data)
  * @param  mixed $login The login of the user we want to retrieve
  * @return false|Array(Array,idx,value) False if user doesn't exist | Else an array with the list of all users, the index of the user and his value
  */
-function userExists($login)
+function userExists($login, $getValue = true)
 {
     $jsonData = getJsonData();
 
     foreach ($jsonData as $key => $profil) {
-        if ($profil['login'] === $login)
-            return array('key' => $key, 'profil' => $profil);
-        // return array('jsonData' => $jsonData, 'key' => $key, 'profil' => $profil);
+        if ($profil['login'] === $login) {
+            if ($getValue)
+                return array('key' => $key, 'profil' => $profil);
+            else
+                return $key;
+        }
     }
     return false;
 }
@@ -287,6 +290,7 @@ function addUser(User $user)
 }
 
 
+
 function editUser(int $id, User $modifiedProfile)
 {
     $jsonData = getJsonData();
@@ -300,6 +304,30 @@ function editUser(int $id, User $modifiedProfile)
 
     $_SESSION['user']['name'] = $jsonData[$id]['name'];
     $_SESSION['user']['fname'] = $jsonData[$id]['fname'];
+}
+
+
+
+function editFavoriteRecipes($id)
+{
+    if (!isset($_SESSION['user']['login']))
+        return false;
+
+    $userId = userExists($_SESSION['user']['login'], false);
+    if ($userId === false) {
+        return false;
+    } else {
+        $jsonData = getJsonData();
+
+        $result = array_search($id, $jsonData[$userId]['favorite_recipes']);
+        if ($result === false)
+            $jsonData[$userId]['favorite_recipes'][] = $id;
+        else
+            unset($jsonData[$userId]['favorite_recipes'][$result]);
+
+
+        setJsonData($jsonData);
+    }
 }
 
 

@@ -1,5 +1,6 @@
 <?php
 require_once("res/Donnees.inc.php");
+require_once(__DIR__ . "/../model/user.inc.php");
 
 // Set header content-type as json
 header('Content-Type: application/json; charset=utf-8');
@@ -33,16 +34,18 @@ switch ($ajaxRoute) {
             isset($_SESSION['connected'])
             && $_SESSION['connected'] === true
         ) {
+            $key = array_search($id, $_SESSION['user']['favorite_recipes']);
             // if the recipe is already in the favorite list, we remove it
-            if (in_array($id, $_SESSION['user']['favorite_recipes'])) {
-                $key = array_search($id, $_SESSION['user']['favorite_recipes']);
+            if ($key !== false) {
                 unset($_SESSION['user']['favorite_recipes'][$key]);
             } else {
                 // else we add it
                 $_SESSION['user']['favorite_recipes'][] = $id;
                 $added = true;
             }
-            // TODO save to file
+
+            // save modifications to file
+            editFavoriteRecipes($id);
         } else {
             // else user is not connected, then we use $_SESSION['favorite_recipes']
 
@@ -53,8 +56,8 @@ switch ($ajaxRoute) {
                 $_SESSION['favorite_recipes'] = [];
 
             // if the recipe is already in the array, we remove it
-            if (in_array($id, $_SESSION['favorite_recipes'])) {
-                $key = array_search($id, $_SESSION['favorite_recipes']);
+            $key = array_search($id, $_SESSION['favorite_recipes']);
+            if ($key !== false) {
                 unset($_SESSION['favorite_recipes'][$key]);
             } else {
                 // else we add it
