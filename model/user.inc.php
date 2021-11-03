@@ -308,7 +308,7 @@ function editUser(int $id, User $modifiedProfile)
 
 
 
-function editFavoriteRecipes($id)
+function saveFavoriteRecipes()
 {
     if (!isset($_SESSION['user']['login']))
         return false;
@@ -316,18 +316,12 @@ function editFavoriteRecipes($id)
     $userId = userExists($_SESSION['user']['login'], false);
     if ($userId === false) {
         return false;
-    } else {
-        $jsonData = getJsonData();
-
-        $result = array_search($id, $jsonData[$userId]['favorite_recipes']);
-        if ($result === false)
-            $jsonData[$userId]['favorite_recipes'][] = $id;
-        else
-            unset($jsonData[$userId]['favorite_recipes'][$result]);
-
-
-        setJsonData($jsonData);
     }
+    $jsonData = getJsonData();
+
+    $jsonData[$userId]['favorite_recipes'] = $_SESSION['user']['favorite_recipes'];
+
+    setJsonData($jsonData);
 }
 
 
@@ -358,6 +352,7 @@ function logUser(User $user)
                 $_SESSION['user']['favorite_recipes'][] = $value;
             }
         }
+        saveFavoriteRecipes();
         unset($_SESSION['favorite_recipes']);
     }
 }

@@ -40,12 +40,12 @@ switch ($ajaxRoute) {
                 unset($_SESSION['user']['favorite_recipes'][$key]);
             } else {
                 // else we add it
-                $_SESSION['user']['favorite_recipes'][] = $id;
+                $_SESSION['user']['favorite_recipes'][] = intval($id);
                 $added = true;
             }
 
             // save modifications to file
-            editFavoriteRecipes($id);
+            saveFavoriteRecipes();
         } else {
             // else user is not connected, then we use $_SESSION['favorite_recipes']
 
@@ -61,7 +61,7 @@ switch ($ajaxRoute) {
                 unset($_SESSION['favorite_recipes'][$key]);
             } else {
                 // else we add it
-                $_SESSION['favorite_recipes'][] = $id;
+                $_SESSION['favorite_recipes'][] = intval($id);
                 $added = true;
             }
         }
