@@ -27,7 +27,7 @@ include("includes/head.inc.php");
             <?php
             } else {
             ?>
-                <p>Vous devez être connecté pour voir vos recettes préférées.<br />Vous pouvez commencer à mettre certaines recettes en préférées, elles seront associées à votre compte lors de votre connexion.</p>
+                <p>Vous devez être connecté pour voir vos recettes préférées.<br />Vous pouvez commencer à mettre certaines recettes en favoris, elles seront associées à votre compte lors de votre connexion.</p>
             <?php
             }
             ?>
