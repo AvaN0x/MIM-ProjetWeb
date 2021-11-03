@@ -18,7 +18,7 @@ include("includes/head.inc.php");
             <div class="recette-detail">
                 <div class="recette-detail-header">
                     <h1>
-                        <a href="#" onclick="toggleFavRecette(<?= $recetteIndex ?>);" class="fav">
+                        <a onclick="toggleFavRecette(<?= $recetteIndex ?>);" class="fav">
                             <?php
                             if (isRecipeFavorite($recetteIndex)) {
                             ?>
