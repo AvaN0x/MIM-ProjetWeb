@@ -14,10 +14,6 @@ if ($result === false) {
     $toJson = [];
 
     $postedValues = [];
-    // TODO verif if ?? is available
-    // foreach ($fields as $key => $value) {
-    //     $postedValues[$value] = "";
-    // }
 
     if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["submit"])) {
         //-------------------------------------------------------------------//
@@ -125,6 +121,8 @@ if ($result === false) {
                     )
                 )
             );
+
+            $updated = 'updated';
         } else {
             foreach ($fields as $value) {
                 if (isset($errors[$value]))
@@ -141,5 +139,10 @@ if ($result === false) {
     }
 }
 
-// Include the view
-include_once("view/edition.php");
+if (!isset($updated)) {
+    // Include the view
+    include_once(__DIR__ . "/../view/edition.php");
+} else {
+    include_once(__DIR__ . "/../view/confirmationForm.php");
+    unset($updated);
+}

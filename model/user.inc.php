@@ -48,16 +48,16 @@ class User
         return new static(
             $array['login'],
             $array['password'],
-            $array['name'] ?? '',
-            $array['fname'] ?? '',
-            $array['gender'] ?? '',
-            $array['email'] ?? '',
-            $array['birthdate'] ?? '',
-            $array['address'] ?? '',
-            $array['postcode'] ?? '',
-            $array['city'] ?? '',
-            $array['phone'] ?? '',
-            $array['favorite_recipes'] ?? []
+            isset($array['name']) ? $array['name'] : '',
+            isset($array['fname']) ? $array['fname'] : '',
+            isset($array['gender']) ? $array['gender'] : '',
+            isset($array['email']) ? $array['email'] : '',
+            isset($array['birthdate']) ? $array['birthdate'] : '',
+            isset($array['address']) ? $array['address'] : '',
+            isset($array['postcode']) ? $array['postcode'] : '',
+            isset($array['city']) ? $array['city'] : '',
+            isset($array['phone']) ? $array['phone'] : '',
+            isset($array['favorite_recipes']) ? $array['favorite_recipes'] : []
         );
     }
 
@@ -274,7 +274,7 @@ function userExists($login, $getValue = true)
 /**
  * addUser
  *
- * Add a user to the json file
+ * Add a user to the json file then log him
  *
  * @param  mixed $user The user to add
  * @return void
@@ -290,7 +290,18 @@ function addUser(User $user)
 }
 
 
-
+/**
+ * 
+ * editUser
+ * 
+ * Edit the profile of a user with the given values
+ * 
+ * @param int id The of the user we want to modify
+ * @param User modifiedProfile The new profile of the user
+ * 
+ * @return void
+ * 
+ */
 function editUser(int $id, User $modifiedProfile)
 {
     $jsonData = getJsonData();
@@ -307,7 +318,15 @@ function editUser(int $id, User $modifiedProfile)
 }
 
 
-
+/**
+ * 
+ * saveFavoriteRecipes()
+ * 
+ * Update the list of favorite recipes of the connected User
+ * 
+ * @return false|void
+ * 
+ */
 function saveFavoriteRecipes()
 {
     if (!isset($_SESSION['user']['login']))

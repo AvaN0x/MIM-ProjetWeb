@@ -2,19 +2,20 @@
 <html lang="fr">
 
 <?php
-include("includes/head.inc.php");
+include(__DIR__ . "/includes/head.inc.php");
 ?>
 
 <body>
+    <!-- TODO COMMENT THIS AVANOOOOOX -->
     <script language="javascript" type="text/javascript" src="js/accueil.js"></script>
 
     <?php
-    include("includes/header.inc.php");
+    include(__DIR__ . "/includes/header.inc.php");
     ?>
 
     <div id="accueil">
         <?php
-        include("includes/navbar.inc.php");
+        include(__DIR__ . "/includes/navbar.inc.php");
         ?>
         <main>
             <?php
@@ -26,7 +27,7 @@ include("includes/head.inc.php");
                     if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
                         foreach ($RecettesToDisplay as $key => $value) {
                             $recetteIndex = $value["key"];
-                            include("includes/recetteCard.inc.php");
+                            include(__DIR__ . "/includes/recetteCard.inc.php");
                         }
                     } else {
                     ?>
@@ -72,7 +73,7 @@ include("includes/head.inc.php");
                     if (isset($RecettesToDisplay) && count($RecettesToDisplay) > 0) {
                         foreach ($RecettesToDisplay as $key => $value) {
                             $recetteIndex = $value["key"];
-                            include("includes/recetteCard.inc.php");
+                            include(__DIR__ . "/includes/recetteCard.inc.php");
                         }
                     } else {
                     ?>
@@ -88,7 +89,7 @@ include("includes/head.inc.php");
     </div>
 
     <?php
-    include("includes/footer.inc.php");
+    include(__DIR__ . "/includes/footer.inc.php");
     ?>
 </body>
 

@@ -26,15 +26,16 @@ switch ($action) {
         include_once("controller/accueil.php");
         break;
 
+    case 'deconnexion':
+        include_once("controller/deconnexion.php");
+        break;
+
     case 'favorite':
         include_once("controller/favorite.php");
         break;
 
-    case 'connexion':
     case 'inscription':
-    case 'deconnexion':
-    case 'profil':
-        include_once("controller/connexion.php");
+        include_once("controller/inscription.php");
         break;
 
     case 'editProfil':

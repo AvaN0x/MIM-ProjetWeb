@@ -243,6 +243,6 @@ function isErrorField($errors, $str)
 
 function addErrorMessage($errors, $str)
 {
-    echo '<label for="' . $str . '" style="color: red" >' . ($errors[$str] ?? '') . '</label>';
+    echo '<label for="' . $str . '" style="color: red" >' . (isset($errors[$str]) ? $errors[$str] : '') . '</label>';
     return;
 }
