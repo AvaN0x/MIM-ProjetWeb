@@ -22,11 +22,14 @@ if ($result === false) {
         //-------------------------------------------------------------------//
         //-------------------------------------------------------------------//
 
+
+        // TODO edit password missing
+
         // Verification for `name`
         if (
             isset($_POST['name'])
             && strlen($_POST['name'])
-            && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['name'])
+            && !preg_match("/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:[ '-]?[a-zØ-öø-ÿ])*)$/i", $_POST['name']) // Max of 64 characters, at least 1 character, only letters, -, ' and spaces
         ) {
             $errors['name'] = 'Le nom fourni ne respecte pas les conditions';
         }
@@ -35,7 +38,7 @@ if ($result === false) {
         if (
             isset($_POST['fname'])
             && strlen($_POST['fname'])
-            && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['fname'])
+            && !preg_match("/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:[ '-]?[a-zØ-öø-ÿ])*)$/i", $_POST['fname']) // Max of 64 characters, at least 1 character, only letters, -, ' and spaces
         ) {
             $errors['fname'] = 'Le prénom fourni ne respecte pas les conditions';
         }
@@ -66,7 +69,7 @@ if ($result === false) {
             && (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $_POST['birthdate'], $matches)
                 || !checkdate($matches[2], $matches[3], $matches[1]))
         ) {
-            // TODO @AvaN0x support of dd/mm/yyyy
+            // TODO at least 18 years old
             $errors['birthdate'] = 'La date de naissance fournie ne respecte pas les conditions';
         }
 

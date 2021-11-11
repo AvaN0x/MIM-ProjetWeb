@@ -23,7 +23,7 @@ if (
         $errors['login'] = 'Le login n\'a pas été fourni';
     elseif (empty($_POST['login']))
         $errors['login'] = 'Le login donné est vide';
-    elseif (!preg_match('/^(?=.{3,64}$)(?:[a-z0-9]+)$/i', $_POST['login']))
+    elseif (!preg_match('/^(?=.{3,64}$)(?:[a-z0-9]+)$/i', $_POST['login'])) // Max of 64 characters, at least 3 characters, only letters and numbers
         $errors['login'] = 'Le login donnée ne respecte pas les conditions';
 
 
@@ -32,7 +32,7 @@ if (
         $errors['password'] = 'Le mot de passe n\'a pas été fourni';
     elseif (empty($_POST['password']))
         $errors['password'] = 'Le mot de passe fourni est vide';
-    elseif (!preg_match('/^.{8,}$/', $_POST['password']))
+    elseif (!preg_match('/^.+$/', $_POST['password'])) // At least one character
         $errors['password'] = 'Le mot de passe fourni ne respecte pas les conditions';
 
 
@@ -49,7 +49,7 @@ if (
     if (
         isset($_POST['name'])
         && strlen($_POST['name'])
-        && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['name'])
+        && !preg_match("/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:[ '-]?[a-zØ-öø-ÿ])*)$/i", $_POST['name']) // Max of 64 characters, at least 1 character, only letters, -, ' and spaces
     ) {
         $errors['name'] = 'Le nom fourni ne respecte pas les conditions';
     }
@@ -59,7 +59,7 @@ if (
     if (
         isset($_POST['fname'])
         && strlen($_POST['fname'])
-        && !preg_match('/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:-?[[:blank:]]?[a-zØ-öø-ÿ])*)$/i', $_POST['fname'])
+        && !preg_match("/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:[ '-]?[a-zØ-öø-ÿ])*)$/i", $_POST['fname']) // Max of 64 characters, at least 1 character, only letters, -, ' and spaces
     ) {
         $errors['fname'] = 'Le prénom fourni ne respecte pas les conditions';
     }
@@ -92,7 +92,7 @@ if (
         && (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $_POST['birthdate'], $matches)
             || !checkdate($matches[2], $matches[3], $matches[1]))
     ) {
-        // TODO @AvaN0x support of dd/mm/yyyy
+        // TODO at least 18 years old
         $errors['birthdate'] = 'La date de naissance fournie ne respecte pas les conditions';
     }
 
@@ -131,9 +131,9 @@ if (
     if (
         isset($_POST['phone'])
         && strlen($_POST['phone'])
-        && !preg_match('/^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$/', $_POST['phone'])
+        && !preg_match('/^0\d(?:\s?\d{2}){4}$/', $_POST['phone']) // Support only french phone number (0X XX XX XX XX or 0XXXXXXXXX)
     ) {
-        $errors['phone'] = 'Le numéro de téléphone fourni ne respecte pas les conditions';
+        $errors['phone'] = 'Le numéro de téléphone fourni ne respecte pas un format français';
     }
 
 

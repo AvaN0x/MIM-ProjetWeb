@@ -59,7 +59,7 @@
 
 
         Numéro de téléphone :
-        <input type="tel" name="phone" placeholder='+33 X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
+        <input type="tel" name="phone" placeholder='0X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
         <?php addErrorMessage($errors, 'phone'); ?><br />
     </fieldset>
 
