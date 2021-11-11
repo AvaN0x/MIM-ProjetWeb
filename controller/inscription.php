@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../model/user.inc.php");
 
 $errors = [];
-$fields = ["login", "password", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city", "phone"];
+$fields = ["login", "name", "fname", "gender", "email", "birthdate", "address", "postcode", "city", "phone"];
 $toJson = [];
 
 $postedValues = [];
@@ -152,20 +152,19 @@ if (
 
             // addUser will log the user at the same time
             addUser($user);
+            $created = 'created';
         }
         // If user's login already exist
         else {
             // If we are trying to save a new user, generate an error
             $errors['login'] = 'Le login fourni existe déjà';
         }
-
-        $created = 'created';
     }
 
     // If errors have been thrown, save the posted values
     if (!empty($errors)) {
         foreach ($fields as $value) {
-            if (isset($_POST[$value]) && ($value !== "password")) {
+            if (isset($_POST[$value])) {
                 $postedValues[$value] = $_POST[$value];
             }
         }
