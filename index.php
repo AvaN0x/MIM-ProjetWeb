@@ -14,6 +14,16 @@ $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 // Set page title to default value
 $pageTitle = "Recktails";
 
+
+// If use is not connected, change action when needed
+if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
+    switch ($action) {
+        case 'editProfil':
+            $action = LANDING_PAGE_NAME;
+            break;
+    }
+}
+
 // Switch case to include the right controller
 // Each controller will take care of the view
 switch ($action) {
