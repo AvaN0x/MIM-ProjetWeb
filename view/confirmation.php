@@ -2,7 +2,7 @@
 <html lang="fr">
 
 <?php
-include("includes/head.inc.php");
+include(__DIR__ . "/includes/head.inc.php");
 ?>
 
 <body>
