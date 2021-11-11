@@ -22,9 +22,6 @@ if ($result === false) {
         //-------------------------------------------------------------------//
         //-------------------------------------------------------------------//
 
-
-        // TODO edit password missing
-
         // Verification for `name`
         if (
             isset($_POST['name'])
@@ -41,6 +38,57 @@ if ($result === false) {
             && !preg_match("/^(?=.{0,64}$)(?:[a-zØ-öø-ÿ](?:[ '-]?[a-zØ-öø-ÿ])*)$/i", $_POST['fname']) // Max of 64 characters, at least 1 character, only letters, -, ' and spaces
         ) {
             $errors['fname'] = 'Le prénom fourni ne respecte pas les conditions';
+        }
+
+        //Verification for passwords
+        if (
+            isset($_POST['prevPassword'])
+            && strlen($_POST['prevPassword'])
+        ) {
+            if (!isset($_POST['newPassword']) || !strlen($_POST['newPassword'])) {
+                $errors['newPassword'] = 'Le nouveau mot de passe n\'est pas fourni';
+            }
+            if (!isset($_POST['confirmPassword']) || !strlen($_POST['confirmPassword'])) {
+                $errors['confirmPassword'] = 'La confirmation de mot de passe n\'est pas fournie';
+            }
+            if (
+                isset($_POST['newPassword'])
+                && strlen($_POST['newPassword'])
+                && (!preg_match('/^.+$/', $_POST['newPassword']))
+            ) {
+                $errors['newPassword'] = 'Le nouveau mot de passe ne respecte pas les conditions';
+            }
+            if (
+                isset($_POST['confirmPassword'])
+                && strlen($_POST['confirmPassword'])
+                && $_POST['newPassword'] !== $_POST['confirmPassword']
+            ) {
+                $errors['confirmPassword'] = 'La confirmation de mot de passe est différente du nouveau mot de passe';
+            }
+
+            $res = userExists($_SESSION['user']['login']);
+            if ($res !== false && !password_verify($_POST['prevPassword'], $res['profil']['password'])) {
+                $errors['prevPassword'] = 'Le mot de passe est incorrect';
+            }
+        } else {
+            if (isset($_POST['newPassword']) && strlen($_POST['newPassword'])) {
+                if (!preg_match('/^.+$/', $_POST['newPassword']))
+                    $errors['newPassword'] = 'Le nouveau mot de passe ne respecte pas les conditions';
+
+                if (!isset($_POST['confirmPassword']) || !strlen($_POST['confirmPassword']))
+                    $errors['confirmPassword'] = 'La confirmation de mot de passe n\'est pas fournie';
+
+                $errors['prevPassword'] = 'La vérification de l\'ancien mot de passe et manquante';
+            }
+            if (isset($_POST['confirmPassword']) && strlen($_POST['confirmPassword'])) {
+                if (!isset($_POST['newPassword']) || !strlen($_POST['newPassword']))
+                    $errors['newPassword'] = 'Le nouveau mot de passe n\'est pas fourni';
+
+                if ($_POST['newPassword'] !== $_POST['confirmPassword'])
+                    $errors['confirmPassword'] = 'La confirmation de mot de passe est différente du nouveau mot de passe';
+
+                $errors['prevPassword'] = 'La vérification de l\'ancien mot de passe et manquante';
+            }
         }
 
         // Verification for `gender`
@@ -114,26 +162,39 @@ if ($result === false) {
 
         // If each field is correctly filled
         if (empty($errors)) {
-            editUser(
-                $result['key'],
-                User::fromArray(
-                    array_merge(
-                        [
-                            'login' => $result['profil']['login'],
-                            'password' => $result['profil']['password'],
-                            'favorite_recipes' => $result['profil']['favorite_recipes']
-                        ],
-                        $_POST
-                    )
-                )
+            if (
+                !(isset($_POST['prevPassword'])
+                    && strlen($_POST['prevPassword'])
+                    && isset($_POST['newPassword'])
+                    && strlen($_POST['newPassword'])
+                    && isset($_POST['confirmPassword'])
+                    && strlen($_POST['confirmPassword']))
+            ) {
+                $_POST['newPassword'] = $result['profil']['password'];
+            }
+
+            $toSend = array_merge(
+                [
+                    'login' => $result['profil']['login'],
+                    'favorite_recipes' => $result['profil']['favorite_recipes']
+                ],
+                $_POST
             );
 
-            $updated = 'updated';
+            try {
+                $user = User::fromArray($toSend);
+
+                editUser($result['key'], $user);
+
+                $updated = 'updated';
+            } catch (Exception $e) {
+                echo '<p class="error-field">' . $e->getMessage() . '</p>';
+            }
         } else {
             foreach ($fields as $value) {
                 if (isset($errors[$value]))
                     $postedValues[$value] = $result['profil'][$value];
-                else
+                elseif (isset($_POST[$value]))
                     $postedValues[$value] = $_POST[$value];
             }
         }
@@ -141,7 +202,8 @@ if ($result === false) {
     // Initialize the fields with the profil's values
     else {
         foreach ($fields as $value)
-            $postedValues[$value] = $result['profil'][$value];
+            if ($value !== 'prevPassword' && $value !== 'newPassword' && $value !== 'confirmPassword')
+                $postedValues[$value] = $result['profil'][$value];
     }
 }
 
