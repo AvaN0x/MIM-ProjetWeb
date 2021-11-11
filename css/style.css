@@ -13,6 +13,12 @@
     --error-color: #F44336;
 }
 
+@media (max-width: 1280px) {
+    :root {
+        --header-height: 6rem;
+    }
+}
+
 html {
     scroll-behavior: smooth;
     min-height: 100vh;
@@ -42,6 +48,12 @@ header>div {
     display: flex;
 }
 
+@media (max-width: 1280px) {
+    header>div {
+        flex-wrap: wrap;
+    }
+}
+
 header>div.header-left {
     flex-grow: 1;
 }
@@ -50,7 +62,8 @@ header a,
 header label,
 header form[name=login] input[type=submit] {
     position: relative;
-    line-height: calc(var(--header-height) - 2 * .7rem);
+    /* calc(3rem - 2 * .7rem) */
+    line-height: 1.6rem;
     color: var(--header-font-color);
     padding: .5rem 1rem;
     margin: .2rem 0;
@@ -92,23 +105,32 @@ header>div.header-right form {
 
 header div.header-user {
     display: flex;
-    margin-left: 1rem;
 }
 
-header .header-user::before {
-    content: "";
-    width: 1px;
-    height: calc(var(--header-height) - 2 * .7rem);
-    background-color: var(--header-font-color);
-    position: relative;
-    left: 0;
-    top: .7rem;
+@media (min-width: 1280px) {
+
+    /* Small vertical transition bar */
+    header div.header-user {
+        margin-left: 1rem;
+    }
+
+    header .header-user::before {
+        content: "";
+        width: 1px;
+        /* calc(3rem - 2 * .7rem) */
+        height: 1.6rem;
+        background-color: var(--header-font-color);
+        position: relative;
+        left: 0;
+        top: .7rem;
+    }
 }
 
 header .header-name {
     padding: .7rem 1rem;
     font-size: 1.2rem;
-    line-height: calc(var(--header-height) - 2 * .7rem);
+    /* calc(3rem - 2 * .7rem) */
+    line-height: 1.6rem;
     margin: 0;
     color: var(--header-font-color);
 }
@@ -156,6 +178,29 @@ header [data-errortooltip]:hover:before {
 header~* {
     top: var(--header-height);
     position: relative;
+}
+
+@media (max-width: 900px) {
+    header {
+        position: relative;
+        height: auto;
+        z-index: inherit;
+    }
+
+    header,
+    header .header-right .header-user form {
+        flex-wrap: wrap;
+    }
+
+    header input {
+        flex: 1;
+    }
+
+    header~* {
+        top: inherit;
+        position: inherit;
+    }
+
 }
 
 /*#endregion header*/

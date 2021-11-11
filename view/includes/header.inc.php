@@ -7,10 +7,12 @@
         <div class="header-research">
             <form method="get" action="index.php">
                 <label for="research">Recherche :</label>
-                <input type="text" name="research" placeholder='"jus de fruits" +sel -whisky' value="<?php if (isset($_GET["research"])) echo str_replace('"', '&quot;', $_GET["research"]); ?>" />
-                <button type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div>
+                    <input type="text" name="research" placeholder='"jus de fruits" +sel -whisky' value="<?php if (isset($_GET["research"])) echo str_replace('"', '&quot;', $_GET["research"]); ?>" />
+                    <button type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
             </form>
         </div>
 
@@ -47,17 +49,24 @@
                 <a onclick="disconnectUser();">Déconnexion</a>
             <?php else : ?>
                 <form name="login" method="post" action='' onsubmit="connectUser(); return false;">
-                    <label for="password">Login :</label>
-                    <input type="text" name="login" required="required" />
-                    <span id="form-login-error-login" class="error errortooltip"></span>
+                    <div>
+                        <label for="password">Login :</label>
+                        <input type="text" name="login" required="required" />
+                        <span id="form-login-error-login" class="error errortooltip"></span>
+                    </div>
 
-                    <label for="password">Mot de passe :</label>
-                    <input type="password" name="password" required="required" />
-                    <span id="form-login-error-password" class="error errortooltip"></span>
+                    <div>
+                        <label for="password">Mot de passe :</label>
+                        <input type="password" name="password" required="required" />
+                        <span id="form-login-error-password" class="error errortooltip"></span>
+                    </div>
 
-                    <input type="submit" name="submit" value="Connexion" />
+                    <div>
+                        <input type="submit" name="submit" value="Connexion" />
+
+                        <a href="index.php?route=inscription">S'inscrire</a>
+                    </div>
                 </form>
-                <a href="index.php?route=inscription">S'inscrire</a>
             <?php endif; ?>
         </div>
 
