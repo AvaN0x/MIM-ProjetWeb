@@ -84,7 +84,10 @@ class User
 
     public function editProfile(User $user)
     {
-        $this->password = password_hash($user->password, PASSWORD_DEFAULT);
+        if (password_get_info($user->password)['algo'] === 0)
+            $this->password = password_hash($user->password, PASSWORD_DEFAULT);
+        else
+            $this->password = $user->password;
 
         if ($this->name !== $user->getName())
             $this->setName($user->getName());
