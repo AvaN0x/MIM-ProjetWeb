@@ -114,6 +114,17 @@ switch ($ajaxRoute) {
 
 
         break;
+    case "disconnectuser":
+        // Check if user is already connected
+        if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
+            $jsonResult['message'] = "User not connected";
+            break;
+        }
+        $jsonResult['success'] = true;
+        unset($_SESSION['connected']);
+        unset($_SESSION['user']);
+
+        break;
     default:
         $jsonResult['message'] = "Ajax route not found";
         break;

@@ -26,10 +26,6 @@ switch ($action) {
         include_once("controller/accueil.php");
         break;
 
-    case 'deconnexion':
-        include_once("controller/deconnexion.php");
-        break;
-
     case 'favorite':
         include_once("controller/favorite.php");
         break;

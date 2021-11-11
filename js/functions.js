@@ -23,3 +23,8 @@ const connectUser = async () => {
     }
 }
 
+const disconnectUser = async () => {
+    const result = await (await fetch("index.php?route=ajax/disconnectuser")).json();
+    if (result.success)
+        location.reload();
+}
