@@ -149,6 +149,6 @@ if (!isset($updated)) {
     // Include the view
     include_once(__DIR__ . "/../view/edition.php");
 } else {
-    include_once(__DIR__ . "/../view/confirmationForm.php");
+    include_once(__DIR__ . "/../view/confirmation.php");
     unset($updated);
 }

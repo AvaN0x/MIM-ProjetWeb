@@ -175,9 +175,9 @@ if (
 
 if (!isset($created)) {
     // Include the view
-    include_once(__DIR__ . "/../view/inscriptionForm.php");
+    include_once(__DIR__ . "/../view/inscription.php");
 } else {
     // Include the view
-    include_once(__DIR__ . "/../view/confirmationForm.php");
+    include_once(__DIR__ . "/../view/confirmation.php");
     unset($created);
 }
