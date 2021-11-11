@@ -12,10 +12,25 @@ include("includes/head.inc.php");
         <?php else : ?>
             <?php require_once(__DIR__ . "/../model/utils.inc.php") ?>
 
-            <h1>Bienvenue sur l'espace de modification du profil</h1>
+            <h1>Bienvenue sur l'espace de modification du profil <?= (isset($_SESSION['connected']) && isset($_SESSION['user']['login'])) ? $_SESSION['user']['login'] : '' ?></h1>
 
             <form method="post" action='#'>
                 <fieldset>
+                    Ancien mot de passe :
+                    <input type="password" name="prevPassword" <?php isErrorField($errors, 'prevPassword') ?> />
+                    <?php addErrorMessage($errors, 'prevPassword'); ?>
+                    <br />
+
+                    Nouveau mot de passe :
+                    <input type="password" name="newPassword" <?php isErrorField($errors, 'newPassword') ?> />
+                    <?php addErrorMessage($errors, 'newPassword'); ?>
+                    <br />
+
+                    Confimer le mot de passe :
+                    <input type="password" name="confirmPassword" <?php isErrorField($errors, 'confirmPassword') ?> />
+                    <?php addErrorMessage($errors, 'confirmPassword'); ?><br />
+                    <br />
+
                     Sexe :
                     <input type="radio" name="gender" value="f" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "f") ? "checked" : "" ?> /> Femme
                     <input type="radio" name="gender" value="h" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "h") ? "checked" : "" ?> /> Homme
@@ -47,7 +62,7 @@ include("includes/head.inc.php");
                     <?php addErrorMessage($errors, 'city'); ?><br /><br />
 
                     Numéro de téléphone :
-                    <input type="tel" name="phone" placeholder='+33|0 X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
+                    <input type="tel" name="phone" placeholder='0X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
                     <?php addErrorMessage($errors, 'phone'); ?><br />
                 </fieldset>
 

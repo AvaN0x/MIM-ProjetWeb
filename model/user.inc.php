@@ -45,9 +45,12 @@ class User
 
     public static function fromArray($array)
     {
+        if (!isset($array['password']) && !isset($array['newPassword'])) {
+            throw new Exception("Le mot de passe doit être défini pour créer un utilisateur", 100);
+        }
         return new static(
             $array['login'],
-            $array['password'],
+            isset($array['password']) ? $array['password'] : $array['newPassword'],
             isset($array['name']) ? $array['name'] : '',
             isset($array['fname']) ? $array['fname'] : '',
             isset($array['gender']) ? $array['gender'] : '',
@@ -81,6 +84,8 @@ class User
 
     public function editProfile(User $user)
     {
+        $this->password = password_hash($user->password, PASSWORD_DEFAULT);
+
         if ($this->name !== $user->getName())
             $this->setName($user->getName());
 
@@ -253,7 +258,7 @@ function setJsonData($data)
  * Check if a user with the login given exist
  *
  * @param  mixed $login The login of the user we want to retrieve
- * @return false|Array(Array,idx,value) False if user doesn't exist | Else an array with the list of all users, the index of the user and his value
+ * @return false|Array(idx,value) False if user doesn't exist | Else the index of the user and his value
  */
 function userExists($login, $getValue = true)
 {
@@ -305,6 +310,8 @@ function addUser(User $user)
 function editUser(int $id, User $modifiedProfile)
 {
     $jsonData = getJsonData();
+
+    var_dump($modifiedProfile);
 
     $user = User::fromArray($jsonData[$id]);
     $user->editProfile($modifiedProfile);
