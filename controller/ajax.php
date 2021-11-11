@@ -102,7 +102,7 @@ switch ($ajaxRoute) {
             // User's login exist and passwords match
             if ($result !== false && password_verify($_POST["password"], $result['profil']['password'])) {
                 // User can be logged, ajax success
-                $user = User::fromArray($result['profil']);
+                $user = new User($result['profil']);
                 logUser($user);
                 $jsonResult['success'] = true;
                 unset($jsonResult['data']['errors']);

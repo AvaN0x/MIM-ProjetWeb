@@ -148,7 +148,7 @@ if (
         // If user's login doesn't already exist
         if ($result === false) {
             $_POST['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-            $user = User::fromArray($_POST);
+            $user = new User($_POST);
 
             // addUser will log the user at the same time
             addUser($user);

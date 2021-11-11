@@ -162,6 +162,7 @@ if ($result === false) {
 
         // If each field is correctly filled
         if (empty($errors)) {
+            // If user didn't change password get the saved one
             if (
                 !(isset($_POST['prevPassword'])
                     && strlen($_POST['prevPassword'])
@@ -173,6 +174,7 @@ if ($result === false) {
                 $_POST['newPassword'] = $result['profil']['password'];
             }
 
+            // Merge the list of non changing infos and the list of changing values
             $toSend = array_merge(
                 [
                     'login' => $result['profil']['login'],
@@ -181,9 +183,9 @@ if ($result === false) {
                 $_POST
             );
 
+            // Create a new user from merged arrays
             try {
-                $user = User::fromArray($toSend);
-
+                $user = new User($toSend);
                 editUser($result['key'], $user);
 
                 $updated = 'updated';
