@@ -38,19 +38,14 @@ header {
     z-index: 1000;
 }
 
-header>div,
-header>div:last-of-type>div {
+header>div {
     display: flex;
 }
 
-header>div:first-of-type {
+header>div.header-left {
     flex-grow: 1;
 }
 
-header>div:last-of-type>form {
-    display: flex;
-    align-items: center;
-}
 
 header a,
 header label {
@@ -75,6 +70,33 @@ header a:hover {
 header~* {
     top: var(--header-height);
     position: relative;
+}
+
+
+header>div.header-right form {
+    display: flex;
+    align-items: center;
+}
+
+header div.header-user {
+    display: flex;
+}
+
+header .header-user::before {
+    content: "";
+    width: 1px;
+    height: calc(var(--header-height) - 2 * .7rem);
+    background-color: var(--header-font-color);
+    position: relative;
+    left: .5rem;
+    top: 0.7rem;
+}
+
+header .header-name {
+    padding: .7rem 1rem;
+    font-size: 1.2rem;
+    line-height: calc(var(--header-height) - 2 * .7rem);
+    margin: 0;
 }
 
 /*#endregion header*/
@@ -312,6 +334,43 @@ section {
 }
 
 /*#endregion detail*/
+
+
+/*#region forms*/
+input,
+button {
+    padding: .2rem .4rem;
+    display: inline-block;
+    border: 1px solid #00000055;
+    margin: 1px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #fff;
+}
+
+button:focus,
+input:focus {
+    border-color: var(--hovered-color);
+    border-width: 2px;
+    margin: 0;
+    outline: none;
+}
+
+header button:focus,
+header input:focus {
+    border-color: var(--header-hovered-color);
+}
+
+/* Change auto fill style */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px #f5f1ee inset !important;
+    -webkit-box-shadow: 0 0 0 30px #ffeee6 inset !important;
+}
+
+/*#endregion forms*/
 
 
 i.fas.fa-heart,

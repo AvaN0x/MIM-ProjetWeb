@@ -237,7 +237,7 @@ function removeAccents($str)
 
 function isErrorField($errors, $str)
 {
-    if (isset($errors[$str])) echo 'class="error-field"';
+    if (isset($errors) && isset($errors[$str])) echo 'class="error-field"';
     return;
 }
 

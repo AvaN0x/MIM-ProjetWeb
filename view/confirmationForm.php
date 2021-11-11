@@ -2,16 +2,22 @@
 <html lang="fr">
 
 <?php
-include(__DIR__ . "/includes/head.inc.php");
+include("includes/head.inc.php");
 ?>
 
 <body>
-    <p>Votre profil a bien été <?= isset($created) ? 'créé' : 'modifié' ?></p>
+    <?php
+    include("includes/header.inc.php");
+    ?>
 
-    <a href="index.php?route=accueil">Retour à l'accueil</a>
+    <main>
+        <p>Votre profil a bien été <?= isset($created) ? 'créé' : 'modifié' ?></p>
+
+        <a href="index.php?route=accueil">Retour à l'accueil</a>
+    </main>
 
     <?php
-    include(__DIR__ . "/includes/footer.inc.php");
+    include("includes/footer.inc.php");
     ?>
 </body>
 

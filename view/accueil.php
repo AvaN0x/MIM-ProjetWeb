@@ -6,7 +6,7 @@ include(__DIR__ . "/includes/head.inc.php");
 ?>
 
 <body>
-    <!-- TODO COMMENT THIS AVANOOOOOX -->
+    <!-- Include js file specific to this page -->
     <script language="javascript" type="text/javascript" src="js/accueil.js"></script>
 
     <?php

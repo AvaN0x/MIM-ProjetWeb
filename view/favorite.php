@@ -6,6 +6,7 @@ include("includes/head.inc.php");
 ?>
 
 <body>
+    <!-- Include js file specific to this page -->
     <script language="javascript" type="text/javascript" src="js/favorite.js"></script>
 
     <?php
