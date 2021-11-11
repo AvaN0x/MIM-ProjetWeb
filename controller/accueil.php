@@ -3,10 +3,6 @@ require_once(__DIR__ . "/../res/Donnees.inc.php");
 require_once(__DIR__ . "/../model/recette.inc.php");
 require_once(__DIR__ . "/../model/user.inc.php");
 
-// Include the controller of the connection form
-require_once(__DIR__ . "/connexion.php");
-
-
 abstract class SearchType
 {
     const ARIANE = 0;

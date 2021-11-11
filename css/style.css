@@ -55,6 +55,10 @@ header label {
     padding: .7rem 1rem;
 }
 
+header label {
+    padding-right: .2rem;
+}
+
 header a {
     cursor: pointer;
     text-decoration: none;
@@ -80,6 +84,7 @@ header>div.header-right form {
 
 header div.header-user {
     display: flex;
+    margin-left: 1rem;
 }
 
 header .header-user::before {
@@ -88,8 +93,8 @@ header .header-user::before {
     height: calc(var(--header-height) - 2 * .7rem);
     background-color: var(--header-font-color);
     position: relative;
-    left: .5rem;
-    top: 0.7rem;
+    left: 0;
+    top: .7rem;
 }
 
 header .header-name {
@@ -98,6 +103,40 @@ header .header-name {
     line-height: calc(var(--header-height) - 2 * .7rem);
     margin: 0;
 }
+
+header input[type=submit] {
+    margin: .7rem 1rem;
+}
+
+.errortooltip {
+    margin: 0.3rem;
+    cursor: help;
+}
+
+[data-errortooltip]:before {
+    content: attr(data-errortooltip);
+    opacity: 0;
+    position: absolute;
+    max-width: 20rem;
+    margin-top: 1.3rem;
+    margin-left: -5rem;
+    padding: 0.2rem;
+    color: var(--error-color);
+    background-color: #fff;
+    border: 2px solid var(--header-hovered-color);
+    border-radius: 5px;
+    box-shadow: 0 1px 2px #c9c9c9;
+    -moz-box-shadow: 0 1px 2px #c9c9c9;
+    -webkit-box-shadow: 0 1px 2px #c9c9c9;
+
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+[data-errortooltip]:hover:before {
+    opacity: 1;
+}
+
 
 /*#endregion header*/
 

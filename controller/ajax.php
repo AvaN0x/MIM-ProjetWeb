@@ -49,8 +49,6 @@ switch ($ajaxRoute) {
         } else {
             // else user is not connected, then we use $_SESSION['favorite_recipes']
 
-            // TODO use cookies ?
-
             // if $_SESSION['favorite_recipes'] do not exist, we init the array
             if (!isset($_SESSION['favorite_recipes']))
                 $_SESSION['favorite_recipes'] = [];
@@ -67,6 +65,53 @@ switch ($ajaxRoute) {
         }
         $jsonResult['success'] = true;
         $jsonResult['data'] = ["id" => $id, "added" => $added];
+
+        break;
+    case 'connectuser':
+        require_once(__DIR__ . "/../model/user.inc.php");
+
+        // Check if user is already connected
+        if (isset($_SESSION['connected']) && $_SESSION['connected'] === true) {
+            $jsonResult['message'] = "User already connected";
+            break;
+        }
+        $jsonResult['data']['errors'] = [];
+
+        // Verification for `login`
+        if (!isset($_POST['login']))
+            $jsonResult['data']['errors']['login'] = "Le login n'a pas été fourni";
+        elseif (empty($_POST['login']))
+            $jsonResult['data']['errors']['login'] = 'Le login donné est vide';
+        elseif (!preg_match('/^(?=.{3,64}$)(?:[a-z0-9]+)$/i', $_POST['login']))
+            $jsonResult['data']['errors']['login'] = 'Le login donnée ne respecte pas les conditions';
+
+
+        // Verification for `password`
+        if (!isset($_POST['password']))
+            $jsonResult['data']['errors']['password'] = "Le mot de passe n'a pas été fourni";
+        elseif (empty($_POST['password']))
+            $jsonResult['data']['errors']['password'] = 'Le mot de passe fourni est vide';
+        elseif (!preg_match('/^.+$/', $_POST['password']))
+            $jsonResult['data']['errors']['password'] = 'Le mot de passe fourni ne respecte pas les conditions';
+
+        // If each field is correctly filled
+        if (empty($jsonResult['data']['errors'])) {
+            $login = (isset($_POST['login']) ? strtolower(trim(htmlspecialchars($_POST['login']))) : "");
+            $result = userExists($login);
+
+            // User's login exist and passwords match
+            if ($result !== false && password_verify($_POST["password"], $result['profil']['password'])) {
+                // User can be logged, ajax success
+                $user = User::fromArray($result['profil']);
+                logUser($user);
+                $jsonResult['success'] = true;
+                unset($jsonResult['data']['errors']);
+            } else {
+                // User do not exist, or passwords do not match
+                $jsonResult['data']['errors']['password'] = "Le mot de passe ne correspond pas";
+            }
+        }
+
 
         break;
     default:

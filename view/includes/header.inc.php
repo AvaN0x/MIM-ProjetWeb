@@ -46,18 +46,14 @@
                 <a href="index.php?route=editProfil">Profil</a>
                 <a href="index.php?route=deconnexion">Déconnexion</a>
             <?php else : ?>
-                <?php
-                // TODO REMOVE THIS, TEMP FIX
-                if (!isset($errors)) {
-                    $errors = [];
-                }
-                ?>
-                <form method="post" action='#'>
-                    <label for="password">Login</label>
-                    <input type="text" name="login" required="required" <?php isErrorField($errors, 'login') ?> value="<?= isset($postedValues['login']) ? $postedValues['login'] : '' ?>" />
+                <form name="login" method="post" action='' onsubmit="connectUser(); return false;">
+                    <label for="password">Login :</label>
+                    <input type="text" name="login" required="required" />
+                    <span id="form-login-error-login" class="error errortooltip"></span>
 
-                    <label for="password">Mot de passe</label>
-                    <input type="password" name="password" required="required" <?php isErrorField($errors, 'password') ?> value="<?= isset($postedValues['password']) ? $postedValues['password'] : '' ?>" />
+                    <label for="password">Mot de passe :</label>
+                    <input type="password" name="password" required="required" />
+                    <span id="form-login-error-password" class="error errortooltip"></span>
 
                     <input type="submit" name="submit" value="Connexion" />
                 </form>
