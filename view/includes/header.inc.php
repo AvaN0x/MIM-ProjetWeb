@@ -44,7 +44,7 @@
                 </p>
 
                 <a href="index.php?route=editProfil">Profil</a>
-                <a href="javascript:disconnectUser();">Déconnexion</a>
+                <a onclick="disconnectUser();">Déconnexion</a>
             <?php else : ?>
                 <form name="login" method="post" action='' onsubmit="connectUser(); return false;">
                     <label for="password">Login :</label>

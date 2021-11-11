@@ -46,36 +46,44 @@ header>div.header-left {
     flex-grow: 1;
 }
 
-
 header a,
-header label {
+header label,
+header form[name=login] input[type=submit] {
     position: relative;
     line-height: calc(var(--header-height) - 2 * .7rem);
     color: var(--header-font-color);
-    padding: .7rem 1rem;
+    padding: .5rem 1rem;
+    margin: .2rem 0;
 }
 
 header label {
+    font-size: .8rem;
     padding-right: .2rem;
 }
 
-header a {
+header label:not(:first-of-type) {
+    padding-left: .2rem;
+}
+
+header a,
+header form[name=login] input[type=submit] {
     cursor: pointer;
     text-decoration: none;
     transition: .5s;
     font-size: 1.2rem;
 }
 
-header a:hover {
+header form[name=login] input[type=submit] {
+    background-color: transparent;
+    border: none;
+}
+
+header a:hover,
+header form[name=login] input[type=submit]:hover {
     color: var(--header-hovered-color);
+    background-color: #ffffff55;
+    border-radius: .5rem;
 }
-
-/* Everything that is after the header and at the same level */
-header~* {
-    top: var(--header-height);
-    position: relative;
-}
-
 
 header>div.header-right form {
     display: flex;
@@ -102,18 +110,25 @@ header .header-name {
     font-size: 1.2rem;
     line-height: calc(var(--header-height) - 2 * .7rem);
     margin: 0;
+    color: var(--header-font-color);
 }
 
-header input[type=submit] {
-    margin: .7rem 1rem;
+header button[type=submit]:active {
+    background-color: var(--header-hovered-color);
+    color: #fff;
 }
 
-.errortooltip {
+header form[name=login] input[type=text],
+header form[name=login] input[type=password] {
+    width: 8rem;
+}
+
+header .errortooltip {
     margin: 0.3rem;
     cursor: help;
 }
 
-[data-errortooltip]:before {
+header [data-errortooltip]:before {
     content: attr(data-errortooltip);
     opacity: 0;
     position: absolute;
@@ -133,10 +148,15 @@ header input[type=submit] {
     transition: opacity 0.25s ease;
 }
 
-[data-errortooltip]:hover:before {
+header [data-errortooltip]:hover:before {
     opacity: 1;
 }
 
+/* Everything that is after the header and at the same level */
+header~* {
+    top: var(--header-height);
+    position: relative;
+}
 
 /*#endregion header*/
 
@@ -184,7 +204,6 @@ footer a:not(:last-of-type) {
     display: flex;
     align-items: stretch;
 }
-
 
 #accueil>main {
     flex: 1;
@@ -277,6 +296,10 @@ section {
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+
+    box-shadow: 0 2px 2px #c9c9c9;
+    -moz-box-shadow: 0 2px 2px #c9c9c9;
+    -webkit-box-shadow: 0 2px 2px #c9c9c9;
 }
 
 .recette-card h2 {
@@ -378,21 +401,35 @@ section {
 /*#region forms*/
 input,
 button {
-    padding: .2rem .4rem;
+    padding: .25rem .45rem;
     display: inline-block;
     border: 1px solid #00000055;
     margin: 1px;
-    border-radius: 4px;
+    border-radius: 6px;
     box-sizing: border-box;
     background-color: #fff;
 }
 
 button:focus,
-input:focus {
+input:focus,
+button:active,
+input:active {
     border-color: var(--hovered-color);
     border-width: 2px;
     margin: 0;
     outline: none;
+    transition: background-color .15s, color .15s;
+}
+
+button[type=submit],
+input[type=submit] {
+    cursor: pointer;
+}
+
+button[type=submit]:active,
+input[type=submit]:active {
+    background-color: var(--hovered-color);
+    color: #fff;
 }
 
 header button:focus,
