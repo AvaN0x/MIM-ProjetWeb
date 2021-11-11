@@ -89,11 +89,14 @@ if (
     if (
         isset($_POST['birthdate'])
         && strlen($_POST['birthdate'])
-        && (!preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $_POST['birthdate'], $matches)
-            || !checkdate($matches[2], $matches[3], $matches[1]))
     ) {
-        // TODO at least 18 years old
-        $errors['birthdate'] = 'La date de naissance fournie ne respecte pas les conditions';
+        if (preg_match("/^(\d{4})-(\d{2})-(\d{2})$/", $_POST['birthdate'], $matches) && checkdate($matches[2], $matches[3], $matches[1])) {
+            if (strtotime('-18 years', time()) < strtotime($_POST['birthdate'])) {
+                $errors['birthdate'] = 'Vous devez avoir au minimum 18 ans';
+            }
+        } else {
+            $errors['birthdate'] = 'La date de naissance fournie ne respecte pas les conditions';
+        }
     }
 
 
@@ -131,7 +134,7 @@ if (
     if (
         isset($_POST['phone'])
         && strlen($_POST['phone'])
-        && !preg_match('/^0\d(?:\s?\d{2}){4}$/', $_POST['phone']) // Support only french phone number (0X XX XX XX XX or 0XXXXXXXXX)
+        && !preg_match('/^0\d(?:\s?\d{2}){4}$/', $_POST['phone']) // Support only french phone numbers (0X XX XX XX XX or 0XXXXXXXXX)
     ) {
         $errors['phone'] = 'Le numéro de téléphone fourni ne respecte pas un format français';
     }
