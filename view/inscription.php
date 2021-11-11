@@ -24,12 +24,12 @@ include("includes/head.inc.php");
 
 
                 Mot de passe :
-                <input type="password" name="password" required="required" <?php isErrorField($errors, 'password') ?> value="<?= isset($postedValues['password']) ? $postedValues['password'] : '' ?>" />*
+                <input type="password" name="password" required="required" <?php isErrorField($errors, 'password') ?> />*
                 <span style="margin-left: 40px"></span>
 
 
                 Confirmer le mot de passe :
-                <input type="password" name="confirmPassword" required="required" <?php isErrorField($errors, 'password') ?> value="<?= isset($postedValues['password']) ? $postedValues['password'] : '' ?>" />*
+                <input type="password" name="confirmPassword" required="required" <?php isErrorField($errors, 'password') ?> />*
                 <?php addErrorMessage($errors, 'password'); ?>
                 <br />
 
