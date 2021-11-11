@@ -15,55 +15,42 @@ class User
     private $phone;
     private $favorite_recipes;
 
-    private function __construct(
-        $login,
-        $password,
-        $name,
-        $fname,
-        $gender,
-        $email,
-        $birthdate,
-        $address,
-        $postcode,
-        $city,
-        $phone,
-        $favorite_recipes = []
-    ) {
-        $this->login = strtolower(trim(htmlspecialchars($login)));
-        $this->password = $password;
-        $this->setName($name);
-        $this->setFirstName($fname);
-        $this->setGender($gender);
-        $this->setEmail($email);
-        $this->setBirthdate($birthdate);
-        $this->setAddress($address);
-        $this->setPostcode($postcode);
-        $this->setCity($city);
-        $this->setPhone($phone);
-        $this->setFavoriteRecipes($favorite_recipes);
-    }
 
-    public static function fromArray($array)
+    /**
+     * __construct
+     * 
+     * Construct a new objet with specific values of the array given
+     *
+     * @param  mixed $array
+     * @return void
+     */
+    public function __construct($array)
     {
         if (!isset($array['password']) && !isset($array['newPassword'])) {
             throw new Exception("Le mot de passe doit être défini pour créer un utilisateur", 100);
         }
-        return new static(
-            $array['login'],
-            isset($array['password']) ? $array['password'] : $array['newPassword'],
-            isset($array['name']) ? $array['name'] : '',
-            isset($array['fname']) ? $array['fname'] : '',
-            isset($array['gender']) ? $array['gender'] : '',
-            isset($array['email']) ? $array['email'] : '',
-            isset($array['birthdate']) ? $array['birthdate'] : '',
-            isset($array['address']) ? $array['address'] : '',
-            isset($array['postcode']) ? $array['postcode'] : '',
-            isset($array['city']) ? $array['city'] : '',
-            isset($array['phone']) ? $array['phone'] : '',
-            isset($array['favorite_recipes']) ? $array['favorite_recipes'] : []
-        );
+
+        $this->login = strtolower(trim(htmlspecialchars($array['login'])));
+        $this->password = isset($array['password']) ? $array['password'] : $array['newPassword'];
+        $this->setName(isset($array['name']) ? $array['name'] : '');
+        $this->setFirstName(isset($array['fname']) ? $array['fname'] : '');
+        $this->setGender(isset($array['gender']) ? $array['gender'] : '');
+        $this->setEmail(isset($array['email']) ? $array['email'] : '');
+        $this->setBirthdate(isset($array['birthdate']) ? $array['birthdate'] : '');
+        $this->setAddress(isset($array['address']) ? $array['address'] : '');
+        $this->setPostcode(isset($array['postcode']) ? $array['postcode'] : '');
+        $this->setCity(isset($array['city']) ? $array['city'] : '');
+        $this->setPhone(isset($array['phone']) ? $array['phone'] : '');
+        $this->setFavoriteRecipes(isset($array['favorite_recipes']) ? $array['favorite_recipes'] : []);
     }
 
+    /**
+     * jsonSerialize
+     * 
+     * Return an array with keys of call fields
+     *
+     * @return array
+     */
     public function jsonSerialize(): array
     {
         return [
@@ -82,6 +69,15 @@ class User
         ];
     }
 
+
+    /**
+     * editProfile
+     * 
+     * Edit the fields of the call with the informations of a User
+     *
+     * @param  User $user The user to get the informations
+     * @return void
+     */
     public function editProfile(User $user)
     {
         if (password_get_info($user->password)['algo'] === 0)
@@ -247,8 +243,9 @@ function getJsonData()
  * setJsonData
  *
  * Replace the JSON file by the given data
+ * 
  * @param mixed $data The data to convert to JSON
- * @return Array The JSON file
+ * @return void
  */
 function setJsonData($data)
 {
@@ -262,6 +259,20 @@ function setJsonData($data)
  *
  * @param  mixed $login The login of the user we want to retrieve
  * @return false|Array(idx,value) False if user doesn't exist | Else the index of the user and his value
+ */
+
+
+
+/**
+ * userExists
+ *
+ * Check if a user with the login given exists
+ *
+ * @param  mixed $login The login of the User
+ * @param  boolean $getValue If true, return his profile
+ * @return boolean False if user doesn't exists
+ * @return Array (key,profile) key the index of the user in the JSON data, profile his profile 
+ * @return key the index of the user in the JSON data
  */
 function userExists($login, $getValue = true)
 {
@@ -284,7 +295,7 @@ function userExists($login, $getValue = true)
  *
  * Add a user to the json file then log him
  *
- * @param  mixed $user The user to add
+ * @param mixed $user The user to add
  * @return void
  */
 function addUser(User $user)
@@ -297,26 +308,20 @@ function addUser(User $user)
     logUser($user);
 }
 
-
 /**
- * 
  * editUser
  * 
  * Edit the profile of a user with the given values
- * 
- * @param int id The of the user we want to modify
- * @param User modifiedProfile The new profile of the user
- * 
+ *
+ * @param  mixed $id The of the user we want to modify
+ * @param  mixed $modifiedProfile The new profile of the user
  * @return void
- * 
  */
 function editUser(int $id, User $modifiedProfile)
 {
     $jsonData = getJsonData();
 
-    var_dump($modifiedProfile);
-
-    $user = User::fromArray($jsonData[$id]);
+    $user = new User($jsonData[$id]);
     $user->editProfile($modifiedProfile);
 
     $jsonData[$id] = $user->jsonSerialize();
@@ -360,7 +365,7 @@ function saveFavoriteRecipes()
  * Set session variables for the user
  * Only use when the user is confirmed to be logged in and check datas before using this function
  *
- * @param  mixed $user Data of the user to log
+ * @param  User $user Data of the user to log
  * @return void
  */
 function logUser(User $user)
