@@ -15,10 +15,17 @@ $action = isset($route[0]) ? $route[0] : LANDING_PAGE_NAME;
 $pageTitle = "Recktails";
 
 
-// If use is not connected, change action when needed
+// If user is not connected, change action when needed
 if (!isset($_SESSION['connected']) || $_SESSION['connected'] !== true) {
     switch ($action) {
         case 'editProfil':
+            $action = LANDING_PAGE_NAME;
+            break;
+    }
+} else {
+    // If user is connected, change action when needed
+    switch ($action) {
+        case 'inscription':
             $action = LANDING_PAGE_NAME;
             break;
     }
