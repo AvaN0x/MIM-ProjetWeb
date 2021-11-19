@@ -10,9 +10,11 @@ include("includes/head.inc.php");
     include("includes/header.inc.php");
     ?>
 
-    <main>
+    <main class="main-error-page">
         <!-- TODO style this page -->
-        ERROR 404
+
+        <h1>ERROR 404</h1>
+        <p>La page que vous avez demandé n'existe pas.</p>
     </main>
 
     <?php

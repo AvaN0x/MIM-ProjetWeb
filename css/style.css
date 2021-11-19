@@ -638,6 +638,24 @@ form label.required::after {
 
 /*#endregion confirmation*/
 
+/*#region error page */
+.main-error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-error-page h1 {
+    color: var(--main-color);
+    font-size: 5rem;
+    margin-bottom: 0rem;
+}
+
+.main-error-page>p {
+    margin: 0;
+}
+
+/*#endregion error page */
 
 
 i.fas.fa-heart,
