@@ -2,76 +2,167 @@
 <html lang="fr">
 
 <?php
-include("includes/head.inc.php");
+include(__DIR__ . "/includes/head.inc.php");
 ?>
 
 <body>
-    <main>
+    <?php
+    include("includes/header.inc.php");
+    ?>
+
+    <main class="main-form-page">
         <?php if (isset($errors['deletedProfil'])) : ?>
             <p class='error-field'>Une erreur est survenu : votre profil a été supprimé</p>
         <?php else : ?>
-            <?php require_once(__DIR__ . "/../model/utils.inc.php") ?>
-
-            <h1>Bienvenue sur l'espace de modification du profil <?= (isset($_SESSION['connected']) && isset($_SESSION['user']['login'])) ? $_SESSION['user']['login'] : '' ?></h1>
+            <h1>Bienvenue sur l'espace de modification du profil</h1>
 
             <form method="post" action='#'>
                 <fieldset>
-                    Ancien mot de passe :
-                    <input type="password" name="prevPassword" <?php isErrorField($errors, 'prevPassword') ?> />
-                    <?php addErrorMessage($errors, 'prevPassword'); ?>
-                    <br />
+                    <legend>Changement de mot de passe</legend>
 
-                    Nouveau mot de passe :
-                    <input type="password" name="newPassword" <?php isErrorField($errors, 'newPassword') ?> />
-                    <?php addErrorMessage($errors, 'newPassword'); ?>
-                    <br />
+                    <div>
+                        <label for="prevPassword">Ancien mot de passe :</label>
+                        <div class="form-input-container <?php if (isset($errors["prevPassword"])) echo "error-field" ?>">
+                            <input type="password" name="prevPassword" id="prevPassword" />
+                            <?php if (isset($errors["prevPassword"]))
+                                echo '<span>' . $errors["prevPassword"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
 
-                    Confimer le mot de passe :
-                    <input type="password" name="confirmPassword" <?php isErrorField($errors, 'confirmPassword') ?> />
-                    <?php addErrorMessage($errors, 'confirmPassword'); ?><br />
-                    <br />
 
-                    Sexe :
-                    <input type="radio" name="gender" value="f" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "f") ? "checked" : "" ?> /> Femme
-                    <input type="radio" name="gender" value="h" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "h") ? "checked" : "" ?> /> Homme
-                    <?php addErrorMessage($errors, 'gender'); ?><br />
-                    <br />
+                    <div>
+                        <label for="newPassword">Nouveau mot de passe :</label>
+                        <div class="form-input-container <?php if (isset($errors["newPassword"])) echo "error-field" ?>">
+                            <input type="password" name="newPassword" id="newPassword" />
+                            <?php if (isset($errors["newPassword"]))
+                                echo '<span>' . $errors["newPassword"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
 
-                    Nom :
-                    <input type="text" name="name" <?php isErrorField($errors, 'name') ?> value="<?= isset($postedValues['name']) ? $postedValues['name'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'name'); ?><br /><br />
 
-                    Prénom :
-                    <input type="text" name="fname" <?php isErrorField($errors, 'fname') ?> value="<?= isset($postedValues['fname']) ? $postedValues['fname'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'fname'); ?><br /><br />
-
-                    Adresse électronique :
-                    <input type="email" name="email" <?php isErrorField($errors, 'email') ?> value="<?= isset($postedValues['email']) ? $postedValues['email'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'email'); ?><br /><br />
-
-                    Date de naissance :
-                    <input type="date" name="birthdate" placeholder='jj/MM/AAAA' <?php isErrorField($errors, 'birthdate') ?> value="<?= isset($postedValues['birthdate']) ? $postedValues['birthdate'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'birthdate'); ?><br /><br />
-
-                    Adresse postale <br />
-                    <input type="text" name="address" placeholder='adresse' <?php isErrorField($errors, 'address') ?> value="<?= isset($postedValues['address']) ? $postedValues['address'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'address'); ?><br /><br />
-                    <input type="text" name="postcode" placeholder='code postal' <?php isErrorField($errors, 'postcode') ?> value="<?= isset($postedValues['postcode']) ? $postedValues['postcode'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'postcode'); ?><br /><br />
-                    <input type="text" name="city" placeholder='ville' <?php isErrorField($errors, 'city') ?> value="<?= isset($postedValues['city']) ? $postedValues['city'] : '' ?>" />
-                    <?php addErrorMessage($errors, 'city'); ?><br /><br />
-
-                    Numéro de téléphone :
-                    <input type="tel" name="phone" placeholder='0X XX XX XX XX' <?php isErrorField($errors, 'phone') ?> value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^(?:\+33\s|0)[1-9](?:\s?\d\d){4}$" />
-                    <?php addErrorMessage($errors, 'phone'); ?><br />
+                    <div>
+                        <label for="confirmPassword">Confimer le mot de passe :</label>
+                        <div class="form-input-container <?php if (isset($errors["confirmPassword"])) echo "error-field" ?>">
+                            <input type="password" name="confirmPassword" id="confirmPassword" />
+                            <?php if (isset($errors["confirmPassword"]))
+                                echo '<span>' . $errors["confirmPassword"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
                 </fieldset>
 
-                <input type="submit" name="submit" value="Modifier" />
-            </form>
+                <fieldset>
+                    <legend>Information personnelles</legend>
 
-            <a href="index.php?route=accueil">Retour à l'accueil</a>
+                    <div>
+                        <label for="gender">Sexe :</label>
+                        <div class="form-input-container <?php if (isset($errors["gender"])) echo "error-field" ?>">
+                            <div>
+                                <div>
+                                    <input type="radio" name="gender" value="h" id="gender-h" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "h") ? "checked" : "" ?> />
+                                    <label for="gender-h" class="input-radio-label">Homme</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name="gender" value="f" id="gender-f" <?= (isset($postedValues["gender"]) && $postedValues["gender"] === "f") ? "checked" : "" ?> />
+                                    <label for="gender-f" class="input-radio-label">Femme</label>
+                                </div>
+                            </div>
+                            <?php if (isset($errors["gender"]))
+                                echo '<span>' . $errors["gender"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="name">Nom :</label>
+                        <div class="form-input-container <?php if (isset($errors["name"])) echo "error-field" ?>">
+                            <input type="text" name="name" id="name" value="<?= isset($postedValues['name']) ? $postedValues['name'] : '' ?>" />
+                            <?php if (isset($errors["name"]))
+                                echo '<span>' . $errors["name"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="fname">Prénom :</label>
+                        <div class="form-input-container <?php if (isset($errors["fname"])) echo "error-field" ?>">
+                            <input type="text" name="fname" id="fname" value="<?= isset($postedValues['fname']) ? $postedValues['fname'] : '' ?>" />
+                            <?php if (isset($errors["fname"]))
+                                echo '<span>' . $errors["fname"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email">Adresse électronique :</label>
+                        <div class="form-input-container <?php if (isset($errors["email"])) echo "error-field" ?>">
+                            <input type="email" name="email" id="email" value="<?= isset($postedValues['email']) ? $postedValues['email'] : '' ?>" />
+                            <?php if (isset($errors["email"]))
+                                echo '<span>' . $errors["email"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="birthdate">Date de naissance :</label>
+                        <div class="form-input-container <?php if (isset($errors["birthdate"])) echo "error-field" ?>">
+                            <input type="date" name="birthdate" id="birthdate" placeholder='jj/MM/AAAA' value="<?= isset($postedValues['birthdate']) ? $postedValues['birthdate'] : '' ?>" />
+                            <?php if (isset($errors["birthdate"]))
+                                echo '<span>' . $errors["birthdate"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="address">Adresse postale </label>
+                        <div class="form-input-container <?php if (isset($errors["address"])) echo "error-field" ?>">
+                            <input type="text" name="address" id="address" placeholder="Adresse" value="<?= isset($postedValues['address']) ? $postedValues['address'] : '' ?>" />
+                            <?php if (isset($errors["address"]))
+                                echo '<span>' . $errors["address"] . '</span>';
+                            ?>
+                        </div>
+                        <div class="form-input-container <?php if (isset($errors["postcode"])) echo "error-field" ?>">
+                            <input type="text" name="postcode" id="postcode" placeholder="Code postal" value="<?= isset($postedValues['postcode']) ? $postedValues['postcode'] : '' ?>" />
+                            <?php if (isset($errors["postcode"]))
+                                echo '<span>' . $errors["postcode"] . '</span>';
+                            ?>
+                        </div>
+                        <div class="form-input-container <?php if (isset($errors["city"])) echo "error-field" ?>">
+                            <input type="text" name="city" id="city" placeholder="Ville" value="<?= isset($postedValues['city']) ? $postedValues['city'] : '' ?>" />
+                            <?php if (isset($errors["city"]))
+                                echo '<span>' . $errors["city"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+
+                    <div>
+                        <label for="phone">Numéro de téléphone :</label>
+                        <div class="form-input-container <?php if (isset($errors["phone"])) echo "error-field" ?>">
+                            <input type="tel" name="phone" id="phone" placeholder='0X XX XX XX XX' value="<?= isset($postedValues['phone']) ? $postedValues['phone'] : '' ?>" pattern="^0\d(?:\s?\d{2}){4}$" />
+                            <?php if (isset($errors["phone"]))
+                                echo '<span>' . $errors["phone"] . '</span>';
+                            ?>
+                        </div>
+                    </div>
+
+                </fieldset>
+
+                <button type="submit" name="submit">
+                    Valider les modifications
+                </button>
+
+            </form>
         <?php endif; ?>
     </main>
+
+    <?php
+    include("includes/footer.inc.php");
+    ?>
 </body>
 
 </html>

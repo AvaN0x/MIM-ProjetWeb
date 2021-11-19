@@ -135,6 +135,7 @@ header .header-name {
     color: var(--header-font-color);
 }
 
+header button[type=submit]:hover,
 header button[type=submit]:active {
     background-color: var(--header-hovered-color);
     color: #fff;
@@ -297,7 +298,6 @@ aside a:hover {
 
 aside .aside-ariane span:not(:last-of-type)::after {
     content: "/";
-
 }
 
 @media screen and (max-width: 800px) {
@@ -442,7 +442,7 @@ section {
 
 .recette-detail h2 {
     color: var(--secondary-color);
-    letter-spacing: 3px;
+    letter-spacing: .15rem;
 }
 
 /*#endregion detail*/
@@ -458,6 +458,7 @@ button {
     border-radius: 6px;
     box-sizing: border-box;
     background-color: #fff;
+    transition: background-color .15s, color .15s;
 }
 
 button:focus,
@@ -468,7 +469,6 @@ input:active {
     border-width: 2px;
     margin: 0;
     outline: none;
-    transition: background-color .15s, color .15s;
 }
 
 button[type=submit],
@@ -476,6 +476,8 @@ input[type=submit] {
     cursor: pointer;
 }
 
+button[type=submit]:hover,
+input[type=submit]:hover,
 button[type=submit]:active,
 input[type=submit]:active {
     background-color: var(--hovered-color);
@@ -496,7 +498,146 @@ input:-webkit-autofill:active {
     -webkit-box-shadow: 0 0 0 30px #ffeee6 inset !important;
 }
 
+/* Change auto fill style when field has error*/
+.error-field input:-webkit-autofill,
+.error-field input:-webkit-autofill:hover,
+.error-field input:-webkit-autofill:focus,
+.error-field input:-webkit-autofill:active {
+    box-shadow: 0 0 0 30px #f7afaf inset !important;
+    -webkit-box-shadow: 0 0 0 30px #f7afaf inset !important;
+}
+
+.error-field span {
+    color: var(--error-color);
+}
+
+.error-field input {
+    background-color: var(--error-color);
+}
+
+.error-field input::placeholder {
+    color: #ffffffb0;
+}
+
+form label.required::after {
+    content: "*";
+}
+
 /*#endregion forms*/
+
+/*#region edition & inscription */
+.main-form-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-form-page form fieldset {
+    display: flex;
+    flex-direction: column;
+    width: 50vw;
+    margin: 1rem 0;
+}
+
+.main-form-page h1 {
+    color: var(--main-color);
+}
+
+.main-form-page form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.main-form-page form fieldset {
+    border-radius: .3rem;
+}
+
+.main-form-page form fieldset>legend {
+    color: var(--secondary-color);
+    letter-spacing: .1rem;
+    font-size: 1rem;
+}
+
+.main-form-page form fieldset label {
+    display: block;
+}
+
+.main-form-page form fieldset>div:not(:first-of-type) {
+    margin-top: .5rem;
+}
+
+.main-form-page form fieldset input[type=radio][name=gender] {
+    margin: .1rem;
+}
+
+.main-form-page form fieldset .input-radio-label {
+    left: .2rem;
+    display: inline-block;
+}
+
+.main-form-page form fieldset .form-input-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+}
+
+.main-form-page button[type=submit],
+.main-form-page input[type=submit] {
+    padding: .4rem .8rem;
+}
+
+.main-form-page form fieldset .form-input-container span {
+    padding: 0.25rem 0.45rem;
+}
+
+.main-form-page form fieldset .form-input-container.form-input-container-gender span {
+    padding-top: 0;
+}
+
+.main-form-page form fieldset .form-input-container.form-input-container-password span {
+    padding-top: 1.45rem;
+}
+
+.main-form-page form>button[type=submit] {
+    text-align: center;
+}
+
+.main-form-page form input[type=text],
+.main-form-page form input[type=password],
+.main-form-page form input[type=email],
+.main-form-page form input[type=tel] {
+    width: 250px;
+}
+
+@media screen and (max-width: 1200px) {
+    .main-form-page form fieldset {
+        width: 70vw;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .main-form-page form fieldset .form-input-container {
+        flex-wrap: wrap;
+    }
+
+    .main-form-page form fieldset {
+        width: 86vw;
+    }
+}
+
+/*#endregion edition & inscription*/
+
+/*#region confirmation*/
+.main-confirmation-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/*#endregion confirmation*/
+
 
 
 i.fas.fa-heart,
@@ -507,14 +648,6 @@ i.far.fa-heart {
 
 a:hover>i.fa-heart {
     color: var(--heart-hovered-color);
-}
-
-.error {
-    color: var(--error-color);
-}
-
-.error-field {
-    background-color: var(--error-color);
 }
 
 p.error {

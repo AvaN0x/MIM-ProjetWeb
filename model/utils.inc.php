@@ -233,16 +233,3 @@ function removeAccents($str)
     ];
     return strtr($str, $map);
 }
-
-
-function isErrorField($errors, $str)
-{
-    if (isset($errors) && isset($errors[$str])) echo 'class="error-field"';
-    return;
-}
-
-function addErrorMessage($errors, $str)
-{
-    echo '<label for="' . $str . '" style="color: red" >' . (isset($errors[$str]) ? $errors[$str] : '') . '</label>';
-    return;
-}

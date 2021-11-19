@@ -10,8 +10,8 @@ include(__DIR__ . "/includes/head.inc.php");
     include("includes/header.inc.php");
     ?>
 
-    <main>
-        <p>Votre profil a bien été <?= isset($created) ? 'créé' : 'modifié' ?></p>
+    <main class="main-confirmation-page">
+        <p>Votre profil a bien été <?= isset($created) ? 'créé' : 'modifié' ?>.</p>
 
         <a href="index.php?route=accueil">Retour à l'accueil</a>
     </main>
