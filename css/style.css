@@ -295,6 +295,11 @@ aside a:hover {
     color: var(--hovered-color);
 }
 
+aside .aside-ariane span:not(:last-of-type)::after {
+    content: "/";
+
+}
+
 @media screen and (max-width: 800px) {
     aside {
         width: auto;
