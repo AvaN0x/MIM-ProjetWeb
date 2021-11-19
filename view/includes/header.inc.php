@@ -19,30 +19,7 @@
         <div class="header-user">
             <?php if (isset($_SESSION['connected'])) : ?>
                 <p class="header-name">
-                    <?php
-                    if (
-                        isset($_SESSION['user']['name']) && !empty($_SESSION['user']['name'])
-                        && isset($_SESSION['user']['fname']) && !empty($_SESSION['user']['fname'])
-                    ) {
-                    ?>
-                        <span><?= ucfirst($_SESSION['user']['name']) . " " . ucfirst($_SESSION['user']['fname']) ?></span>
-                    <?php
-                    } elseif (
-                        isset($_SESSION['user']['name']) && !empty($_SESSION['user']['name'])
-                    ) {
-                    ?>
-                        <span><?= ucfirst($_SESSION['user']['name']) ?></span>
-                    <?php
-                    } elseif (isset($_SESSION['user']['fname']) && !empty($_SESSION['user']['fname'])) {
-                    ?>
-                        <span><?= ucfirst($_SESSION['user']['fname']) ?></span>
-                    <?php
-                    } else {
-                    ?>
-                        <span><?= $_SESSION['user']['login'] ?></span>
-                    <?php
-                    }
-                    ?>
+                    <span><?= $_SESSION['user']['login'] ?></span>
                 </p>
 
                 <a href="index.php?route=editProfil">Profil</a>
