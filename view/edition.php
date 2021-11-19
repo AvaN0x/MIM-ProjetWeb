@@ -54,7 +54,7 @@ include(__DIR__ . "/includes/head.inc.php");
                 </fieldset>
 
                 <fieldset>
-                    <legend>Information personnelles</legend>
+                    <legend>Informations personnelles</legend>
 
                     <div>
                         <label for="gender">Sexe :</label>
