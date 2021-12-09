@@ -11,11 +11,10 @@ if (
             <div class="recette-card-fav">
                 <a onclick="toggleFavRecette(<?= $recetteIndex ?>);">
                     <?php
-                    if (isRecipeFavorite($recetteIndex)) {
+                    if (isRecipeFavorite($recetteIndex))
                         echo '<i class="fas fa-heart"></i>';
-                    } else {
+                    else
                         echo '<i class="far fa-heart"></i>';
-                    }
                     ?>
                 </a>
             </div>
