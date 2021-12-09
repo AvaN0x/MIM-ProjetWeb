@@ -151,6 +151,10 @@ header .errortooltip {
     cursor: help;
 }
 
+header .errortooltip i {
+    color: var(--error-color);
+}
+
 header [data-errortooltip]:before {
     content: attr(data-errortooltip);
     opacity: 0;
