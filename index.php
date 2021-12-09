@@ -4,6 +4,9 @@ require_once("config.inc.php");
 // Start session for each and every pages
 session_start();
 
+// Set timezone for dates
+date_default_timezone_set("Europe/Paris");
+
 // Get route from get and explode it
 $route = isset($_GET["route"]) ? explode("/", $_GET["route"]) : [];
 
