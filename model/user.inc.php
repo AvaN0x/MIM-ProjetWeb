@@ -51,7 +51,7 @@ class User
      *
      * @return array
      */
-    public function jsonSerialize(): array
+    public function jsonSerialize()
     {
         return [
             'login' => $this->login,
@@ -78,7 +78,7 @@ class User
      * @param  User $user The user to get the informations
      * @return void
      */
-    public function editProfile(User $user)
+    public function editProfile($user)
     {
         if (password_get_info($user->password)['algo'] === 0)
             $this->password = password_hash($user->password, PASSWORD_DEFAULT);
@@ -298,7 +298,7 @@ function userExists($login, $getValue = true)
  * @param mixed $user The user to add
  * @return void
  */
-function addUser(User $user)
+function addUser($user)
 {
     $jsonData = getJsonData();
 
@@ -317,7 +317,7 @@ function addUser(User $user)
  * @param  mixed $modifiedProfile The new profile of the user
  * @return void
  */
-function editUser(int $id, User $modifiedProfile)
+function editUser($id, $modifiedProfile)
 {
     $jsonData = getJsonData();
 
@@ -368,7 +368,7 @@ function saveFavoriteRecipes()
  * @param  User $user Data of the user to log
  * @return void
  */
-function logUser(User $user)
+function logUser($user)
 {
     // Login is the minimum required data
     if ($user->getLogin() === '')
