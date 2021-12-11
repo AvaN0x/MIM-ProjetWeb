@@ -10,7 +10,11 @@ abstract class SearchType
 }
 $searchType = SearchType::ARIANE;
 
+// Array used for research and display to the user
 $researchBarResult = [];
+// This array is used only for processing the research bar
+// It is used to store "sous-categorie" aliments for the process, but not for the display
+$_researchBarResult = [];
 
 //#region aside
 $ariane_has_error = false;
@@ -63,6 +67,35 @@ unset($get_ariane);
 
 
 //#endregion research
+
+/**
+ * Get all aliments name and if they are wanted or not, this will also get sub categorie elements
+ * @param hierarchie array of all aliments
+ * @param allAliments array containing all aliments name in lowercase as key and with caps as value 
+ * @param processAlimentsArray array to fill with wanted and unwanted aliments
+ * @param alimentName aliment we are looking for
+ * @param wanted boolean to know if the aliment is wanted or not
+ * @return location where the aliment got stored : wanted, unwanted or unknown
+ */
+function getAlimentsFromAliment(&$hierarchie, &$allAliments, &$processAlimentsArray, $alimentName, $wanted)
+{
+    $location = "unknown";
+    // if aliment exist
+    if (isset($allAliments[$alimentName])) {
+        // get new location depending on wanted or not 
+        $location = $wanted ? "wanted" : "unwanted";
+
+        $processAlimentsArray[$location][$alimentName] = $allAliments[$alimentName];
+
+        // Get all aliments from sub categories
+        if (isset($hierarchie[$allAliments[$alimentName]]["sous-categorie"])) {
+            foreach ($hierarchie[$allAliments[$alimentName]]["sous-categorie"] as $aliment)
+                getAlimentsFromAliment($hierarchie, $allAliments, $processAlimentsArray, mb_strtolower($aliment), $wanted);
+        }
+    }
+    return $location;
+}
+
 if (isset($_GET["research"]) && !empty($_GET["research"])) {
     $searchType = SearchType::RESEARCHBAR;
     if (substr_count($_GET["research"], '"') % 2 == 1) {
@@ -72,27 +105,26 @@ if (isset($_GET["research"]) && !empty($_GET["research"])) {
         $researchBarResult["wanted"] = [];
         $researchBarResult["unwanted"] = [];
         $researchBarResult["unknown"] = [];
+        // init array for process, each array contain the lowered string as key, and original as value
+        $_researchBarResult["wanted"] = [];
+        $_researchBarResult["unwanted"] = [];
         // get elements from research
         $matches;
         preg_match_all('/(?<type>[+-]?)(?<aliment>"[^"]+"|[^\s]+)/', $_GET["research"], $matches);
-        $existingAliments = [];
+
         // All aliments in lower case, array contain lowered string as key, and original as value
+        $existingAliments = [];
         foreach ($Hierarchie as $key => $value)
             $existingAliments[mb_strtolower($key)] = $key;
 
         // sort elements from research to an array
         foreach ($matches["aliment"] as $index => $value) {
+            // format $value to a readable string
             $value = mb_strtolower(str_replace('"', '', $value));
-            // if aliment exist
-            if (isset($existingAliments[$value])) {
-                // if aliment is negated
-                if ($matches["type"][$index] == "-")
-                    $researchBarResult["unwanted"][$value] = $existingAliments[$value];
-                else
-                    $researchBarResult["wanted"][$value] = $existingAliments[$value];
-            } else {
-                $researchBarResult["unknown"][$value] = $value;
-            }
+
+            // get the location for the $value aliment, will add all "sous-categorie" aliments to $_researchBarResult
+            $location = getAlimentsFromAliment($Hierarchie, $existingAliments, $_researchBarResult, $value, $matches["type"][$index] != "-");
+            $researchBarResult[$location][$value] = $location == "unknown" ? $value : $existingAliments[$value];
         }
     }
 }
@@ -143,9 +175,10 @@ if ($searchType == SearchType::ARIANE) {
             $score = 0;
             if (isset($recette["index"])) {
                 foreach ($recette["index"] as $alimentName) {
-                    if (in_array($alimentName, $researchBarResult["wanted"]))
+                    // Here we are using the processing array
+                    if (in_array($alimentName, $_researchBarResult["wanted"]))
                         $score++;
-                    if (in_array($alimentName, $researchBarResult["unwanted"]))
+                    if (in_array($alimentName, $_researchBarResult["unwanted"]))
                         $score--;
                 }
             }
